@@ -1,0 +1,17 @@
+{
+	"require": {
+		"webonyx/graphql-php": "^0.12.6",
+		"overblog/dataloader-php": "^0.5.2"
+	},
+	"require-dev": {
+		"jakub-onderka/php-parallel-lint": "^0.9.2",
+		"mediawiki/mediawiki-codesniffer": "^23.0.0"
+	},
+	"scripts": {
+		"test": [
+			"parallel-lint . --exclude vendor",
+			"phpcs -p -s"
+		],
+		"fix": "phpcbf"
+	}
+}
