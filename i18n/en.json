@@ -5,7 +5,7 @@
 				]
 		},
 		"graphql": "GraphQL",
-		"graphqL-desc": "GraphQL proxy for the Action API",
+		"graphql-desc": "GraphQL proxy for the Action API",
 		"graphql-type-mediawiki-page-desc": "MediaWiki Page Interface",
 		"graphql-type-mediawiki-ns-desc": "MediaWiki Namespace Interface",
 		"graphql-type-mediawiki-query-desc": "MediaWiki Namespace Interface",
