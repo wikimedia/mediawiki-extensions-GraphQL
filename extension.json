@@ -17,6 +17,9 @@
 				"i18n"
 			]
 		},
+		"ExtensionMessagesFiles": {
+			"GraphQLAlias": "GraphQL.alias.php"
+		},
 		"AutoloadNamespaces": {
 			"MediaWiki\\GraphQL\\": "src/"
 		},
