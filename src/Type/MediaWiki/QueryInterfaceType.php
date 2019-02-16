@@ -4,14 +4,8 @@ namespace MediaWiki\GraphQL\Type\MediaWiki;
 
 use GraphQL\Type\Definition\Type;
 use MediaWiki\GraphQL\Type\InterfaceType;
-use MediaWiki\GraphQL\Source\ApiSource;
 
 class QueryInterfaceType extends InterfaceType {
-
-	/**
-	 * @var ApiSource;
-	 */
-	protected $api;
 
 	/**
 	 * {@inheritdoc}

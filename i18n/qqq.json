@@ -9,6 +9,8 @@
 	"graphql-desc": "{{desc|name=GraphQL|url=}}",
 	"graphql-type-mediawiki-page-desc": "MediaWiki Page Interface Description",
 	"graphql-type-mediawiki-ns-desc": "MediaWiki Namespace Interface Description",
+	"graphql-type-mediawiki-page-revisions-desc": "MediaWiki Page Revisions Interface Description",
+	"graphql-type-mediawiki-revision-desc": "MediaWiki Revision Interface Description",
 	"graphql-type-mediawiki-query-desc": "MediaWiki Query Interface Description",
 	"graphql-page-error-nosource": "Error that is thrown when page source is not specified.",
 	"graphql-page-error-multisource": "Error that is thrown when multiple page sources are specified.",

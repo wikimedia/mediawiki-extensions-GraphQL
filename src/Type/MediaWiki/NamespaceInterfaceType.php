@@ -2,6 +2,8 @@
 
 namespace MediaWiki\GraphQL\Type\MediaWiki;
 
+use GraphQL\Executor\Promise\PromiseAdapter;
+use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use MediaWiki\GraphQL\Type\InterfaceType;
 use MediaWiki\GraphQL\Source\ApiSource;
@@ -14,13 +16,37 @@ class NamespaceInterfaceType extends InterfaceType {
 	protected $api;
 
 	/**
+	 * @var PromiseAdapter
+	 */
+	protected $promise;
+
+	/**
 	 * {@inheritdoc}
 	 *
 	 * @param ApiSource $api
+	 * @param PromiseAdapter $promise
 	 * @param array $config
 	 */
-	public function __construct( ApiSource $api, array $config = [] ) {
+	public function __construct(
+		ApiSource $api,
+		PromiseAdapter $promise,
+		array $config = []
+	) {
 		$this->api = $api;
+		$this->promise = $promise;
+
+		$getProperty = function ( $namespace, $args, $context, ResolveInfo $info ) {
+			$fieldName = $info->fieldName;
+			$params = [];
+
+			if ( isset( $namespace[$fieldName] ) ) {
+				return $this->promise->createFulfilled( $namespace[$fieldName] );
+			}
+
+			return $this->getNamespace( $namespace, $params )->then( function ( $ns ) use ( $fieldName ) {
+				return $ns[$fieldName] ?? null;
+			} );
+		};
 
 		$default = [
 			'name' => 'MediaWikiNamespace',
@@ -31,27 +57,27 @@ class NamespaceInterfaceType extends InterfaceType {
 				],
 				'case' => [
 					'type' => Type::string(),
-					'resolve' => $this->getProperty( 'case' ),
+					'resolve' => $getProperty,
 				],
 				'name' => [
 					'type' => Type::string(),
-					'resolve' => $this->getProperty( 'name' ),
+					'resolve' => $getProperty,
 				],
 				'subpages' => [
 					'type' => Type::boolean(),
-					'resolve' => $this->getProperty( 'subpages' ),
+					'resolve' => $getProperty,
 				],
 				'canonical' => [
 					'type' => Type::string(),
-					'resolve' => $this->getProperty( 'canonical' ),
+					'resolve' => $getProperty,
 				],
 				'content' => [
 					'type' => Type::boolean(),
-					'resolve' => $this->getProperty( 'content' ),
+					'resolve' => $getProperty,
 				],
 				'nonincludable' => [
 					'type' => Type::boolean(),
-					'resolve' => $this->getProperty( 'nonincludable' ),
+					'resolve' => $getProperty,
 				],
 			],
 			'resolveType' => function () {
@@ -63,28 +89,6 @@ class NamespaceInterfaceType extends InterfaceType {
 	}
 
 	/**
-	 * Get the property.
-	 *
-	 * @param string $prop
-	 * @return callable
-	 */
-	protected function getProperty( $prop ) {
-		return function ( $ns ) use ( $prop ) {
-			if ( isset( $ns[$prop] ) ) {
-				return $ns[$prop];
-			}
-
-			return $this->getNamespace( $ns )->then( function ( $ns ) use ( $prop ) {
-				if ( $ns === null ) {
-					return null;
-				}
-
-				return $ns[$prop] ?? null;
-			} );
-		};
-	}
-
-	/**
 	 * Get Namespace.
 	 *
 	 * @param int $ns
@@ -92,7 +96,7 @@ class NamespaceInterfaceType extends InterfaceType {
 	 */
 	protected function getNamespace( $ns ) {
 		if ( !isset( $ns['id'] ) ) {
-			return null;
+			return $this->promise->createFulfilled( null );
 		}
 
 		$id = $ns['id'];

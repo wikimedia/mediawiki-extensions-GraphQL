@@ -63,31 +63,19 @@ class Request {
 	 */
 	public function getParams() {
 		$params = $this->getMergedKeys();
-		foreach ( $params as $key => $value ) {
+
+		foreach ( $params as $key => &$value ) {
 			if ( is_array( $value ) ) {
 				// If any of the values is * just use that.
 				if ( in_array( '*', $value, true ) ) {
-					$params[$key] = '*';
-					continue;
+					$value = '*';
+				} else {
+					$value = implode( '|', $value );
 				}
-
-				$params[$key] = implode( '|', $value );
-				continue;
-			}
-
-			if ( $value === true ) {
-				$params[$key] = $value;
-				continue;
-			}
-
-			if ( $value === null ) {
-				unset( $params[$prop] );
-				continue;
-			}
-
-			if ( $value === false ) {
-				unset( $params[$prop] );
-				continue;
+			} elseif ( $value === null ) {
+				unset( $params[$key] );
+			} elseif ( $value === false ) {
+				unset( $params[$key] );
 			}
 		}
 

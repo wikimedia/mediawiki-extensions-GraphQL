@@ -52,36 +52,15 @@ class Api implements ApiSource {
 	 * @return GraphQL\Executor\Promise\Promise
 	 */
 	protected function batchLoad( array $keys ) {
-		$main = self::getMain();
-		$requests = array_reduce( $keys, function ( $carry, $params ) {
-			$request = self::findExistingRequest( $carry, $params );
-
-			if ( $request ) {
-				$request->addKey( $params );
-
-				return $carry;
-			}
-
-			$carry[] = new Request( $params );
-
-			return $carry;
-		}, [] );
-
-		$results = array_map( function ( $request ) {
+		// There is no efficient way to determine if a request can safely be merged
+		// before it is executed. Therefor, only merge requests that are idenentical
+		// which the batch loader already does for us by checking the equality of
+		// the keys.
+		// @see https://phabricator.wikimedia.org/T216890
+		return $this->adapter->createFulfilled( array_map( function ( $params ) {
+			$request = new Request( $params );
 			return self::makeRequest( $request->getParams() );
-		}, $requests );
-
-		return $this->adapter->createFulfilled(
-			array_map( function ( $key ) use ( $requests, $results ) {
-				$index = self::findRequestIndex( $requests, $key );
-
-				if ( $index === null ) {
-					throw new \Exception( 'Cannot find request index!' );
-				}
-
-				return $results[ $index ];
-			}, $keys )
-		);
+		}, $keys ) );
 	}
 
 	/**
@@ -173,8 +152,11 @@ class Api implements ApiSource {
 					continue;
 				}
 
-				$module = $main->getModuleManager()->getModule( $name );
-				$merge = array_merge( $merge, self::addDefaultValues( $module, $params ) );
+				$names = is_array( $name ) ? $name : [ $name ];
+				foreach ( $names as $name ) {
+					$module = $main->getModuleManager()->getModule( $name );
+					$merge = array_merge( $merge, self::addDefaultValues( $module, $params ) );
+				}
 			}
 
 			if ( array_key_exists( $key, $params ) ) {
@@ -224,63 +206,5 @@ class Api implements ApiSource {
 		}
 
 		return $merge;
-	}
-
-	/**
-	 * Find an existing request that fits.
-	 *
-	 * @param Request[] $requests
-	 * @param array $params
-	 * @return Request|null
-	 */
-	protected static function findExistingRequest( array $requests, array $params ) {
-		$main = self::getMain( $params );
-		$merge = self::getMergeKeys( $main, $params );
-		$unique = array_diff( $merge, array_keys( $params ) );
-		foreach ( $requests as $index => $request ) {
-			$keys = $request->getMergedKeys();
-
-			// A request cannot have both an id and title parameter. These keys
-			// are merge keys since they are a list, but they are unique in the
-			// fact that you can have one or the other.
-			// @TODO Figure out a better way to handle mutually exclusive properties.
-			// maybe use `null` as an identifier on the key to know that it
-			// cannot be merged and must remain null (or unset).
-			if ( isset( $keys['pageids'] ) && isset( $params['titles'] ) ) {
-				continue;
-			}
-
-			if ( isset( $keys['titles'] ) && isset( $params['pageids'] ) ) {
-				continue;
-			}
-
-			// If the merge key has execeeded the limit, continue to the next
-			// request.
-			if ( $merge ) {
-				foreach ( $merge as $prop ) {
-					$keys[$prop] = is_array( $keys[$prop] ) ? $keys[$prop] : [ $keys[$prop] ];
-					if (
-						isset( $keys[$prop] ) &&
-						count( $keys[$prop] ) >= \ApiBase::LIMIT_SML1
-					) {
-						continue 2;
-					}
-				}
-			}
-
-			// Each unique key must only appear on the request a single time
-			// with the same value.
-			if ( $unique ) {
-				foreach ( $unique as $prop ) {
-					if ( isset( $keys[$prop] ) && $keys[$prop] !== $params[$prop] ) {
-						continue 2;
-					}
-				}
-			}
-
-			return $request;
-		}
-
-		return null;
 	}
 }

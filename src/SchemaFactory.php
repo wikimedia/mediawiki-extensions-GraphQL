@@ -29,6 +29,16 @@ class SchemaFactory {
 	private $namespace;
 
 	/**
+	 * @var InterfaceType
+	 */
+	private $pageRevisions;
+
+	/**
+	 * @var InterfaceType
+	 */
+	private $revisions;
+
+	/**
 	 * @var array
 	 */
 	private $canonicalNamespaces;
@@ -44,6 +54,10 @@ class SchemaFactory {
 	 * @param InterfaceType $query
 	 * @param InterfaceType $page
 	 * @param InterfaceType $namespace
+	 * @param InterfaceType $pageRevisions
+	 * @param InterfaceType $revision
+	 * @param InterfaceType $revisionSlot
+	 * @param InterfaceType $user
 	 * @param array $canonicalNamespaces
 	 * @param bool $validate
 	 */
@@ -51,12 +65,20 @@ class SchemaFactory {
 		InterfaceType $query,
 		PageInterfaceType $page,
 		InterfaceType $namespace,
+		InterfaceType $pageRevisions,
+		InterfaceType $revision,
+		InterfaceType $revisionSlot,
+		InterfaceType $user,
 		array $canonicalNamespaces,
 		$validate
 	) {
 		$this->query = $query;
 		$this->page = $page;
 		$this->namespace = $namespace;
+		$this->pageRevisions = $pageRevisions;
+		$this->revision = $revision;
+		$this->revisionSlot = $revisionSlot;
+		$this->user = $user;
 		$this->canonicalNamespaces = $canonicalNamespaces;
 		$this->validate = $validate;
 	}
@@ -84,7 +106,35 @@ class SchemaFactory {
 							'interfaces' => [
 								$this->namespace,
 							]
-						] )
+						] ),
+						new ObjectType( [
+							'name' => 'PageRevisions',
+							'fields' => $this->pageRevisions->getFields(),
+							'interfaces' => [
+								$this->pageRevisions,
+							]
+						] ),
+						new ObjectType( [
+							'name' => 'Revision',
+							'fields' => $this->revision->getFields(),
+							'interfaces' => [
+								$this->revision,
+							]
+						] ),
+						new ObjectType( [
+							'name' => 'RevisionSlot',
+							'fields' => $this->revisionSlot->getFields(),
+							'interfaces' => [
+								$this->revisionSlot,
+							]
+						] ),
+						new ObjectType( [
+							'name' => 'User',
+							'fields' => $this->user->getFields(),
+							'interfaces' => [
+								$this->user,
+							]
+						] ),
 				] ),
 		] );
 

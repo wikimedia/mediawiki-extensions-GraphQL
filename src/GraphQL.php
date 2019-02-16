@@ -6,7 +6,11 @@ use MediaWiki\GraphQL\Source\Api;
 use MediaWiki\Services\ServiceContainer;
 use MediaWiki\GraphQL\Type\MediaWiki\NamespaceInterfaceType;
 use MediaWiki\GraphQL\Type\MediaWiki\PageInterfaceType;
+use MediaWiki\GraphQL\Type\MediaWiki\PageRevisionsInterfaceType;
 use MediaWiki\GraphQL\Type\MediaWiki\QueryInterfaceType;
+use MediaWiki\GraphQL\Type\MediaWiki\RevisionInterfaceType;
+use MediaWiki\GraphQL\Type\MediaWiki\RevisionSlotInterfaceType;
+use MediaWiki\GraphQL\Type\MediaWiki\UserInterfaceType;
 use Overblog\DataLoader\Promise\Adapter\Webonyx\GraphQL\SyncPromiseAdapter;
 use Overblog\PromiseAdapter\Adapter\WebonyxGraphQLSyncPromiseAdapter;
 
@@ -58,13 +62,49 @@ class GraphQL {
 		$container->defineService( 'GraphQLMediaWikiPageInterfaceType', function ( $instance ) {
 			return new PageInterfaceType(
 				$instance->getService( 'GraphQLSourceApi' ),
-				$instance->getService( 'GraphQLMediaWikiNamespaceInterfaceType' )
+				$instance->getService( 'GraphQLPromiseAdapter' ),
+				$instance->getService( 'GraphQLMediaWikiNamespaceInterfaceType' ),
+				$instance->getService( 'GraphQLMediaWikiPageRevisionsInterfaceType' ),
+				$instance->getService( 'GraphQLMediaWikiRevisionInterfaceType' )
+			);
+		} );
+
+		$container->defineService( 'GraphQLMediaWikiPageRevisionsInterfaceType', function ( $instance ) {
+			return new PageRevisionsInterfaceType(
+				$instance->getService( 'GraphQLSourceApi' ),
+				$instance->getService( 'GraphQLPromiseAdapter' ),
+				$instance->getService( 'GraphQLMediaWikiRevisionInterfaceType' )
+			);
+		} );
+
+		$container->defineService( 'GraphQLMediaWikiRevisionSlotInterfaceType', function ( $instance ) {
+			return new RevisionSlotInterfaceType(
+				$instance->getService( 'GraphQLSourceApi' ),
+				$instance->getService( 'GraphQLPromiseAdapter' )
+			);
+		} );
+
+		$container->defineService( 'GraphQLMediaWikiRevisionInterfaceType', function ( $instance ) {
+			return new RevisionInterfaceType(
+				$instance->getService( 'GraphQLSourceApi' ),
+				$instance->getService( 'GraphQLPromiseAdapter' ),
+				$instance->getService( 'SlotRoleRegistry' ),
+				$instance->getService( 'GraphQLMediaWikiUserInterfaceType' ),
+				$instance->getService( 'GraphQLMediaWikiRevisionSlotInterfaceType' )
 			);
 		} );
 
 		$container->defineService( 'GraphQLMediaWikiNamespaceInterfaceType', function ( $instance ) {
 			return new NamespaceInterfaceType(
-				$instance->getService( 'GraphQLSourceApi' )
+				$instance->getService( 'GraphQLSourceApi' ),
+				$instance->getService( 'GraphQLPromiseAdapter' )
+			);
+		} );
+
+		$container->defineService( 'GraphQLMediaWikiUserInterfaceType', function ( $instance ) {
+			return new UserInterfaceType(
+				$instance->getService( 'GraphQLSourceApi' ),
+				$instance->getService( 'GraphQLPromiseAdapter' )
 			);
 		} );
 
@@ -73,6 +113,10 @@ class GraphQL {
 				$instance->getService( 'GraphQLMediaWikiQueryInterfaceType' ),
 				$instance->getService( 'GraphQLMediaWikiPageInterfaceType' ),
 				$instance->getService( 'GraphQLMediaWikiNamespaceInterfaceType' ),
+				$instance->getService( 'GraphQLMediaWikiPageRevisionsInterfaceType' ),
+				$instance->getService( 'GraphQLMediaWikiRevisionInterfaceType' ),
+				$instance->getService( 'GraphQLMediaWikiRevisionSlotInterfaceType' ),
+				$instance->getService( 'GraphQLMediaWikiUserInterfaceType' ),
 				\MWNamespace::getCanonicalNamespaces(),
 				$instance->getMainConfig()->get( 'GraphQLValidateSchema' )
 			);

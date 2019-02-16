@@ -25,7 +25,7 @@ class InterfaceType extends GraphQLInterfaceType {
 			}
 
 			if ( $type instanceof WrappingType ) {
-				$type = $field->getWrappedType( true );
+				$type = $type->getWrappedType( true );
 			}
 
 			if ( $type instanceof ObjectType || $type instanceof UnionType ) {
