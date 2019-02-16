@@ -28,7 +28,9 @@ class Api implements ApiSource {
 		$this->adapter = $adapter;
 
 		$this->dataLoader = new DataLoader(
-			\Closure::fromCallable( [ $this, 'batchLoad' ] ),
+			function ( $keys ) {
+				return $this->batchLoad( $keys );
+			},
 			$adapter
 		);
 	}
