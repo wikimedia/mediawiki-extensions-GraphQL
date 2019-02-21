@@ -1,33 +1,33 @@
 {
-		"name": "GraphQL",
-		"url": "https://www.mediawiki.org/wiki/Extension:GraphQL",
-		"namemsg": "graphql",
-		"descriptionmsg": "graphql-desc",
-		"license-name": "GPL-3.0-or-later",
-		"type": "api",
-		"manifest_version": 2,
-		"load_composer_autoloader": true,
-		"config": {
-			"GraphQLValidateSchema": {
-				"value": true
-			}
-		},
-		"MessagesDirs": {
-			"GraphQL": [
-				"i18n"
-			]
-		},
-		"ExtensionMessagesFiles": {
-			"GraphQLAlias": "GraphQL.alias.php"
-		},
-		"AutoloadNamespaces": {
-			"MediaWiki\\GraphQL\\": "src/"
-		},
-		"SpecialPages": {
-			"GraphQL": "MediaWiki\\GraphQL\\SpecialPage\\SpecialGraphQL"
-		},
-		"Hooks": {
-			"WebRequestPathInfoRouter": "MediaWiki\\GraphQL\\GraphQL::onWebRequestPathInfoRouter",
-			"MediaWikiServices": "MediaWiki\\GraphQL\\GraphQL::onMediaWikiServices"
+	"name": "GraphQL",
+	"url": "https://www.mediawiki.org/wiki/Extension:GraphQL",
+	"namemsg": "graphql",
+	"descriptionmsg": "graphql-desc",
+	"license-name": "GPL-3.0-or-later",
+	"type": "api",
+	"manifest_version": 2,
+	"load_composer_autoloader": true,
+	"config": {
+		"GraphQLValidateSchema": {
+			"value": true
 		}
+	},
+	"MessagesDirs": {
+		"GraphQL": [
+			"i18n"
+		]
+	},
+	"ExtensionMessagesFiles": {
+		"GraphQLAlias": "GraphQL.alias.php"
+	},
+	"AutoloadNamespaces": {
+		"MediaWiki\\GraphQL\\": "src/"
+	},
+	"SpecialPages": {
+		"GraphQL": "MediaWiki\\GraphQL\\SpecialPage\\SpecialGraphQL"
+	},
+	"Hooks": {
+		"WebRequestPathInfoRouter": "MediaWiki\\GraphQL\\GraphQL::onWebRequestPathInfoRouter",
+		"MediaWikiServices": "MediaWiki\\GraphQL\\GraphQL::onMediaWikiServices"
+	}
 }

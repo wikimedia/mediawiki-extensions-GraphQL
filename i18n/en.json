@@ -1,17 +1,17 @@
 {
-		"@metadata": {
-				"authors": [
-						"David Barratt"
-				]
-		},
-		"graphql": "GraphQL",
-		"graphql-desc": "GraphQL proxy for the action API",
-		"graphql-type-mediawiki-page-desc": "MediaWiki page interface",
-		"graphql-type-mediawiki-ns-desc": "MediaWiki namespace interface",
-		"graphql-type-mediawiki-query-desc": "MediaWiki namespace interface",
-		"graphql-page-error-nosource": "Must specify ID or title.",
-		"graphql-page-error-multisource": "Cannot use ID & title together.",
-		"graphql-schema-error-no-composite-fields": "$1 may only use interface or scalar fields. Field $2 uses $3 instead.",
-		"graphql-schema-error-missing-field-interface": "$2 is not a part of any interfaces implemented on $1",
-		"graphql-schema-error-modified-interface": "$1 has been modified or is missing from the schema."
+	"@metadata": {
+		"authors": [
+			"David Barratt"
+		]
+	},
+	"graphql": "GraphQL",
+	"graphql-desc": "GraphQL proxy for the action API",
+	"graphql-type-mediawiki-page-desc": "MediaWiki page interface",
+	"graphql-type-mediawiki-ns-desc": "MediaWiki namespace interface",
+	"graphql-type-mediawiki-query-desc": "MediaWiki namespace interface",
+	"graphql-page-error-nosource": "Must specify ID or title.",
+	"graphql-page-error-multisource": "Cannot use ID & title together.",
+	"graphql-schema-error-no-composite-fields": "$1 may only use interface or scalar fields. Field $2 uses $3 instead.",
+	"graphql-schema-error-missing-field-interface": "$2 is not a part of any interfaces implemented on $1",
+	"graphql-schema-error-modified-interface": "$1 has been modified or is missing from the schema."
 }
