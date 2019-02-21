@@ -5,6 +5,9 @@
 	"descriptionmsg": "graphql-desc",
 	"license-name": "GPL-3.0-or-later",
 	"type": "api",
+	"requires": {
+		"MediaWiki": ">= 1.31.0"
+	},
 	"manifest_version": 2,
 	"load_composer_autoloader": true,
 	"config": {
