@@ -1,0 +1,17 @@
+{
+	"@metadata": {
+		"authors": [
+			"ديفيد"
+		]
+	},
+	"graphql": "GraphQL",
+	"graphql-desc": "وكيل GraphQL لواجهة برمجة تطبيقات العمل",
+	"graphql-type-mediawiki-page-desc": "واجهة صفحة ميدياويكي",
+	"graphql-type-mediawiki-ns-desc": "واجهة نطاق ميدياويكي",
+	"graphql-type-mediawiki-query-desc": "واجهة نطاق ميدياويكي",
+	"graphql-page-error-nosource": "يجب تحديد المعرف أو العنوان.",
+	"graphql-page-error-multisource": "لا يمكن استخدام المعرف والعنوان سويا.",
+	"graphql-schema-error-no-composite-fields": "قد يستخدم $1 فقط حقول الواجهة أو القياسية، الحقل $2 يستخدم $3 بدلا من ذلك.",
+	"graphql-schema-error-missing-field-interface": "لا يمثل $ 2 جزءًا من أية واجهات تم تنفيذها على $1",
+	"graphql-schema-error-modified-interface": "$1 معدل أو مفقود من المخطط."
+}

@@ -1,0 +1,17 @@
+{
+	"@metadata": {
+		"authors": [
+			"Metalhead64"
+		]
+	},
+	"graphql": "GraphQL",
+	"graphql-desc": "GraphQL-Proxy für die Action-API",
+	"graphql-type-mediawiki-page-desc": "MediaWiki-Seitenschnittstelle",
+	"graphql-type-mediawiki-ns-desc": "MediaWiki-Namensraumschnittstelle",
+	"graphql-type-mediawiki-query-desc": "MediaWiki-Namensraumschnittstelle",
+	"graphql-page-error-nosource": "Es muss eine Kennung oder ein Titel angegeben werden",
+	"graphql-page-error-multisource": "Es können nicht die Kennung und der Titel gemeinsam verwendet werden.",
+	"graphql-schema-error-no-composite-fields": "$1 darf nur Schnittstellen- oder skalare Felder verwenden. Das Feld $2 verwendet stattdessen $3.",
+	"graphql-schema-error-missing-field-interface": "$2 ist kein Teil der Schnittstellen, die auf $1 implementiert sind.",
+	"graphql-schema-error-modified-interface": "$1 wurde verändert oder fehlt im Schema."
+}

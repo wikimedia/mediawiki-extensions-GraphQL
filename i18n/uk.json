@@ -1,0 +1,15 @@
+{
+	"@metadata": {
+		"authors": [
+			"Vlad5250"
+		]
+	},
+	"graphql-type-mediawiki-page-desc": "Сторінка інтерфейсу MediaWiki",
+	"graphql-type-mediawiki-ns-desc": "Інтерфейс простору назв MediaWiki",
+	"graphql-type-mediawiki-query-desc": "Інтерфейс простору назв MediaWiki",
+	"graphql-page-error-nosource": "Необхідно вказати ID або назву.",
+	"graphql-page-error-multisource": "Не можна мати одночасно ID і назву.",
+	"graphql-schema-error-no-composite-fields": "$1 може використовувати лише інтерфейс або скалярні поля. Замість того поле $2 використовує $3.",
+	"graphql-schema-error-missing-field-interface": "$2 не є частиною жодного інтерфейсу, застосованого на $1",
+	"graphql-schema-error-modified-interface": "$1 змінено або відсутній із схеми."
+}

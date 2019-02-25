@@ -1,0 +1,17 @@
+{
+	"@metadata": {
+		"authors": [
+			"Eduardo Addad de Oliveira"
+		]
+	},
+	"graphql": "GraphQL",
+	"graphql-desc": "Proxy GraphQL para a API de ação",
+	"graphql-type-mediawiki-page-desc": "Interface da página do MediaWiki",
+	"graphql-type-mediawiki-ns-desc": "Interface do espaço de nomes do MediaWiki",
+	"graphql-type-mediawiki-query-desc": "Interface do espaço de nomes do MediaWiki",
+	"graphql-page-error-nosource": "Deve especificar o ID ou o título.",
+	"graphql-page-error-multisource": "Não é possível usar o ID e o título juntos.",
+	"graphql-schema-error-no-composite-fields": "$1 só pode usar campos de interface ou escalares. O campo $2 usa $3 em vez disso.",
+	"graphql-schema-error-missing-field-interface": "$2 não faz parte de nenhuma interface implementada $1",
+	"graphql-schema-error-modified-interface": "$1 foi modificado ou está faltando no esquema."
+}

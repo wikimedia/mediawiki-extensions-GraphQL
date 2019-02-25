@@ -1,0 +1,17 @@
+{
+	"@metadata": {
+		"authors": [
+			"Wladek92"
+		]
+	},
+	"graphql": "GraphQL",
+	"graphql-desc": "Proxy GraphQL pour l'API action",
+	"graphql-type-mediawiki-page-desc": "Interface de page de MediaWiki",
+	"graphql-type-mediawiki-ns-desc": "Interface des l'espace de noms de MediaWiki",
+	"graphql-type-mediawiki-query-desc": "Interface de l'espace de noms de MediaWiki",
+	"graphql-page-error-nosource": "Spécifier obligatoirement un ID ou un titre.",
+	"graphql-page-error-multisource": "Impossible d'utiliser ensemble un ID et un titre.",
+	"graphql-schema-error-no-composite-fields": "$1 ne peut utiliser que l'interface ou les champs scalaires. Le champ $2 utilise $3 à la place.",
+	"graphql-schema-error-missing-field-interface": "$2 ne fait partie d'aucun interface implémenté sur $1",
+	"graphql-schema-error-modified-interface": "$1 a été modifié ou est absent du schéma."
+}

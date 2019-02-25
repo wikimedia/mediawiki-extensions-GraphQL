@@ -1,0 +1,17 @@
+{
+	"@metadata": {
+		"authors": [
+			"Bjankuloski06"
+		]
+	},
+	"graphql": "GraphQL",
+	"graphql-desc": "Посредник GraphQL за дејствен приложник",
+	"graphql-type-mediawiki-page-desc": "Посредник на страница во МедијаВики",
+	"graphql-type-mediawiki-ns-desc": "Посредник на именскиот простор МедијаВики",
+	"graphql-type-mediawiki-query-desc": "Посредник на именскиот простор МедијаВики",
+	"graphql-page-error-nosource": "Мора да укажете назнака или наслов.",
+	"graphql-page-error-multisource": "Не може да има воедно и назнака и наслов.",
+	"graphql-schema-error-no-composite-fields": "$1 може да користи само посредник или скаларни полиња. Меѓутоа, полето $2 користи $3.",
+	"graphql-schema-error-missing-field-interface": "$2 не е дел од ниеднен посредник применет на $1",
+	"graphql-schema-error-modified-interface": "$1 е изменет или недостасува од шемата."
+}

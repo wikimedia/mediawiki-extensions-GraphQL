@@ -1,10 +1,11 @@
 {
 	"@metadata": {
 		"authors": [
-			"David Barratt"
+			"David Barratt",
+			"Umherirrender"
 		]
 	},
-	"graphql": "The name of the extension",
+	"graphql": "{{name}}",
 	"graphql-desc": "{{desc|name=GraphQL|url=}}",
 	"graphql-type-mediawiki-page-desc": "MediaWiki Page Interface Description",
 	"graphql-type-mediawiki-ns-desc": "MediaWiki Namespace Interface Description",
