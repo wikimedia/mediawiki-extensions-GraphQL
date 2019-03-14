@@ -1,0 +1,11 @@
+{
+	"@metadata": {
+		"authors": [
+			"Shirayuki"
+		]
+	},
+	"graphql": "GraphQL",
+	"graphql-type-mediawiki-page-desc": "MediaWiki ページ インターフェイス",
+	"graphql-type-mediawiki-ns-desc": "MediaWiki 名前空間インターフェイス",
+	"graphql-type-mediawiki-query-desc": "MediaWiki 名前空間インターフェイス"
+}
