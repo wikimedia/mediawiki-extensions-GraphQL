@@ -8,6 +8,8 @@
 	"graphql-desc": "GraphQL-Proxy für die Action-API",
 	"graphql-type-mediawiki-page-desc": "MediaWiki-Seitenschnittstelle",
 	"graphql-type-mediawiki-ns-desc": "MediaWiki-Namensraumschnittstelle",
+	"graphql-type-mediawiki-page-revisions-desc": "MediaWiki-Seitenversionsoberfläche",
+	"graphql-type-mediawiki-revision-desc": "MediaWiki-Versionsoberfläche",
 	"graphql-type-mediawiki-query-desc": "MediaWiki-Namensraumschnittstelle",
 	"graphql-page-error-nosource": "Es muss eine Kennung oder ein Titel angegeben werden",
 	"graphql-page-error-multisource": "Es können nicht die Kennung und der Titel gemeinsam verwendet werden.",

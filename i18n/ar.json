@@ -1,13 +1,16 @@
 {
 	"@metadata": {
 		"authors": [
-			"ديفيد"
+			"ديفيد",
+			"Meno25"
 		]
 	},
 	"graphql": "GraphQL",
 	"graphql-desc": "وكيل GraphQL لواجهة برمجة تطبيقات العمل",
 	"graphql-type-mediawiki-page-desc": "واجهة صفحة ميدياويكي",
 	"graphql-type-mediawiki-ns-desc": "واجهة نطاق ميدياويكي",
+	"graphql-type-mediawiki-page-revisions-desc": "واجهة مراجعات الصفحة لميدياويكي",
+	"graphql-type-mediawiki-revision-desc": "واجهة المراجعة لميدياويكي",
 	"graphql-type-mediawiki-query-desc": "واجهة نطاق ميدياويكي",
 	"graphql-page-error-nosource": "يجب تحديد المعرف أو العنوان.",
 	"graphql-page-error-multisource": "لا يمكن استخدام المعرف والعنوان سويا.",
