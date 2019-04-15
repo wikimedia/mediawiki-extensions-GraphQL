@@ -7,6 +7,7 @@
 	"graphql": "GraphQL",
 	"graphql-type-mediawiki-page-desc": "미디어위키 페이지 인터페이스",
 	"graphql-type-mediawiki-ns-desc": "미디어위키 이름공간 인터페이스",
+	"graphql-type-mediawiki-revision-desc": "미디어위키 판 인터페이스",
 	"graphql-type-mediawiki-query-desc": "미디어위키 이름공간 인터페이스",
 	"graphql-page-error-nosource": "ID 또는 제목을 지정해야 합니다.",
 	"graphql-page-error-multisource": "ID와 제목을 동시에 사용할 수 없습니다."
