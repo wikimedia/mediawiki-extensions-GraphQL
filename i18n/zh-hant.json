@@ -5,9 +5,11 @@
 		]
 	},
 	"graphql": "GraphQL",
-	"graphql-desc": "作用 API 的 GraphQL 代理",
+	"graphql-desc": "操作 API 的 GraphQL 代理",
 	"graphql-type-mediawiki-page-desc": "MediaWiki 頁面介面",
 	"graphql-type-mediawiki-ns-desc": "MediaWiki 命名空間介面",
+	"graphql-type-mediawiki-page-revisions-desc": "MediaWiki 頁面修訂介面",
+	"graphql-type-mediawiki-revision-desc": "MediaWiki 修訂介面",
 	"graphql-type-mediawiki-query-desc": "MediaWiki 命名空間介面",
 	"graphql-page-error-nosource": "必須指定 ID 或是標題。",
 	"graphql-page-error-multisource": "不能同時使用 ID 和標題。",

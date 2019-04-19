@@ -8,6 +8,8 @@
 	"graphql-desc": "''Proxy'' GraphQL para a API operacional",
 	"graphql-type-mediawiki-page-desc": "Interface para páginas do MediaWiki",
 	"graphql-type-mediawiki-ns-desc": "Interface para espaços nominais do MediaWiki",
+	"graphql-type-mediawiki-page-revisions-desc": "Interface para revisões de página do MediaWiki",
+	"graphql-type-mediawiki-revision-desc": "Interface para revisões do MediaWiki",
 	"graphql-type-mediawiki-query-desc": "Interface para consultas do MediaWiki",
 	"graphql-page-error-nosource": "Tem de especificar o identificador ou título.",
 	"graphql-page-error-multisource": "Não pode usar o identificador e o título em simultâneo.",
