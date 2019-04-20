@@ -27,8 +27,10 @@ class GraphQL {
 	public static function onWebRequestPathInfoRouter( \PathRouter $router ) {
 		// Get localized title!
 		$title = \SpecialPage::getTitleValueFor( 'GraphQL' );
+		$text = MediaWikiServices::getInstance()->getTitleFormatter()->getFullText( $title );
+
 		$router->addStrict( '/graphql', [
-			'title' => $title->getText(),
+			'title' => $text,
 		] );
 	}
 
@@ -119,7 +121,7 @@ class GraphQL {
 				$instance->getService( 'GraphQLMediaWikiRevisionInterfaceType' ),
 				$instance->getService( 'GraphQLMediaWikiRevisionSlotInterfaceType' ),
 				$instance->getService( 'GraphQLMediaWikiUserInterfaceType' ),
-				\MWNamespace::getCanonicalNamespaces(),
+				$instance->getService( 'NamespaceInfo' ),
 				$instance->getService( 'MainConfig' )->get( 'GraphQLValidateSchema' )
 			);
 		} );

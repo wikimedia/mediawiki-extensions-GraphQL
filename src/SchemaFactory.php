@@ -39,9 +39,9 @@ class SchemaFactory {
 	private $revisions;
 
 	/**
-	 * @var array
+	 * @var NamespaceInfo
 	 */
-	private $canonicalNamespaces;
+	private $namespaceInfo;
 
 	/**
 	 * @var bool
@@ -58,7 +58,7 @@ class SchemaFactory {
 	 * @param InterfaceType $revision
 	 * @param InterfaceType $revisionSlot
 	 * @param InterfaceType $user
-	 * @param array $canonicalNamespaces
+	 * @param \NamespaceInfo $namespaceInfo
 	 * @param bool $validate
 	 */
 	public function __construct(
@@ -69,7 +69,7 @@ class SchemaFactory {
 		InterfaceType $revision,
 		InterfaceType $revisionSlot,
 		InterfaceType $user,
-		array $canonicalNamespaces,
+		\NamespaceInfo $namespaceInfo,
 		$validate
 	) {
 		$this->query = $query;
@@ -79,7 +79,7 @@ class SchemaFactory {
 		$this->revision = $revision;
 		$this->revisionSlot = $revisionSlot;
 		$this->user = $user;
-		$this->canonicalNamespaces = $canonicalNamespaces;
+		$this->namespaceInfo = $namespaceInfo;
 		$this->validate = $validate;
 	}
 
@@ -178,7 +178,7 @@ class SchemaFactory {
 
 	private function getPageTypes() {
 		$pageTypes = [];
-		foreach ( $this->canonicalNamespaces as $ns => $title ) {
+		foreach ( $this->namespaceInfo->getCanonicalNamespaces() as $ns => $title ) {
 			// Skip special namespaces.
 			if ( $ns < 0 ) {
 				continue;
