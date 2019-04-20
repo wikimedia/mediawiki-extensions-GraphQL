@@ -32,5 +32,21 @@
 	"Hooks": {
 		"WebRequestPathInfoRouter": "MediaWiki\\GraphQL\\GraphQL::onWebRequestPathInfoRouter",
 		"MediaWikiServices": "MediaWiki\\GraphQL\\GraphQL::onMediaWikiServices"
+	},
+	"ResourceFileModulePaths": {
+		"localBasePath": "resources",
+		"remoteExtPath": "GraphQL/resources"
+	},
+	"ResourceModules": {
+		"ext.GraphQL.graphql": {
+			"styles": "graphql.css"
+		},
+		"ext.GraphQL.graphiql": {
+			"scripts": "dist/graphiql.js",
+			"dependencies": [
+				"oojs-ui-core",
+				"oojs-ui-widgets"
+			]
+		}
 	}
 }

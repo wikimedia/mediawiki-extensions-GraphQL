@@ -1,0 +1,7 @@
+.client-js #mw-content-text .mw-htmlform-ooui-wrapper {
+	display: none;
+}
+
+table.mw-json {
+	width: 100%;
+}

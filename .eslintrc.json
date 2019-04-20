@@ -1,0 +1,14 @@
+{
+    "extends": [
+        "plugin:react/recommended",
+        "wikimedia",
+        "wikimedia/language/es2017"
+    ],
+    "parserOptions": {
+        "sourceType": "module",
+        "ecmaVersion": 9
+    },
+    "rules": {
+        "one-var": "off"
+    }
+}
