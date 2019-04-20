@@ -4,6 +4,8 @@ namespace MediaWiki\GraphQL;
 
 use MediaWiki\GraphQL\Source\Api;
 use MediaWiki\Services\ServiceContainer;
+use MediaWiki\MediaWikiServices;
+use MediaWiki\GraphQL\SpecialPage\SpecialGraphQL;
 use MediaWiki\GraphQL\Type\MediaWiki\NamespaceInterfaceType;
 use MediaWiki\GraphQL\Type\MediaWiki\PageInterfaceType;
 use MediaWiki\GraphQL\Type\MediaWiki\PageRevisionsInterfaceType;
@@ -24,7 +26,7 @@ class GraphQL {
 	 */
 	public static function onWebRequestPathInfoRouter( \PathRouter $router ) {
 		// Get localized title!
-		$title = \SpecialPage::getTitleValueFor( 'Special:GraphQL' );
+		$title = \SpecialPage::getTitleValueFor( 'GraphQL' );
 		$router->addStrict( '/graphql', [
 			'title' => $title->getText(),
 		] );
@@ -33,7 +35,7 @@ class GraphQL {
 	/**
 	 * Hook Impelementation: MediaWikiServices
 	 *
-	 * @param \ServiceContainer $container
+	 * @param ServiceContainer $container
 	 * @return void
 	 */
 	public static function onMediaWikiServices( ServiceContainer $container ) {
@@ -118,12 +120,29 @@ class GraphQL {
 				$instance->getService( 'GraphQLMediaWikiRevisionSlotInterfaceType' ),
 				$instance->getService( 'GraphQLMediaWikiUserInterfaceType' ),
 				\MWNamespace::getCanonicalNamespaces(),
-				$instance->getMainConfig()->get( 'GraphQLValidateSchema' )
+				$instance->getService( 'MainConfig' )->get( 'GraphQLValidateSchema' )
 			);
 		} );
 
 		$container->defineService( 'GraphQLSchema', function ( $instance ) {
 			return $instance->getService( 'GraphQLSchemaFactory' )->create();
 		} );
+
+		$container->defineService( 'SpecialGraphQL', function ( $instance ) {
+			return new SpecialGraphQL(
+				$instance->getService( 'LinkRenderer' ),
+				$instance->getService( 'GraphQLPromiseAdapter' ),
+				$instance->getService( 'GraphQLSchema' )
+			);
+		} );
+	}
+
+	/**
+	 * Gets the special page.
+	 *
+	 * @return SpecialGraphQL
+	 */
+	public static function getSpecialPage() {
+		return MediaWikiServices::getInstance()->getService( 'SpecialGraphQL' );
 	}
 }
