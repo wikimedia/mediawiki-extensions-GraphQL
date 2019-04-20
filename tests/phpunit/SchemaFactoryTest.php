@@ -39,6 +39,13 @@ class SchemaFactoryTest extends \MediaWikiTestCase {
 		 $pageRevisions = new PageRevisionsInterfaceType( $api, $promise, $revision );
 		 $page = new PageInterfaceType( $api, $promise, $namepsace, $pageRevisions, $revision );
 		 $query = new QueryInterfaceType( $page );
+		 $namespaceInfo = $this->createMock( \NamespaceInfo::class );
+		 $namespaceInfo->method( 'getCanonicalNamespaces' )
+			->willReturn( [
+					NS_SPECIAL => 'Special',
+					NS_MAIN => '',
+					NS_TALK => 'Talk',
+			] );
 
 		 $factory = new SchemaFactory(
 			 $query,
@@ -48,7 +55,7 @@ class SchemaFactoryTest extends \MediaWikiTestCase {
 			 $revision,
 			 $revisionSlot,
 			 $user,
-			 \MWNamespace::getCanonicalNamespaces(),
+			 $namespaceInfo,
 			 true
 		 );
 
