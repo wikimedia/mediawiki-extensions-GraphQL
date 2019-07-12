@@ -25,7 +25,7 @@ function reducer(state, action) {
 				...state,
 				query: action.query,
 				variables: action.variables,
-			}
+			};
 		case 'edit':
 			return {
 				...state,
@@ -39,31 +39,39 @@ function reducer(state, action) {
 function App() {
 	const [state, dispatch] = useReducer(reducer, initialState);
 
-	const onEdit = ( key, value ) => {
-		const url = new URL(window.location.href);
+	const createEditHandler = ( key ) => (
+		( value ) => {
+			if ( window ) {
+				const url = new URL(window.location.href);
 
-		if ( value ) {
-			url.searchParams.set( key, value );
-		} else {
-			url.searchParams.delete( key );
+				if ( value ) {
+					url.searchParams.set( key, value );
+				} else {
+					url.searchParams.delete( key );
+				}
+
+				window.history.replaceState({}, '', url.toString());
+			}
+
+			dispatch({
+				type: 'edit',
+				key,
+				value
+			});
 		}
-
-		window.history.replaceState({}, '', url.toString());
-
-		dispatch({
-			type: 'edit',
-			key,
-			value
-		});
-	}
+	);
 
 	useEffect(() => {
+		if ( !window ) {
+			return;
+		}
+
 		const url = new URL(window.location.href);
 
 		dispatch({
 			type: 'load',
-			query: url.searchParams.get('query'),
-			variables: url.searchParams.get('variables'),
+			query: url.searchParams.get('query') || undefined,
+			variables: url.searchParams.get('variables') || undefined,
 		});
 	}, []);
 
@@ -73,8 +81,8 @@ function App() {
 			fetcher,
 			query: state.query,
 			variables: state.variables,
-			onEditQuery: (query) => onEdit( 'query', query ),
-			onEditVariables: (variables) => onEdit( 'variables', variables ),
+			onEditQuery: createEditHandler('query'),
+			onEditVariables: createEditHandler('variables'),
 		},
 		createElement( GraphiQL.Logo, null, ' ' ),
 	);
