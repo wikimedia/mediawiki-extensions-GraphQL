@@ -8,7 +8,10 @@ import './graphiql.css';
 function fetcher(graphQLParams) {
   return fetch(window.location.origin + '/graphql', {
     method: 'post',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+		Accept: 'application/json',
+		'Content-Type': 'application/json',
+	},
     body: JSON.stringify(graphQLParams),
   }).then(response => response.json());
 }
