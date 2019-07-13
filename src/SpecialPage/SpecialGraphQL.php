@@ -7,7 +7,7 @@ use GraphQL\Error\SyntaxError;
 use GraphQL\Executor\Promise\PromiseAdapter;
 use GraphQL\Language\Parser;
 use GraphQL\Language\Source;
-use GraphQL\Type\Introspection;
+// use GraphQL\Type\Introspection;
 use GraphQL\Type\Schema;
 use GraphQL\Validator\DocumentValidator;
 use MediaWiki\Linker\LinkRenderer;
@@ -59,15 +59,16 @@ class SpecialGraphQL extends \FormSpecialPage {
 		$this->getOutput()->addModules( [
 			'ext.GraphQL.graphiql',
 		] );
+		$this->getOutput()->addVaryHeader( 'Accept' );
 
-		$promise = GraphQL::promiseToExecute(
-			$this->promise,
-			$this->schema,
-			Introspection::getIntrospectionQuery()
-		);
-		$result = $this->promise->wait( $promise );
+		// $promise = GraphQL::promiseToExecute(
+		// $this->promise,
+		// $this->schema,
+		// Introspection::getIntrospectionQuery()
+		// );
+		// $result = $this->promise->wait( $promise );
 
-		$this->getOutput()->addJsConfigVars( 'GraphQLSchema', $result->toArray()['data'] );
+		// $this->getOutput()->addJsConfigVars( 'GraphQLSchema', $result->toArray()['data'] );
 
 		return [
 			'query' => [
@@ -128,6 +129,7 @@ class SpecialGraphQL extends \FormSpecialPage {
 	 * @inheritDoc
 	 */
 	public function onSubmit( array $data ) {
+		$this->getOutput()->addVaryHeader( 'Accept' );
 		// Attempt to parse as JSON first$raw = $this->getRequest()->getRawPostString();
 		$raw = $this->getRequest()->getRawPostString();
 		$result = \FormatJson::parse( $raw, \FormatJson::FORCE_ASSOC );
@@ -194,6 +196,7 @@ class SpecialGraphQL extends \FormSpecialPage {
 			$response = $this->getRequest()->response();
 			$response->header( 'Access-Control-Allow-Origin: *' );
 			$response->header( 'Content-Type: application/json' );
+			$response->header( $this->getOutput()->getVaryHeader() );
 
 			print \FormatJson::encode( $this->result, false, \FormatJson::ALL_OK );
 		} else {
