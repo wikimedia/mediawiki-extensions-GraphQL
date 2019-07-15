@@ -1,0 +1,10 @@
+{
+	"@metadata": {
+		"authors": [
+			"Fitoschido"
+		]
+	},
+	"graphql-special-query": "Consulta",
+	"graphql-special-variables": "Variables",
+	"graphql-special-result": "Resultado"
+}

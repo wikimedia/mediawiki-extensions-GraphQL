@@ -1,0 +1,10 @@
+{
+	"@metadata": {
+		"authors": [
+			"WikiPhoenix"
+		]
+	},
+	"graphql-special-query": "Förfrågan",
+	"graphql-special-variables": "Variabler",
+	"graphql-special-result": "Resultat"
+}
