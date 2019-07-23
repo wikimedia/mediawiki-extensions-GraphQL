@@ -1,0 +1,10 @@
+{
+	"@metadata": {
+		"authors": [
+			"Beta16"
+		]
+	},
+	"graphql-special-query": "Interrogazione",
+	"graphql-special-variables": "Variabili",
+	"graphql-special-result": "Risultato"
+}
