@@ -12,4 +12,5 @@ $specialPageAliases = [];
  */
 $specialPageAliases['en'] = [
 	'GraphQL' => [ 'GraphQL' ],
+	'GraphQLSandbox' => [ 'GraphQLSandbox' ],
 ];

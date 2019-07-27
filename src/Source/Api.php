@@ -2,12 +2,16 @@
 
 namespace MediaWiki\GraphQL\Source;
 
-use MediaWiki\Session\SessionManager;
 use MediaWiki\GraphQL\Source\Api\Request;
 use Overblog\DataLoader\DataLoader;
 use Overblog\PromiseAdapter\PromiseAdapterInterface;
 
 class Api implements ApiSource {
+
+	/**
+	 * @var \IContextSource
+	 */
+	protected $context;
 
 	/**
 	 * @var DataLoader
@@ -22,9 +26,14 @@ class Api implements ApiSource {
 	/**
 	 * Api Constructor.
 	 *
+	 * @param \IContextSource $context
 	 * @param PromiseAdapterInterface $adapter
 	 */
-	public function __construct( PromiseAdapterInterface $adapter ) {
+	public function __construct(
+		\IContextSource $context,
+		PromiseAdapterInterface $adapter
+	) {
+		$this->context = $context;
 		$this->adapter = $adapter;
 
 		$this->dataLoader = new DataLoader(
@@ -42,7 +51,7 @@ class Api implements ApiSource {
 	 * @return GraphQL\Executor\Promise\Promise
 	 */
 	public function request( array $params ) {
-		return $this->dataLoader->load( self::addDefaultValues( self::getMain( $params ), $params ) );
+		return $this->dataLoader->load( self::addDefaultValues( $this->getMain( $params ), $params ) );
 	}
 
 	/**
@@ -59,7 +68,7 @@ class Api implements ApiSource {
 		// @see https://phabricator.wikimedia.org/T216890
 		return $this->adapter->createFulfilled( array_map( function ( $params ) {
 			$request = new Request( $params );
-			return self::makeRequest( $request->getParams() );
+			return $this->makeRequest( $request->getParams() );
 		}, $keys ) );
 	}
 
@@ -69,8 +78,8 @@ class Api implements ApiSource {
 	 * @param array $params
 	 * @return array
 	 */
-	protected static function makeRequest( array $params ) {
-		$module = self::getMain( $params );
+	protected function makeRequest( array $params ) {
+		$module = $this->getMain( $params );
 		$module->execute();
 
 		return $module->getResult()->getResultData( null, [ 'Strip' => 'all' ] );
@@ -82,8 +91,12 @@ class Api implements ApiSource {
 	 * @param array $params
 	 * @return \ApiMain
 	 */
-	protected static function getMain( $params = [] ) {
-		$request = new \FauxRequest( $params, true, SessionManager::getGlobalSession() );
+	protected function getMain( $params = [] ) {
+		$request = new \FauxRequest(
+			$params,
+			$this->context->getRequest()->wasPosted(),
+			$this->context->getRequest()->getSession()
+		);
 		$main = new \ApiMain( $request, true );
 
 		return $main;

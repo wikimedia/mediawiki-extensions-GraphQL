@@ -5,6 +5,7 @@
 		]
 	},
 	"graphql": "GraphQL",
+	"graphqlsandbox": "GraphQL Sandbox",
 	"graphql-desc": "GraphQL proxy for the action API",
 	"graphql-special-query": "Query",
 	"graphql-special-variables": "Variables",
@@ -16,6 +17,7 @@
 	"graphql-type-mediawiki-query-desc": "MediaWiki namespace interface",
 	"graphql-page-error-nosource": "Must specify ID or title.",
 	"graphql-page-error-multisource": "Cannot use ID & title together.",
+	"graphql-sandbox-jsonly": "JavaScript is required to use the GraphQL sandbox.",
 	"graphql-schema-error-no-composite-fields": "$1 may only use interface or scalar fields. Field $2 uses $3 instead.",
 	"graphql-schema-error-missing-field-interface": "$2 is not a part of any interfaces implemented on $1",
 	"graphql-schema-error-modified-interface": "$1 has been modified or is missing from the schema."

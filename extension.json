@@ -27,7 +27,8 @@
 		"MediaWiki\\GraphQL\\": "src/"
 	},
 	"SpecialPages": {
-		"GraphQL": "MediaWiki\\GraphQL\\GraphQL::getSpecialPage"
+		"GraphQL": "MediaWiki\\GraphQL\\GraphQL::getSpecialPage",
+		"GraphQLSandbox": "MediaWiki\\GraphQL\\GraphQL::getSandboxSpecialPage"
 	},
 	"Hooks": {
 		"WebRequestPathInfoRouter": "MediaWiki\\GraphQL\\GraphQL::onWebRequestPathInfoRouter",

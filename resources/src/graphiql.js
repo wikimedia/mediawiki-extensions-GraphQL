@@ -1,13 +1,16 @@
 import { createElement, useReducer, useEffect } from 'react';
 import { render } from 'react-dom';
 import GraphiQL from 'graphiql';
+import { buildClientSchema } from 'graphql';
 import 'whatwg-fetch';
 import 'graphiql/graphiql.css';
 import './graphiql.css';
 
+const path = window.mw ? mw.util.getUrl( 'Special:GraphQL' ) : '/graphql';
+
 function fetcher(graphQLParams) {
-  return fetch(window.location.origin + '/graphql', {
-    method: 'post',
+  return fetch(path, {
+    method: 'POST',
     headers: {
 		Accept: 'application/json',
 		'Content-Type': 'application/json',
@@ -20,6 +23,8 @@ const initialState = {
 	query: undefined,
 	variables: undefined,
 };
+
+const schema = window.mw && window.mw.config.get( 'GraphQLSchema') ? buildClientSchema(window.mw.config.get( 'GraphQLSchema')) : undefined;
 
 function reducer(state, action) {
 	switch (action.type) {
@@ -82,6 +87,7 @@ function App() {
 		GraphiQL,
 		{
 			fetcher,
+			schema,
 			query: state.query,
 			variables: state.variables,
 			onEditQuery: createEditHandler('query'),
@@ -91,7 +97,7 @@ function App() {
 	);
 }
 
-const text = document.getElementById('mw-content-text');
+const text = document.getElementById('mw-graphqlsandbox');
 const container = document.createElement('div');
 text.appendChild( container );
 
