@@ -30,9 +30,11 @@
 		"GraphQL": "MediaWiki\\GraphQL\\GraphQL::getSpecialPage",
 		"GraphQLSandbox": "MediaWiki\\GraphQL\\GraphQL::getSandboxSpecialPage"
 	},
+	"ServiceWiringFiles": [
+		"./ServiceWiring.php"
+	],
 	"Hooks": {
-		"WebRequestPathInfoRouter": "MediaWiki\\GraphQL\\GraphQL::onWebRequestPathInfoRouter",
-		"MediaWikiServices": "MediaWiki\\GraphQL\\GraphQL::onMediaWikiServices"
+		"WebRequestPathInfoRouter": "MediaWiki\\GraphQL\\GraphQL::onWebRequestPathInfoRouter"
 	},
 	"ResourceFileModulePaths": {
 		"localBasePath": "resources",
