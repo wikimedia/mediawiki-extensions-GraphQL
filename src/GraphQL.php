@@ -6,6 +6,7 @@ use MediaWiki\GraphQL\Source\Api;
 use MediaWiki\Services\ServiceContainer;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\GraphQL\SpecialPage\SpecialGraphQL;
+use MediaWiki\GraphQL\SpecialPage\SpecialGraphQLSandbox;
 use MediaWiki\GraphQL\Type\MediaWiki\NamespaceInterfaceType;
 use MediaWiki\GraphQL\Type\MediaWiki\PageInterfaceType;
 use MediaWiki\GraphQL\Type\MediaWiki\PageRevisionsInterfaceType;
@@ -53,6 +54,7 @@ class GraphQL {
 
 		$container->defineService( 'GraphQLSourceApi', function ( $instance ) {
 			return new Api(
+				\RequestContext::getMain(),
 				$instance->getService( 'GraphQLSyncPromiseAdapter' )
 			);
 		} );
@@ -137,6 +139,14 @@ class GraphQL {
 				$instance->getService( 'GraphQLSchema' )
 			);
 		} );
+
+		$container->defineService( 'SpecialGraphQLSandbox', function ( $instance ) {
+			return new SpecialGraphQLSandbox(
+				$instance->getService( 'LinkRenderer' ),
+				$instance->getService( 'GraphQLPromiseAdapter' ),
+				$instance->getService( 'GraphQLSchema' )
+			);
+		} );
 	}
 
 	/**
@@ -146,5 +156,14 @@ class GraphQL {
 	 */
 	public static function getSpecialPage() {
 		return MediaWikiServices::getInstance()->getService( 'SpecialGraphQL' );
+	}
+
+	/**
+	 * Gets the sandbox special page.
+	 *
+	 * @return SpecialGraphQLSandbox
+	 */
+	public static function getSandboxSpecialPage() {
+		return MediaWikiServices::getInstance()->getService( 'SpecialGraphQLSandbox' );
 	}
 }

@@ -6,6 +6,7 @@
 		]
 	},
 	"graphql": "{{name}}",
+	"graphqlsandbox": "{{name}} Sandbox",
 	"graphql-desc": "{{desc|name=GraphQL|url=}}",
 	"graphql-special-query": "Label on Special:Graphql for the Query field",
 	"graphql-special-variables": "Label on Special:Graphql for the Variables field",
@@ -17,6 +18,7 @@
 	"graphql-type-mediawiki-query-desc": "MediaWiki Query Interface Description",
 	"graphql-page-error-nosource": "Error that is thrown when page source is not specified.",
 	"graphql-page-error-multisource": "Error that is thrown when multiple page sources are specified.",
+	"graphql-sandbox-jsonly": "Displayed as an error message if the browser does not have JavaScript enabled.",
 	"graphql-schema-error-no-composite-fields": "Schema error when a field returns a object or union.\n* $1 - Name of the type with the violation.\n* $2 - Name of the type's field.\n* $3 - Name of the type the field uses.",
 	"graphql-schema-error-missing-field-interface": "Schema error when a field is not a part of any interface implemented.\n* $1 - Name of the type with the violation.\n* $2 - Name of the type's field.",
 	"graphql-schema-error-modified-interface": "Schema error when an interface has been modified or is missing.\n* $1 - Name of the missing or modified interface."
