@@ -6,6 +6,7 @@
 		]
 	},
 	"graphql": "GraphQL",
+	"graphqlsandbox": "Bac à sable de GraphQL",
 	"graphql-desc": "Proxy GraphQL pour l'API action",
 	"graphql-special-query": "Requête",
 	"graphql-special-variables": "Variables",
@@ -17,6 +18,7 @@
 	"graphql-type-mediawiki-query-desc": "Interface de l'espace de noms de MediaWiki",
 	"graphql-page-error-nosource": "Spécifier obligatoirement un ID ou un titre.",
 	"graphql-page-error-multisource": "Impossible d'utiliser ensemble un ID et un titre.",
+	"graphql-sandbox-jsonly": "JavaScript est nécessaire pour utiliser le bas à sable de GraphQL.",
 	"graphql-schema-error-no-composite-fields": "$1 ne peut utiliser que l'interface ou les champs scalaires. Le champ $2 utilise $3 à la place.",
 	"graphql-schema-error-missing-field-interface": "$2 ne fait partie d'aucun interface implémenté sur $1",
 	"graphql-schema-error-modified-interface": "$1 a été modifié ou est absent du schéma."
