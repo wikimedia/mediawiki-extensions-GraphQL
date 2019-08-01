@@ -5,6 +5,7 @@
 		]
 	},
 	"graphql": "GraphQL",
+	"graphqlsandbox": "Pàgene de prove pe GraphQL",
 	"graphql-desc": "Proxy de GraphQL pe l'azione de l'API",
 	"graphql-special-query": "'Nderrogazione",
 	"graphql-special-variables": "Variabbele",
@@ -16,6 +17,7 @@
 	"graphql-type-mediawiki-query-desc": "Inderfacce d'u namespace de MediaUicchi",
 	"graphql-page-error-nosource": "A specificà l'ID o 'u titole.",
 	"graphql-page-error-multisource": "Non ge puè ausà l'ID e 'u titolo 'nzieme.",
+	"graphql-sandbox-jsonly": "'U JavaScript jè richieste pe ausà 'a sandbox GraphQL.",
 	"graphql-schema-error-no-composite-fields": "$1 pò ausà sulamende l'inderfacce o le cambe scalare. 'U cambe $2 invece ause $3.",
 	"graphql-schema-error-missing-field-interface": "$2 non g'è parte de nisciune inderfacce 0mblemendate sus a $1",
 	"graphql-schema-error-modified-interface": "$1 ha state cangiate o non ge se iacchie jndr'à 'u scheme."

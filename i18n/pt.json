@@ -5,6 +5,7 @@
 		]
 	},
 	"graphql": "GraphQL",
+	"graphqlsandbox": "Página de testes do GraphQL",
 	"graphql-desc": "''Proxy'' GraphQL para a API operacional",
 	"graphql-special-query": "Consulta",
 	"graphql-special-variables": "Variáveis",
@@ -16,6 +17,7 @@
 	"graphql-type-mediawiki-query-desc": "Interface para consultas do MediaWiki",
 	"graphql-page-error-nosource": "Tem de especificar o identificador ou título.",
 	"graphql-page-error-multisource": "Não pode usar o identificador e o título em simultâneo.",
+	"graphql-sandbox-jsonly": "É necessário o JavaScript para usar a página de testes do GraphQL.",
 	"graphql-schema-error-no-composite-fields": "$1 só pode usar campos da interface ou escalares. O campo $2 usa antes $3.",
 	"graphql-schema-error-missing-field-interface": "$2 não faz parte de nenhuma interface implementada para $1",
 	"graphql-schema-error-modified-interface": "$1 foi modificado ou está em falta no esquema."
