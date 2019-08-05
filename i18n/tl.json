@@ -1,0 +1,9 @@
+{
+	"@metadata": {
+		"authors": [
+			"Brazal.dang"
+		]
+	},
+	"graphqlsandbox": "GraphQL Sandbox",
+	"graphql-sandbox-jsonly": "Ang JavaScript ay kailangan sa paggamit ng GraphQL sandbox."
+}
