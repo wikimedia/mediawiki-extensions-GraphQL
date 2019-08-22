@@ -1,9 +1,12 @@
 {
 	"@metadata": {
 		"authors": [
-			"Saederup92"
+			"Saederup92",
+			"Fnielsen"
 		]
 	},
 	"graphql": "GraphQL",
-	"graphql-special-variables": "Variabler"
+	"graphqlsandbox": "GraphQL-sandkasse",
+	"graphql-special-variables": "Variabler",
+	"graphql-sandbox-jsonly": "JavaScript kræves for at bruge GraphQL-sandkassen."
 }
