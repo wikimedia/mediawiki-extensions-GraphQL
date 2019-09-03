@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Vlad5250",
-			"Ата"
+			"Ата",
+			"Movses"
 		]
 	},
 	"graphql": "GraphQL",
@@ -14,6 +15,7 @@
 	"graphql-type-mediawiki-page-desc": "Сторінка інтерфейсу MediaWiki",
 	"graphql-type-mediawiki-ns-desc": "Інтерфейс простору назв MediaWiki",
 	"graphql-type-mediawiki-page-revisions-desc": "Інтерфейс версій сторінки MediaWiki",
+	"graphql-type-mediawiki-revision-desc": "Інтерфейс версій MediaWiki",
 	"graphql-type-mediawiki-query-desc": "Інтерфейс простору назв MediaWiki",
 	"graphql-page-error-nosource": "Необхідно вказати ID або назву.",
 	"graphql-page-error-multisource": "Не можна мати одночасно ID і назву.",
