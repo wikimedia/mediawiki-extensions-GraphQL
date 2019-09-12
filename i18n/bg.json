@@ -1,15 +1,16 @@
 {
 	"@metadata": {
 		"authors": [
-			"Vlad5250"
+			"Vlad5250",
+			"StanProg"
 		]
 	},
 	"graphql": "GraphQL",
-	"graphql-desc": "Интерфейс GraphQL за действен приложник",
+	"graphql-desc": "GraphQL прокси за API-то за действия",
 	"graphql-type-mediawiki-page-desc": "Интерфейс на страница в МедияУики",
 	"graphql-type-mediawiki-ns-desc": "Интерфейс на именно пространство МедияУики",
 	"graphql-type-mediawiki-query-desc": "Интерфейс на именно пространство МедияУики",
-	"graphql-schema-error-no-composite-fields": "$1 може да ползва само интерфейс или скаларни полета. Обаче, полето $2 ползва $3.",
-	"graphql-schema-error-missing-field-interface": "$2 не е дял от ниедин интерфейс, применен на $1",
-	"graphql-schema-error-modified-interface": "$1 е изменен или липсва от схемата."
+	"graphql-schema-error-no-composite-fields": "$1 може да използва само интерфейс или скаларни полета. Вместо него, $2 използва $3.",
+	"graphql-schema-error-missing-field-interface": "$2 не е част от интерфейс реализиран на $1",
+	"graphql-schema-error-modified-interface": "$1 е променен или го няма в схемата."
 }

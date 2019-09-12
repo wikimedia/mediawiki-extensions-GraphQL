@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Wladek92",
-			"Gomoko"
+			"Gomoko",
+			"Thibaut120094"
 		]
 	},
 	"graphql": "GraphQL",
@@ -13,8 +14,8 @@
 	"graphql-special-result": "Résultat",
 	"graphql-type-mediawiki-page-desc": "Interface de page de MediaWiki",
 	"graphql-type-mediawiki-ns-desc": "Interface des l'espace de noms de MediaWiki",
-	"graphql-type-mediawiki-page-revisions-desc": "Interface de révisions de page de MédiaWiki",
-	"graphql-type-mediawiki-revision-desc": "Interface de révision de MédiaWiki",
+	"graphql-type-mediawiki-page-revisions-desc": "Interface de révisions de page de MediaWiki",
+	"graphql-type-mediawiki-revision-desc": "Interface de révision de MediaWiki",
 	"graphql-type-mediawiki-query-desc": "Interface de l'espace de noms de MediaWiki",
 	"graphql-page-error-nosource": "Spécifier obligatoirement un ID ou un titre.",
 	"graphql-page-error-multisource": "Impossible d'utiliser ensemble un ID et un titre.",
