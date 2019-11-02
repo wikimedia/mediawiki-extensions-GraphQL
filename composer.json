@@ -1,6 +1,6 @@
 {
 	"require": {
-		"webonyx/graphql-php": "^0.12.6",
+		"webonyx/graphql-php": "^0.13.8",
 		"overblog/dataloader-php": "^0.5.2"
 	},
 	"require-dev": {

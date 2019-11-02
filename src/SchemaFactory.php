@@ -4,9 +4,18 @@ namespace MediaWiki\GraphQL;
 
 use GraphQL\Error\InvariantViolation;
 use GraphQL\Type\Schema;
+use GraphQL\Language\AST\DirectiveNode;
+use GraphQL\Language\DirectiveLocation;
 use GraphQL\Type\SchemaConfig;
+use GraphQL\Type\Definition\Directive;
 use GraphQL\Type\Definition\InterfaceType;
+use GraphQL\Type\Definition\ResolveInfo;
+use GraphQL\Type\Definition\UnionType;
+use GraphQL\Type\Definition\Type;
+use GraphQL\Utils\SchemaPrinter;
 use GraphQL\Utils\TypeInfo;
+use GraphQL\Type\Definition\StringType;
+use GraphQL\Type\Definition\ObjectType as GraphQLObjectType;
 use MediaWiki\GraphQL\Type\ObjectType;
 use MediaWiki\GraphQL\Type\MediaWiki\PageInterfaceType;
 
@@ -173,7 +182,162 @@ class SchemaFactory {
 			}
 		}
 
-		return $schema;
+		// Apollo Federation
+		$any = new StringType( [
+			'name' => '_Any',
+		] );
+
+		$fieldset = new StringType( [
+			'name' => '_FieldSet',
+		] );
+
+		$entities = array_filter( $schema->getTypeMap(), function ( Type $type ) {
+			if ( !( $type instanceof GraphQLObjectType ) ) {
+				return false;
+			}
+
+			if ( $type->astNode === null ) {
+				return false;
+			}
+
+			$directiveNodes = $type->astNode->directives;
+
+			return array_reduce( iterator_to_array( $directiveNodes->getIterator() ),
+				function ( bool $carry, DirectiveNode $node ) : bool {
+					if ( $node->name->kind === 'Name' && $node->name->value === 'key' ) {
+						return true;
+					}
+					return $carry;
+				}, false );
+		} );
+
+		$service = new ObjectType( [
+			'name' => '_Service',
+			'fields' => [
+				'sdl' => [
+					'type' => Type::string(),
+				],
+			]
+		] );
+
+		$fields = [
+			'_service' => [
+				'type' => $service,
+				'resolve' => function ( $rootValue, $args, $context, ResolveInfo $info ) {
+					return [
+						'sdl' => SchemaPrinter::doPrint( $info->schema ),
+					];
+				}
+			],
+		];
+
+		if ( count( $entities ) > 0 ) {
+			$entity = new UnionType( [
+				'name' => '_Entity',
+				'types' => array_map( function ( Type $type ) : string {
+						return $type->name;
+				}, $this->types ),
+			] );
+			$fields['_entities'] = [
+				'type' => Type::nonNull( Type::listOf( $entity ) ),
+				'args' => [
+					'representations' => [
+						'type' => Type::nonNull( Type::listOf( Type::nonNull( $any ) ) ),
+					],
+				],
+				'resolve' => function ( $rootValue, $args, $context, ResolveInfo $info ) {
+					$representations = $args['representations'];
+					return array_map( function ( $representation ) use ( $info ) {
+							$typeName = $representation['__typename'];
+							$type = $info->schema->getType( $typeName );
+							if ( !$type || $type instanceof GraphQLObjectType === false ) {
+								throw new \Exception(
+									'The _entities resolver tried to load an entity for type"'
+									. $typeName
+									. '", but no object type of that name was found in the schema'
+								);
+							}
+							$resolver = $type->resolveFieldFn ?: function () use ( $representation ) {
+								return $representation;
+							};
+							return $resolver();
+					}, $representations );
+				},
+			];
+		}
+
+		$types = $schema->getConfig()->getTypes();
+		$types[] = $any;
+		$types[] = $fieldset;
+		$schema->getConfig()->setTypes( $types );
+
+		$query = $schema->getConfig()->getQuery()->config;
+		$query['fields'] = array_merge( $query['fields'], $fields );
+		$schema->getConfig()->setQuery( new ObjectType( $query ) );
+
+		$directives = $schema->getConfig()->getDirectives();
+		$directives[] = new Directive( [
+			'name' => 'external',
+			'locations' => [
+				DirectiveLocation::FIELD_DEFINITION,
+			],
+		] );
+		$directives[] = new Directive( [
+			'name' => 'requires',
+			'locations' => [
+				DirectiveLocation::FIELD_DEFINITION,
+			],
+			'args' => [
+				'fields' => [
+					'type' => Type::nonNull( $fieldset ),
+				],
+			],
+		] );
+		$directives[] = new Directive( [
+			'name' => 'requires',
+			'locations' => [
+				DirectiveLocation::FIELD_DEFINITION,
+			],
+			'args' => [
+				'fields' => [
+					'type' => Type::nonNull( $fieldset ),
+				],
+			],
+		] );
+		$directives[] = new Directive( [
+			'name' => 'provides',
+			'locations' => [
+				DirectiveLocation::FIELD_DEFINITION,
+			],
+			'args' => [
+				'fields' => [
+					'type' => Type::nonNull( $fieldset ),
+				],
+			],
+		] );
+		$directives[] = new Directive( [
+			'name' => 'key',
+			'locations' => [
+				DirectiveLocation::OBJECT,
+				DirectiveLocation::IFACE,
+			],
+			'args' => [
+				'fields' => [
+					'type' => Type::nonNull( $fieldset ),
+				],
+			],
+		] );
+		$directives[] = new Directive( [
+			'name' => 'extends',
+			'locations' => [
+				DirectiveLocation::OBJECT,
+				DirectiveLocation::IFACE,
+			],
+		] );
+		$schema->getConfig()->setDirectives( $directives );
+
+		// Rebuild the schema to ensure everything is up to date.
+		return new Schema( $schema->getConfig() );
 	}
 
 	private function getPageTypes() {
