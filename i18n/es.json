@@ -4,7 +4,16 @@
 			"Fitoschido"
 		]
 	},
+	"graphql": "GraphQL",
+	"graphqlsandbox": "Zona de pruebas de GraphQL",
 	"graphql-special-query": "Consulta",
 	"graphql-special-variables": "Variables",
-	"graphql-special-result": "Resultado"
+	"graphql-special-result": "Resultado",
+	"graphql-type-mediawiki-page-desc": "Interfaz de páginas de MediaWiki",
+	"graphql-type-mediawiki-ns-desc": "Interfaz de espacios de nombres de MediaWiki",
+	"graphql-type-mediawiki-page-revisions-desc": "Interfaz de revisiones de MediaWiki",
+	"graphql-type-mediawiki-revision-desc": "Interfaz de revisiones de MediaWiki",
+	"graphql-type-mediawiki-query-desc": "Interfaz de espacios de nombres de MediaWiki",
+	"graphql-page-error-nosource": "Debe especificarse un identificador o un título.",
+	"graphql-page-error-multisource": "No pueden utilizarse a la vez el identificador y el título."
 }
