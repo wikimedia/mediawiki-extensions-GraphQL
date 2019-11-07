@@ -1,0 +1,24 @@
+{
+	"@metadata": {
+		"authors": [
+			"Jon Harald Søby"
+		]
+	},
+	"graphql": "GraphQL",
+	"graphqlsandbox": "GraphQL-sandkasse",
+	"graphql-desc": "GraphQL-proxy for handlings-API-et",
+	"graphql-special-query": "Spørring",
+	"graphql-special-variables": "Variabler",
+	"graphql-special-result": "Resultat",
+	"graphql-type-mediawiki-page-desc": "MediaWiki-sidegrensesnitt",
+	"graphql-type-mediawiki-ns-desc": "MediaWiki-navneromsgrensesnitt",
+	"graphql-type-mediawiki-page-revisions-desc": "MediaWiki-siderevisjonsgrensesnitt",
+	"graphql-type-mediawiki-revision-desc": "MediaWiki-revisjonsgrensesnitt",
+	"graphql-type-mediawiki-query-desc": "MediaWiki-navneromsgrensesnitt",
+	"graphql-page-error-nosource": "Må angi ID eller tittel.",
+	"graphql-page-error-multisource": "Kan ikke bruke ID og tittel sammen.",
+	"graphql-sandbox-jsonly": "JavaScript kreves for å bruke GraphQL-sandkassen.",
+	"graphql-schema-error-no-composite-fields": "$1 kan kun bruke grensesnitt eller skalarfelt. Feltet $2 bruker $3 i stedet.",
+	"graphql-schema-error-missing-field-interface": "$2 er ikke del av noen grensesnitt implementert for $1",
+	"graphql-schema-error-modified-interface": "$1 har blitt endret eller mangler fra skjemaet."
+}
