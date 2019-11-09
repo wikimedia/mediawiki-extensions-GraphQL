@@ -16,7 +16,7 @@ class QueryInterfaceType extends InterfaceType {
 	public function __construct( InterfaceType $pageInterface, array $config = [] ) {
 		$default = [
 			'name' => 'MediaWikiQuery',
-			'description' => wfMessage( 'graphql-type-mediawiki-query-desc' ),
+			'description' => wfMessage( 'graphql-type-mediawiki-query-desc' )->text(),
 			'fields' => [
 				'page' => [
 					'type' => $pageInterface,
