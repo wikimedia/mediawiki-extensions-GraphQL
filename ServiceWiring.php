@@ -1,6 +1,7 @@
 <?php
 
 use GraphQL\Type\Schema;
+use MediaWiki\Config\ServiceOptions;
 use MediaWiki\GraphQL\SchemaFactory;
 use MediaWiki\GraphQL\Source\Api;
 use MediaWiki\MediaWikiServices;
@@ -89,6 +90,7 @@ return [
 	},
 	'GraphQLSchemaFactory' => function ( MediaWikiServices $services ) : SchemaFactory  {
 		return new SchemaFactory(
+			WikiMap::getCurrentWikiDbDomain()->getId(),
 			$services->getService( 'GraphQLMediaWikiQueryInterfaceType' ),
 			$services->getService( 'GraphQLMediaWikiPageInterfaceType' ),
 			$services->getService( 'GraphQLMediaWikiNamespaceInterfaceType' ),
@@ -97,7 +99,7 @@ return [
 			$services->getService( 'GraphQLMediaWikiRevisionSlotInterfaceType' ),
 			$services->getService( 'GraphQLMediaWikiUserInterfaceType' ),
 			$services->getService( 'NamespaceInfo' ),
-			$services->getService( 'MainConfig' )->get( 'GraphQLValidateSchema' )
+			new ServiceOptions( SchemaFactory::CONSTRUCTOR_OPTIONS, $services->getMainConfig() )
 		);
 	},
 	'GraphQLSchema' => function ( MediaWikiServices $services ) : Schema {
