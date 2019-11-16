@@ -3,6 +3,7 @@
 namespace MediaWiki\GraphQL\Tests;
 
 use GraphQL\Type\Schema;
+use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Revision\SlotRoleRegistry;
 use MediaWiki\GraphQL\SchemaFactory;
 use MediaWiki\GraphQL\Type\MediaWiki\QueryInterfaceType;
@@ -46,8 +47,12 @@ class SchemaFactoryTest extends \MediaWikiTestCase {
 					NS_MAIN => '',
 					NS_TALK => 'Talk',
 			] );
+		$options = $this->createMock( ServiceOptions::class );
+		$options->method( 'get' )
+			->willReturn( true );
 
 		 $factory = new SchemaFactory(
+			 'test',
 			 $query,
 			 $page,
 			 $namepsace,
@@ -56,7 +61,7 @@ class SchemaFactoryTest extends \MediaWikiTestCase {
 			 $revisionSlot,
 			 $user,
 			 $namespaceInfo,
-			 true
+			 $options
 		 );
 
 		 $this->assertInstanceOf( Schema::class, $factory->create() );

@@ -2,6 +2,7 @@
 
 namespace MediaWiki\GraphQL;
 
+use MediaWiki\Config\ServiceOptions;
 use GraphQL\Error\InvariantViolation;
 use GraphQL\Type\Schema;
 use GraphQL\Language\AST\DirectiveNode;
@@ -21,6 +22,18 @@ use MediaWiki\GraphQL\Type\MediaWiki\PageInterfaceType;
 
 // @TODO Write a test to build the schema and validate it.
 class SchemaFactory {
+
+	/**
+	 * @var array
+	 */
+	public const CONSTRUCTOR_OPTIONS = [
+		'GraphQLValidateSchema'
+	];
+
+	/**
+	 * @var string
+	 */
+	private $wikiId;
 
 	/**
 	 * @var InterfaceType
@@ -53,13 +66,14 @@ class SchemaFactory {
 	private $namespaceInfo;
 
 	/**
-	 * @var bool
+	 * @var ServiceOptions
 	 */
-	private $validateSchema;
+	private $options;
 
 	/**
 	 * Shema Factory.
 	 *
+	 * @param string $wikiId
 	 * @param InterfaceType $query
 	 * @param InterfaceType $page
 	 * @param InterfaceType $namespace
@@ -68,9 +82,10 @@ class SchemaFactory {
 	 * @param InterfaceType $revisionSlot
 	 * @param InterfaceType $user
 	 * @param \NamespaceInfo $namespaceInfo
-	 * @param bool $validate
+	 * @param ServiceOptions $options
 	 */
 	public function __construct(
+		string $wikiId,
 		InterfaceType $query,
 		PageInterfaceType $page,
 		InterfaceType $namespace,
@@ -79,8 +94,9 @@ class SchemaFactory {
 		InterfaceType $revisionSlot,
 		InterfaceType $user,
 		\NamespaceInfo $namespaceInfo,
-		$validate
+		ServiceOptions $options
 	) {
+		$this->wikiId = $wikiId;
 		$this->query = $query;
 		$this->page = $page;
 		$this->namespace = $namespace;
@@ -89,7 +105,7 @@ class SchemaFactory {
 		$this->revisionSlot = $revisionSlot;
 		$this->user = $user;
 		$this->namespaceInfo = $namespaceInfo;
-		$this->validate = $validate;
+		$this->options = $options;
 	}
 
 	/**
@@ -150,7 +166,7 @@ class SchemaFactory {
 		$interfaces = [];
 
 		// Validation should be disabled in production because it is expensive!
-		if ( $this->validate ) {
+		if ( $this->options->get( 'GraphQLValidateSchema' ) === true ) {
 			// Create a new schema object here, because it will have to be rebuilt
 			// after the hook.
 			$interfaces = array_filter( ( new Schema( $config ) )->getTypeMap(), function ( $type ) {
@@ -163,7 +179,7 @@ class SchemaFactory {
 		$schema = new Schema( $config );
 
 		// Validation should be disabled in production because it is expensive!
-		if ( $this->validate ) {
+		if ( $this->options->get( 'GraphQLValidateSchema' ) === true ) {
 			$schema->assertValid();
 
 			// Esnure that the interfaces still exist and have not been modified.
@@ -183,6 +199,8 @@ class SchemaFactory {
 		}
 
 		// Apollo Federation
+		$federatedConfig = clone $schema->getConfig();
+
 		$any = new StringType( [
 			'name' => '_Any',
 		] );
@@ -223,9 +241,25 @@ class SchemaFactory {
 		$fields = [
 			'_service' => [
 				'type' => $service,
-				'resolve' => function ( $rootValue, $args, $context, ResolveInfo $info ) {
+				'resolve' => function ( $rootValue, $args, $context, ResolveInfo $info ) use ( $schema ) {
+					$distributedConfig = clone $schema->getConfig();
+
+					$wikiQuery = new ObjectType( array_merge( $distributedConfig->getQuery()->config, [
+						'name' => ucfirst( $this->wikiId ) . 'Query',
+					] ) );
+					$query = new ObjectType( [
+						'name' => 'Query',
+						'fields' => [
+							$this->wikiId => [
+								'type' => $wikiQuery,
+							],
+						],
+					] );
+
+					$distributedConfig->setQuery( $query );
+
 					return [
-						'sdl' => SchemaPrinter::doPrint( $info->schema ),
+						'sdl' => SchemaPrinter::doPrint( new Schema( $distributedConfig ) ),
 					];
 				}
 			],
@@ -266,16 +300,16 @@ class SchemaFactory {
 			];
 		}
 
-		$types = $schema->getConfig()->getTypes();
+		$types = $federatedConfig->getTypes();
 		$types[] = $any;
 		$types[] = $fieldset;
 		$schema->getConfig()->setTypes( $types );
 
-		$query = $schema->getConfig()->getQuery()->config;
+		$query = $federatedConfig->getQuery()->config;
 		$query['fields'] = array_merge( $query['fields'], $fields );
-		$schema->getConfig()->setQuery( new ObjectType( $query ) );
+		$federatedConfig->setQuery( new ObjectType( $query ) );
 
-		$directives = $schema->getConfig()->getDirectives();
+		$directives = $federatedConfig->getDirectives();
 		$directives[] = new Directive( [
 			'name' => 'external',
 			'locations' => [
@@ -334,10 +368,10 @@ class SchemaFactory {
 				DirectiveLocation::IFACE,
 			],
 		] );
-		$schema->getConfig()->setDirectives( $directives );
+		$federatedConfig->setDirectives( $directives );
 
 		// Rebuild the schema to ensure everything is up to date.
-		return new Schema( $schema->getConfig() );
+		return new Schema( $federatedConfig );
 	}
 
 	private function getPageTypes() {
