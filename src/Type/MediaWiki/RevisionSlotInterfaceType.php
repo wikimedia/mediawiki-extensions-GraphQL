@@ -84,8 +84,9 @@ class RevisionSlotInterfaceType extends InterfaceType {
 					'resolve' => $getProperty,
 				],
 			],
-			'resolveType' => function () {
-				return 'RevisionSlot';
+			'resolveType' => function ( $value, $context ) {
+				$prefix = $context['prefix'] ?? '';
+				return $prefix . 'RevisionSlot';
 			},
 		];
 

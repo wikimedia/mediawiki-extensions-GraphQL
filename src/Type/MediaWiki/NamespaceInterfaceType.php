@@ -80,8 +80,9 @@ class NamespaceInterfaceType extends InterfaceType {
 					'resolve' => $getProperty,
 				],
 			],
-			'resolveType' => function () {
-				return 'Namespace';
+			'resolveType' => function ( $value, $context ) {
+				$prefix = $context['prefix'] ?? '';
+				return $prefix . 'Namespace';
 			},
 		];
 

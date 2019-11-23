@@ -61,8 +61,9 @@ class UserInterfaceType extends InterfaceType {
 					'resolve' => $getProperty,
 				],
 			],
-			'resolveType' => function () {
-				return 'User';
+			'resolveType' => function ( $value, $context ) {
+				$prefix = $context['prefix'] ?? '';
+				return $prefix . 'User';
 			},
 		];
 

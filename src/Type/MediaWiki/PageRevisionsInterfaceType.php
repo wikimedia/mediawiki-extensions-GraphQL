@@ -47,8 +47,9 @@ class PageRevisionsInterfaceType extends InterfaceType {
 					'type' => Type::listOf( Type::nonNull( $revisionType ) ),
 				],
 			],
-			'resolveType' => function () {
-				return 'PageRevisions';
+			'resolveType' => function ( $value, $context ) {
+				$prefix = $context['prefix'] ?? '';
+				return $prefix . 'PageRevisions';
 			},
 		];
 

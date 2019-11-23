@@ -1,11 +1,11 @@
 <?php
 
-namespace MediaWiki\GraphQL\Tests;
+namespace MediaWiki\GraphQL\Tests\Schema;
 
 use GraphQL\Type\Schema;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Revision\SlotRoleRegistry;
-use MediaWiki\GraphQL\SchemaFactory;
+use MediaWiki\GraphQL\Schema\SchemaFactory;
 use MediaWiki\GraphQL\Type\MediaWiki\QueryInterfaceType;
 use MediaWiki\GraphQL\Type\MediaWiki\NamespaceInterfaceType;
 use MediaWiki\GraphQL\Type\MediaWiki\PageInterfaceType;
@@ -21,7 +21,7 @@ use Overblog\DataLoader\Promise\Adapter\Webonyx\GraphQL\SyncPromiseAdapter;
  */
 class SchemaFactoryTest extends \MediaWikiTestCase {
 	/**
-	 * @covers MediaWiki\GraphQL\SchemaFactory::create
+	 * @covers MediaWiki\GraphQL\Schema\SchemaFactory::create
 	 */
 	public function testCreate() {
 		 $api = $this->createMock( Api::class );
@@ -52,7 +52,6 @@ class SchemaFactoryTest extends \MediaWikiTestCase {
 			->willReturn( true );
 
 		 $factory = new SchemaFactory(
-			 'test',
 			 $query,
 			 $page,
 			 $namepsace,

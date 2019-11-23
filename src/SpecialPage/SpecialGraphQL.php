@@ -4,7 +4,7 @@ namespace MediaWiki\GraphQL\SpecialPage;
 
 use GraphQL\GraphQL;
 use GraphQL\Executor\Promise\PromiseAdapter;
-use GraphQL\Type\Schema;
+use MediaWiki\GraphQL\Schema\Factory;
 use MediaWiki\Linker\LinkRenderer;
 
 class SpecialGraphQL extends \UnlistedSpecialPage {
@@ -15,14 +15,14 @@ class SpecialGraphQL extends \UnlistedSpecialPage {
 	protected $promise;
 
 	/**
-	 * @var Schema;
+	 * @var Factory
 	 */
-	protected $schema;
+	protected $schemaFactory;
 
 	/**
-	 * @var array;
+	 * @var Factory
 	 */
-	protected $result;
+	protected $federatedSchemaFactory;
 
 	/**
 	 * @inheritDoc
@@ -34,12 +34,15 @@ class SpecialGraphQL extends \UnlistedSpecialPage {
 	public function __construct(
 		LinkRenderer $linkRenderer,
 		PromiseAdapter $promise,
-		Schema $schema
+		Factory $schemaFactory,
+		Factory $federatedSchemaFactory
+
 	) {
 		parent::__construct( 'GraphQL' );
 
 		$this->promise = $promise;
-		$this->schema = $schema;
+		$this->schemaFactory = $schemaFactory;
+		$this->federatedSchemaFactory = $federatedSchemaFactory;
 
 		$this->setLinkRenderer( $linkRenderer );
 	}
@@ -80,14 +83,24 @@ class SpecialGraphQL extends \UnlistedSpecialPage {
 			}
 		}
 
+		$schema = $subPage === 'Federation'
+			? $this->federatedSchemaFactory->create()
+			: $this->schemaFactory->create();
+
+		$prefix = $subPage === 'Federation'
+			? $this->federatedSchemaFactory->getPrefix()
+			: '';
+
 		$result = [];
 		try {
 			$promise = GraphQL::promiseToExecute(
 				$this->promise,
-				$this->schema,
+				$schema,
 				$query,
 				null,
-				null,
+				[
+					'prefix' => $prefix,
+				],
 				$variables
 			);
 			$result = $this->promise->wait( $promise );

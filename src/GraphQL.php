@@ -15,13 +15,20 @@ class GraphQL {
 	 * @return void
 	 */
 	public static function onWebRequestPathInfoRouter( \PathRouter $router ) {
-		// Get localized title!
-		$title = \SpecialPage::getTitleValueFor( 'GraphQL' );
-		$text = MediaWikiServices::getInstance()->getTitleFormatter()->getFullText( $title );
+		$routes = [
+			'/graphql' => [ 'GraphQL' ],
+			'/graphql/federation' => [ 'GraphQL', 'Federation' ],
+		];
 
-		$router->addStrict( '/graphql', [
-			'title' => $text,
-		] );
+		foreach ( $routes as $route => $value ) {
+			// Get localized title!
+			$title = \SpecialPage::getTitleValueFor( ...$value );
+			$text = MediaWikiServices::getInstance()->getTitleFormatter()->getFullText( $title );
+
+			$router->addStrict( $route, [
+				'title' => $text,
+			] );
+		}
 	}
 
 	/**

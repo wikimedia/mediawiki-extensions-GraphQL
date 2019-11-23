@@ -1,8 +1,8 @@
 <?php
 
-use GraphQL\Type\Schema;
 use MediaWiki\Config\ServiceOptions;
-use MediaWiki\GraphQL\SchemaFactory;
+use MediaWiki\GraphQL\Schema\FederatedSchemaFactory;
+use MediaWiki\GraphQL\Schema\SchemaFactory;
 use MediaWiki\GraphQL\Source\Api;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\GraphQL\SpecialPage\SpecialGraphQL;
@@ -90,7 +90,6 @@ return [
 	},
 	'GraphQLSchemaFactory' => function ( MediaWikiServices $services ) : SchemaFactory  {
 		return new SchemaFactory(
-			WikiMap::getCurrentWikiDbDomain()->getId(),
 			$services->getService( 'GraphQLMediaWikiQueryInterfaceType' ),
 			$services->getService( 'GraphQLMediaWikiPageInterfaceType' ),
 			$services->getService( 'GraphQLMediaWikiNamespaceInterfaceType' ),
@@ -102,21 +101,26 @@ return [
 			new ServiceOptions( SchemaFactory::CONSTRUCTOR_OPTIONS, $services->getMainConfig() )
 		);
 	},
-	'GraphQLSchema' => function ( MediaWikiServices $services ) : Schema {
-		return $services->getService( 'GraphQLSchemaFactory' )->create();
+	'GraphQLFederatedSchemaFactory' =>
+	function ( MediaWikiServices $services ) : FederatedSchemaFactory  {
+		return new FederatedSchemaFactory(
+			WikiMap::getCurrentWikiDbDomain()->getId(),
+			$services->getService( 'GraphQLSchemaFactory' )
+		);
 	},
 	'SpecialGraphQL' => function ( MediaWikiServices $services ) : SpecialGraphQL {
 		return new SpecialGraphQL(
 			$services->getService( 'LinkRenderer' ),
 			$services->getService( 'GraphQLPromiseAdapter' ),
-			$services->getService( 'GraphQLSchema' )
+			$services->getService( 'GraphQLSchemaFactory' ),
+			$services->getService( 'GraphQLFederatedSchemaFactory' )
 		);
 	},
 	'SpecialGraphQLSandbox' => function ( MediaWikiServices $services ) : SpecialGraphQLSandbox {
 		return new SpecialGraphQLSandbox(
 			$services->getService( 'LinkRenderer' ),
 			$services->getService( 'GraphQLPromiseAdapter' ),
-			$services->getService( 'GraphQLSchema' )
+			$services->getService( 'GraphQLSchemaFactory' )
 		);
 	},
 ];

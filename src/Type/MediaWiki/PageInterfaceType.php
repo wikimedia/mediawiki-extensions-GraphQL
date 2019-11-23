@@ -197,7 +197,9 @@ class PageInterfaceType extends InterfaceType {
 					}
 				],
 			],
-			'resolveType' => function ( $page ) {
+			'resolveType' => function ( $page, $prefix ) {
+				$prefix = $context['prefix'] ?? '';
+
 				return $this->getPageData( $page )->then( function ( $page ) {
 					if ( $page === null ) {
 						return null;
@@ -209,7 +211,9 @@ class PageInterfaceType extends InterfaceType {
 						return null;
 					}
 
-					return $this->pageTypes[ $ns ] ?? null;
+					$pageType = $this->pageTypes[ $ns ] ?? null;
+
+					return $pageType ? $prefix . $pageType : null;
 				} );
 			},
 		];

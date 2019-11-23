@@ -96,98 +96,101 @@ class RevisionInterfaceType extends InterfaceType {
 		$default = [
 			'name' => 'MediaWikiRevision',
 			'description' => wfMessage( 'graphql-type-mediawiki-revision-desc' )->text(),
-			'fields' => [
-				'revid' => [
-					'type' => Type::int(),
-					'resolve' => $getProperty,
-				],
-				'parent' => [
-					'type' => $this,
-					'resolve' => $getProperty,
-				],
-				'user' => [
-					'type' => $userType,
-					'resolve' => $getProperty,
-				],
-				'anon' => [
-					'type' => Type::boolean(),
-					'resolve' => $getProperty,
-				],
-				'timestamp' => [
-					'type' => Type::string(),
-					'resolve' => $getProperty
-				],
-				'size' => [
-					'type' => Type::int(),
-					'resolve' => $getProperty,
-				],
-				'sha1' => [
-					'type' => Type::string(),
-					'resolve' => $getProperty,
-				],
-				'comment' => [
-					'type' => Type::string(),
-					'resolve' => $getProperty
-				],
-				'parsedcomment' => [
-					'type' => Type::string(),
-					'resolve' => $getProperty
-				],
-				'tags' => [
-					'type' => Type::listOf( Type::nonNull( Type::string() ) ),
-					'resolve' => $getProperty
-				],
-				'roles' => [
-					'type' => Type::listOf( Type::nonNull( Type::string() ) ),
-					'resolve' => $getProperty
-				],
-				'slot' => [
-					'type' => $slotType,
-					'args' => [
-						'role' => [
-							'type' => Type::nonNull( Type::string() ),
-						],
+			'fields' => function () use ( $getProperty, $userType, $slotType, $slotRoleRegistery ) {
+				return [
+					'revid' => [
+						'type' => Type::int(),
+						'resolve' => $getProperty,
 					],
-					'resolve' => function ( $revision, $args ) use ( $slotRoleRegistery ) {
-						if (
-							isset( $args['role'] )
-							&& in_array( $args['role'], $slotRoleRegistery->getKnownRoles() )
-						) {
-							return [
-								'_role' => $args['role'],
-								'_revid' => $revision['revid'],
-							];
-						}
-
-						return null;
-					},
-				],
-				'slots' => [
-					'type' => Type::nonNull( Type::listOf( $slotType ) ),
-					'args' => [
-						'role' => [
-							'type' => Type::listOf( Type::string() ),
-						],
+					'parent' => [
+						'type' => $this,
+						'resolve' => $getProperty,
 					],
-					'resolve' => function ( $revision, $args ) use ( $slotRoleRegistery ) {
-						$roles = [];
-						if ( !isset( $args['role'] ) ) {
-							$roles = $slotRoleRegistery->getKnownRoles();
-						} else {
-							$roles = array_intersect( $args['role'], $slotRoleRegistery->getKnownRoles() );
-						}
+					'user' => [
+						'type' => $userType,
+						'resolve' => $getProperty,
+					],
+					'anon' => [
+						'type' => Type::boolean(),
+						'resolve' => $getProperty,
+					],
+					'timestamp' => [
+						'type' => Type::string(),
+						'resolve' => $getProperty
+					],
+					'size' => [
+						'type' => Type::int(),
+						'resolve' => $getProperty,
+					],
+					'sha1' => [
+						'type' => Type::string(),
+						'resolve' => $getProperty,
+					],
+					'comment' => [
+						'type' => Type::string(),
+						'resolve' => $getProperty
+					],
+					'parsedcomment' => [
+						'type' => Type::string(),
+						'resolve' => $getProperty
+					],
+					'tags' => [
+						'type' => Type::listOf( Type::nonNull( Type::string() ) ),
+						'resolve' => $getProperty
+					],
+					'roles' => [
+						'type' => Type::listOf( Type::nonNull( Type::string() ) ),
+						'resolve' => $getProperty
+					],
+					'slot' => [
+						'type' => $slotType,
+						'args' => [
+							'role' => [
+								'type' => Type::nonNull( Type::string() ),
+							],
+						],
+						'resolve' => function ( $revision, $args ) use ( $slotRoleRegistery ) {
+							if (
+								isset( $args['role'] )
+								&& in_array( $args['role'], $slotRoleRegistery->getKnownRoles() )
+							) {
+								return [
+									'_role' => $args['role'],
+									'_revid' => $revision['revid'],
+								];
+							}
 
-						return array_map( function ( $role ) use ( $revision ) {
-							return [
-								'_role' => $role,
-								'_revid' => $revision['revid'],
-							];
-						}, $roles );
-					},
-				],
-			],
-			'resolveType' => function () {
-				return 'Revision';
+							return null;
+						},
+					],
+					'slots' => [
+						'type' => Type::nonNull( Type::listOf( $slotType ) ),
+						'args' => [
+							'role' => [
+								'type' => Type::listOf( Type::string() ),
+							],
+						],
+						'resolve' => function ( $revision, $args ) use ( $slotRoleRegistery ) {
+							$roles = [];
+							if ( !isset( $args['role'] ) ) {
+								$roles = $slotRoleRegistery->getKnownRoles();
+							} else {
+								$roles = array_intersect( $args['role'], $slotRoleRegistery->getKnownRoles() );
+							}
+
+							return array_map( function ( $role ) use ( $revision ) {
+								return [
+									'_role' => $role,
+									'_revid' => $revision['revid'],
+								];
+							}, $roles );
+						},
+					],
+				];
+			},
+			'resolveType' => function ( $value, $context ) {
+				$prefix = $context['prefix'] ?? '';
+				return $prefix . 'Revision';
 			},
 		];
 

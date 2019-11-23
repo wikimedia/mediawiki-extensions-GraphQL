@@ -47,8 +47,9 @@ class QueryInterfaceType extends InterfaceType {
 					}
 				],
 			],
-			'resolveType' => function () {
-				return 'Query';
+			'resolveType' => function ( $value, $context ) {
+				$prefix = $context['prefix'] ?? '';
+				return $prefix . 'Query';
 			},
 		];
 
