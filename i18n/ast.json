@@ -1,0 +1,21 @@
+{
+	"@metadata": {
+		"authors": [
+			"Xuacu"
+		]
+	},
+	"graphql": "GraphQL",
+	"graphqlsandbox": "Zona de pruebes de GraphQL",
+	"graphql-desc": "Proxy de GraphQL pa la API d'aición",
+	"graphql-special-query": "Consulta",
+	"graphql-special-variables": "Variables",
+	"graphql-special-result": "Resultáu",
+	"graphql-type-mediawiki-page-desc": "Interfaz de páxines de MediaWiki",
+	"graphql-type-mediawiki-ns-desc": "Interfaz del espaciu de nomes de MediaWiki",
+	"graphql-type-mediawiki-page-revisions-desc": "Interfaz de revisiones de páxines de MediaWiki",
+	"graphql-type-mediawiki-revision-desc": "Interfaz de revisiones de MediaWiki",
+	"graphql-type-mediawiki-query-desc": "Interfaz del espaciu de nomes de MediaWiki",
+	"graphql-page-error-nosource": "Tienes d'especificar un identificador o un títulu.",
+	"graphql-page-error-multisource": "Nun pueden utilizase al empar l'identificador y el títulu.",
+	"graphql-sandbox-jsonly": "Ríquese JavaScript pa usar la zona de pruebes de GraphQL."
+}
