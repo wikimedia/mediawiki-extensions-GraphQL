@@ -4,7 +4,6 @@ use MediaWiki\Config\ServiceOptions;
 use MediaWiki\GraphQL\Schema\FederatedSchemaFactory;
 use MediaWiki\GraphQL\Schema\SchemaFactory;
 use MediaWiki\GraphQL\Source\Api;
-use MediaWiki\MediaWikiServices;
 use MediaWiki\GraphQL\SpecialPage\SpecialGraphQL;
 use MediaWiki\GraphQL\SpecialPage\SpecialGraphQLSandbox;
 use MediaWiki\GraphQL\Type\MediaWiki\NamespaceInterfaceType;
@@ -14,6 +13,7 @@ use MediaWiki\GraphQL\Type\MediaWiki\QueryInterfaceType;
 use MediaWiki\GraphQL\Type\MediaWiki\RevisionInterfaceType;
 use MediaWiki\GraphQL\Type\MediaWiki\RevisionSlotInterfaceType;
 use MediaWiki\GraphQL\Type\MediaWiki\UserInterfaceType;
+use MediaWiki\MediaWikiServices;
 use Overblog\DataLoader\Promise\Adapter\Webonyx\GraphQL\SyncPromiseAdapter;
 use Overblog\PromiseAdapter\Adapter\WebonyxGraphQLSyncPromiseAdapter;
 

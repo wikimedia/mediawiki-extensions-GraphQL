@@ -3,8 +3,8 @@
 namespace MediaWiki\GraphQL\Type;
 
 use GraphQL\Error\InvariantViolation;
-use GraphQL\Type\Definition\LeafType;
 use GraphQL\Type\Definition\InterfaceType as GraphQLInterfaceType;
+use GraphQL\Type\Definition\LeafType;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\UnionType;
 use GraphQL\Type\Definition\WrappingType;

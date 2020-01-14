@@ -2,8 +2,8 @@
 
 namespace MediaWiki\GraphQL\SpecialPage;
 
-use GraphQL\GraphQL;
 use GraphQL\Executor\Promise\PromiseAdapter;
+use GraphQL\GraphQL;
 use MediaWiki\GraphQL\Schema\Factory;
 use MediaWiki\Linker\LinkRenderer;
 
@@ -75,7 +75,7 @@ class SpecialGraphQL extends \UnlistedSpecialPage {
 			$query = $this->getRequest()->getVal( 'query' );
 			$variables = $this->getRequest()->getVal( 'variables', null );
 			// Parse the variables as JSON.
-			if ( !is_null( $variables ) ) {
+			if ( $variables !== null ) {
 				$variables = \FormatJson::parse(
 					$this->getRequest()->getVal( 'variables', null ),
 					\FormatJson::FORCE_ASSOC

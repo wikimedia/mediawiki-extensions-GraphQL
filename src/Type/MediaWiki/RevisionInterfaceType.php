@@ -5,9 +5,9 @@ namespace MediaWiki\GraphQL\Type\MediaWiki;
 use GraphQL\Executor\Promise\PromiseAdapter;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
-use MediaWiki\Revision\SlotRoleRegistry;
-use MediaWiki\GraphQL\Type\InterfaceType;
 use MediaWiki\GraphQL\Source\ApiSource;
+use MediaWiki\GraphQL\Type\InterfaceType;
+use MediaWiki\Revision\SlotRoleRegistry;
 
 class RevisionInterfaceType extends InterfaceType {
 

@@ -2,15 +2,15 @@
 
 namespace MediaWiki\GraphQL\Schema;
 
-use GraphQL\Type\Schema;
 use GraphQL\Language\DirectiveLocation;
 use GraphQL\Type\Definition\Directive;
-use GraphQL\Type\Definition\ResolveInfo;
-use GraphQL\Type\Definition\UnionType;
-use GraphQL\Type\Definition\Type;
-use GraphQL\Utils\SchemaPrinter;
-use GraphQL\Type\Definition\StringType;
 use GraphQL\Type\Definition\ObjectType as GraphQLObjectType;
+use GraphQL\Type\Definition\ResolveInfo;
+use GraphQL\Type\Definition\StringType;
+use GraphQL\Type\Definition\Type;
+use GraphQL\Type\Definition\UnionType;
+use GraphQL\Type\Schema;
+use GraphQL\Utils\SchemaPrinter;
 use MediaWiki\GraphQL\Type\ObjectType;
 
 class FederatedSchemaFactory implements Factory {

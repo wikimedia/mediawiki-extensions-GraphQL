@@ -2,9 +2,9 @@
 
 namespace MediaWiki\GraphQL;
 
-use MediaWiki\MediaWikiServices;
 use MediaWiki\GraphQL\SpecialPage\SpecialGraphQL;
 use MediaWiki\GraphQL\SpecialPage\SpecialGraphQLSandbox;
+use MediaWiki\MediaWikiServices;
 
 class GraphQL {
 

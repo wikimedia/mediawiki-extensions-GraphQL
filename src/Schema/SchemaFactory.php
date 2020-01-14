@@ -2,14 +2,14 @@
 
 namespace MediaWiki\GraphQL\Schema;
 
-use MediaWiki\Config\ServiceOptions;
 use GraphQL\Error\InvariantViolation;
+use GraphQL\Type\Definition\InterfaceType;
 use GraphQL\Type\Schema;
 use GraphQL\Type\SchemaConfig;
-use GraphQL\Type\Definition\InterfaceType;
 use GraphQL\Utils\TypeInfo;
-use MediaWiki\GraphQL\Type\ObjectType;
+use MediaWiki\Config\ServiceOptions;
 use MediaWiki\GraphQL\Type\MediaWiki\PageInterfaceType;
+use MediaWiki\GraphQL\Type\ObjectType;
 
 // @TODO Write a test to build the schema and validate it.
 class SchemaFactory implements Factory {

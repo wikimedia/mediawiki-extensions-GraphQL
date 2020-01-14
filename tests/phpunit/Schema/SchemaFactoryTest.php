@@ -4,16 +4,16 @@ namespace MediaWiki\GraphQL\Tests\Schema;
 
 use GraphQL\Type\Schema;
 use MediaWiki\Config\ServiceOptions;
-use MediaWiki\Revision\SlotRoleRegistry;
 use MediaWiki\GraphQL\Schema\SchemaFactory;
-use MediaWiki\GraphQL\Type\MediaWiki\QueryInterfaceType;
+use MediaWiki\GraphQL\Source\Api;
 use MediaWiki\GraphQL\Type\MediaWiki\NamespaceInterfaceType;
 use MediaWiki\GraphQL\Type\MediaWiki\PageInterfaceType;
 use MediaWiki\GraphQL\Type\MediaWiki\PageRevisionsInterfaceType;
+use MediaWiki\GraphQL\Type\MediaWiki\QueryInterfaceType;
 use MediaWiki\GraphQL\Type\MediaWiki\RevisionInterfaceType;
 use MediaWiki\GraphQL\Type\MediaWiki\RevisionSlotInterfaceType;
 use MediaWiki\GraphQL\Type\MediaWiki\UserInterfaceType;
-use MediaWiki\GraphQL\Source\Api;
+use MediaWiki\Revision\SlotRoleRegistry;
 use Overblog\DataLoader\Promise\Adapter\Webonyx\GraphQL\SyncPromiseAdapter;
 
 /**

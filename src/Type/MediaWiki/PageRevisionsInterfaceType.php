@@ -4,8 +4,8 @@ namespace MediaWiki\GraphQL\Type\MediaWiki;
 
 use GraphQL\Executor\Promise\PromiseAdapter;
 use GraphQL\Type\Definition\Type;
-use MediaWiki\GraphQL\Type\InterfaceType;
 use MediaWiki\GraphQL\Source\ApiSource;
+use MediaWiki\GraphQL\Type\InterfaceType;
 
 class PageRevisionsInterfaceType extends InterfaceType {
 
