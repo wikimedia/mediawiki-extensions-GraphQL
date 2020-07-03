@@ -92,10 +92,12 @@ class Api implements ApiSource {
 	 * @return \ApiMain
 	 */
 	protected function getMain( $params = [] ) {
-		$request = new \FauxRequest(
+		$request = $this->context->getRequest();
+
+		$request = new \DerivativeRequest(
+			$request,
 			$params,
-			$this->context->getRequest()->wasPosted(),
-			$this->context->getRequest()->getSession()
+			$request->wasPosted()
 		);
 		$main = new \ApiMain( $request, true );
 
@@ -175,8 +177,8 @@ class Api implements ApiSource {
 			if ( array_key_exists( $key, $params ) ) {
 				$merge[$key] = $params[$key];
 			} else {
-				if ( !is_array( $option ) ) {
-					$merge[$key] = $option;
+				if ( !is_array( $options ) ) {
+					$merge[$key] = $options;
 				} elseif ( array_key_exists( \ApiBase::PARAM_DFLT, $options ) ) {
 					$merge[$key] = $options[\ApiBase::PARAM_DFLT];
 				}

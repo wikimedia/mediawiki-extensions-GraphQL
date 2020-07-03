@@ -197,10 +197,10 @@ class PageInterfaceType extends InterfaceType {
 					}
 				],
 			],
-			'resolveType' => function ( $page, $prefix ) {
+			'resolveType' => function ( $page, $context ) {
 				$prefix = $context['prefix'] ?? '';
 
-				return $this->getPageData( $page )->then( function ( $page ) {
+				return $this->getPageData( $page )->then( function ( $page ) use ( $prefix ) {
 					if ( $page === null ) {
 						return null;
 					}
