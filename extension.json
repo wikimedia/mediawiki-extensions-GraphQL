@@ -48,8 +48,17 @@
 	"ServiceWiringFiles": [
 		"./ServiceWiring.php"
 	],
+	"HookHandlers": {
+		"router": {
+			"class": "MediaWiki\\GraphQL\\HookHandler\\Router",
+			"services": [
+				"SpecialPageFactory",
+				"TitleFormatter"
+			]
+		}
+	},
 	"Hooks": {
-		"WebRequestPathInfoRouter": "MediaWiki\\GraphQL\\GraphQL::onWebRequestPathInfoRouter"
+		"WebRequestPathInfoRouter": "router"
 	},
 	"ResourceFileModulePaths": {
 		"localBasePath": "resources",
