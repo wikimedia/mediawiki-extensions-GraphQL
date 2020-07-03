@@ -2,8 +2,6 @@
 
 namespace MediaWiki\GraphQL;
 
-use MediaWiki\GraphQL\SpecialPage\SpecialGraphQL;
-use MediaWiki\GraphQL\SpecialPage\SpecialGraphQLSandbox;
 use MediaWiki\MediaWikiServices;
 
 class GraphQL {
@@ -29,23 +27,5 @@ class GraphQL {
 				'title' => $text,
 			] );
 		}
-	}
-
-	/**
-	 * Gets the special page.
-	 *
-	 * @return SpecialGraphQL
-	 */
-	public static function getSpecialPage() {
-		return MediaWikiServices::getInstance()->getService( 'SpecialGraphQL' );
-	}
-
-	/**
-	 * Gets the sandbox special page.
-	 *
-	 * @return SpecialGraphQLSandbox
-	 */
-	public static function getSandboxSpecialPage() {
-		return MediaWikiServices::getInstance()->getService( 'SpecialGraphQLSandbox' );
 	}
 }

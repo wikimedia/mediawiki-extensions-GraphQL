@@ -4,8 +4,6 @@ use MediaWiki\Config\ServiceOptions;
 use MediaWiki\GraphQL\Schema\FederatedSchemaFactory;
 use MediaWiki\GraphQL\Schema\SchemaFactory;
 use MediaWiki\GraphQL\Source\Api;
-use MediaWiki\GraphQL\SpecialPage\SpecialGraphQL;
-use MediaWiki\GraphQL\SpecialPage\SpecialGraphQLSandbox;
 use MediaWiki\GraphQL\Type\MediaWiki\NamespaceInterfaceType;
 use MediaWiki\GraphQL\Type\MediaWiki\PageInterfaceType;
 use MediaWiki\GraphQL\Type\MediaWiki\PageRevisionsInterfaceType;
@@ -105,21 +103,6 @@ return [
 	function ( MediaWikiServices $services ) : FederatedSchemaFactory  {
 		return new FederatedSchemaFactory(
 			WikiMap::getCurrentWikiDbDomain()->getId(),
-			$services->getService( 'GraphQLSchemaFactory' )
-		);
-	},
-	'SpecialGraphQL' => function ( MediaWikiServices $services ) : SpecialGraphQL {
-		return new SpecialGraphQL(
-			$services->getService( 'LinkRenderer' ),
-			$services->getService( 'GraphQLPromiseAdapter' ),
-			$services->getService( 'GraphQLSchemaFactory' ),
-			$services->getService( 'GraphQLFederatedSchemaFactory' )
-		);
-	},
-	'SpecialGraphQLSandbox' => function ( MediaWikiServices $services ) : SpecialGraphQLSandbox {
-		return new SpecialGraphQLSandbox(
-			$services->getService( 'LinkRenderer' ),
-			$services->getService( 'GraphQLPromiseAdapter' ),
 			$services->getService( 'GraphQLSchemaFactory' )
 		);
 	},

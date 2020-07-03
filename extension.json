@@ -27,8 +27,23 @@
 		"MediaWiki\\GraphQL\\": "src/"
 	},
 	"SpecialPages": {
-		"GraphQL": "MediaWiki\\GraphQL\\GraphQL::getSpecialPage",
-		"GraphQLSandbox": "MediaWiki\\GraphQL\\GraphQL::getSandboxSpecialPage"
+		"GraphQL": {
+			"class":  "MediaWiki\\GraphQL\\SpecialPage\\SpecialGraphQL",
+			"services": [
+				"LinkRenderer",
+				"GraphQLPromiseAdapter",
+				"GraphQLSchemaFactory",
+				"GraphQLFederatedSchemaFactory"
+			]
+		},
+		"GraphQLSandbox": {
+			"class":  "MediaWiki\\GraphQL\\SpecialPage\\SpecialGraphQLSandbox",
+			"services": [
+				"LinkRenderer",
+				"GraphQLPromiseAdapter",
+				"GraphQLSchemaFactory"
+			]
+		}
 	},
 	"ServiceWiringFiles": [
 		"./ServiceWiring.php"
