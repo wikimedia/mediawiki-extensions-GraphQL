@@ -5,6 +5,7 @@ namespace MediaWiki\GraphQL\Schema;
 use GraphQL\Type\Schema;
 use GraphQL\Type\SchemaConfig;
 use MediaWiki\Config\ServiceOptions;
+use MediaWiki\GraphQL\Hook\GraphQLSchemaConfig;
 use MediaWiki\GraphQL\Source\ApiFactory;
 use MediaWiki\GraphQL\Type\MediaWiki\NamespaceTypeFactory;
 use MediaWiki\GraphQL\Type\MediaWiki\PageInterfaceTypeFactory;
@@ -64,6 +65,11 @@ class SchemaFactory {
 	private $userFactory;
 
 	/**
+	 * @var GraphQLSchemaConfig
+	 */
+	private $hookSchemaConfig;
+
+	/**
 	 * @var ServiceOptions
 	 */
 	private $options;
@@ -79,6 +85,7 @@ class SchemaFactory {
 	 * @param RevisionTypeFactory $revisionFactory
 	 * @param RevisionSlotTypeFactory $revisionSlotFactory
 	 * @param UserTypeFactory $userFactory
+	 * @param GraphQLSchemaConfig $hookSchemaConfig
 	 * @param ServiceOptions $options
 	 */
 	public function __construct(
@@ -90,6 +97,7 @@ class SchemaFactory {
 		RevisionTypeFactory $revisionFactory,
 		RevisionSlotTypeFactory $revisionSlotFactory,
 		UserTypeFactory $userFactory,
+		GraphQLSchemaConfig $hookSchemaConfig,
 		ServiceOptions $options
 	) {
 		$this->apiFactory = $apiFactory;
@@ -100,6 +108,7 @@ class SchemaFactory {
 		$this->revisionFactory = $revisionFactory;
 		$this->revisionSlotFactory = $revisionSlotFactory;
 		$this->userFactory = $userFactory;
+		$this->hookSchemaConfig = $hookSchemaConfig;
 		$this->options = $options;
 	}
 
@@ -144,10 +153,7 @@ class SchemaFactory {
 				] ),
 		] );
 
-		$interfaces = [];
-
-		// @TODO Use a hook runner!
-		\Hooks::run( 'GraphQLSchemaConfig', [ $config ] );
+		$this->hookSchemaConfig->onGraphQLSchemaConfig( $config );
 
 		$schema = new Schema( $config );
 
