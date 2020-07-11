@@ -2,13 +2,24 @@
 
 namespace MediaWiki\GraphQL\Type\MediaWiki;
 
+use GraphQL\Executor\Promise\Promise;
 use GraphQL\Executor\Promise\PromiseAdapter;
+use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use MediaWiki\GraphQL\Source\ApiSource;
 use MediaWiki\GraphQL\Type\InterfaceType;
 
 class PageInterfaceType extends InterfaceType {
+	/**
+	 * @var PromiseAdapter
+	 */
+	protected $promise;
+
+	/**
+	 * @var NamespaceInfo
+	 */
+	protected $namespaceInfo;
 
 	/**
 	 * @var ApiSource;
@@ -16,35 +27,43 @@ class PageInterfaceType extends InterfaceType {
 	protected $api;
 
 	/**
-	 * @var PromiseAdapter
+	 * @var string;
 	 */
-	protected $promise;
+	protected $prefix;
 
 	/**
-	 * @var ObjectType[];
+	 * @var ObjectType[]|null;
 	 */
 	protected $pageTypes;
 
 	/**
 	 * {@inheritdoc}
 	 *
-	 * @param ApiSource $api
 	 * @param PromiseAdapter $promise
-	 * @param InterfaceType $namespaceType
-	 * @param InterfaceType $pageRevisionsType
-	 * @param InterfaceType $revisionType
+	 * @param \NamespaceInfo $namespaceInfo
+	 * @param ApiSource $api
+	 * @param NamespaceType $namespaceType
+	 * @param PageRevisionsType $pageRevisionsType
+	 * @param RevisionType $revisionType
+	 * @param \IContextSource $context
+	 * @param string $prefix
 	 * @param array $config
 	 */
 	public function __construct(
-		ApiSource $api,
 		PromiseAdapter $promise,
-		InterfaceType $namespaceType,
-		InterfaceType $pageRevisionsType,
-		InterfaceType $revisionType,
+		\NamespaceInfo $namespaceInfo,
+		ApiSource $api,
+		NamespaceType $namespaceType,
+		PageRevisionsType $pageRevisionsType,
+		RevisionType $revisionType,
+		\IContextSource $context,
+		string $prefix = '',
 		array $config = []
 	) {
-		$this->api = $api;
+		$this->namespaceInfo = $namespaceInfo;
 		$this->promise = $promise;
+		$this->api = $api;
+		$this->prefix = $prefix;
 
 		$getProperty = function ( $page, $args, $context, ResolveInfo $info ) {
 			$fieldName = $info->fieldName;
@@ -94,8 +113,8 @@ class PageInterfaceType extends InterfaceType {
 		};
 
 		$default = [
-			'name' => 'MediaWikiPageType',
-			'description' => wfMessage( 'graphql-type-mediawiki-page-desc' )->text(),
+			'name' => $prefix . 'Page',
+			'description' => $context->msg( 'graphql-type-mediawiki-page-desc' )->text(),
 			'fields' => [
 				'pageid' => [
 					'type' => Type::int(),
@@ -197,10 +216,8 @@ class PageInterfaceType extends InterfaceType {
 					}
 				],
 			],
-			'resolveType' => function ( $page, $context ) {
-				$prefix = $context['prefix'] ?? '';
-
-				return $this->getPageData( $page )->then( function ( $page ) use ( $prefix ) {
+			'resolveType' => function ( $page ) {
+				return $this->getPageData( $page )->then( function ( $page ) {
 					if ( $page === null ) {
 						return null;
 					}
@@ -213,7 +230,7 @@ class PageInterfaceType extends InterfaceType {
 
 					$pageType = $this->pageTypes[ $ns ] ?? null;
 
-					return $pageType ? $prefix . $pageType : null;
+					return $pageType;
 				} );
 			},
 		];
@@ -226,9 +243,9 @@ class PageInterfaceType extends InterfaceType {
 	 *
 	 * @param array $page
 	 * @param array $params
-	 * @return GraphQL\Executor\Promise\Promise
+	 * @return Promise
 	 */
-	protected function makePageRequest( array $page, array $params = [] ) {
+	protected function makePageRequest( array $page, array $params = [] ) : Promise {
 		$params = array_merge( [
 			'action' => 'query',
 		], $params );
@@ -251,7 +268,7 @@ class PageInterfaceType extends InterfaceType {
 	 * @param array $page
 	 * @return array|null
 	 */
-	protected function findPage( $data, $page ) {
+	protected function findPage( array $data, array $page ) : ?array {
 		$pages = $data['query']['pages'] ?? [];
 
 		if ( isset( $page['pageid'] ) ) {
@@ -273,9 +290,9 @@ class PageInterfaceType extends InterfaceType {
 	 *
 	 * @param array $page
 	 * @param array $params
-	 * @return GraphQL\Executor\Promise\Promise
+	 * @return Promise
 	 */
-	protected function getPageData( array $page, array $params = [] ) {
+	protected function getPageData( array $page, array $params = [] ) : Promise {
 		return $this->makePageRequest( $page, $params )
 			->then( function ( $data ) use ( $page ) {
 				return $this->findPage( $data, $page );
@@ -283,12 +300,42 @@ class PageInterfaceType extends InterfaceType {
 	}
 
 	/**
-	 * Set Page Types.
-	 *
-	 * @param ObjectType[] $types
+	 * @inheritDoc
 	 */
-	public function setPageTypes( $types ) {
-		$this->pageTypes = $types;
+	public function getTypes() : array {
+		if ( $this->pageTypes === null ) {
+			$pageTypes = [];
+			foreach ( $this->namespaceInfo->getCanonicalNamespaces() as $ns => $title ) {
+				// Skip special namespaces.
+				if ( $ns < 0 ) {
+					continue;
+				}
+
+				if ( $ns === 0 ) {
+					$title = 'Main';
+				}
+
+				// Change namespaces like User_talk to UserTalk
+				$pieces = explode( '_', $title );
+				$pieces = array_map( function ( $word ) {
+					return ucfirst( $word );
+				}, $pieces );
+				$title = implode( '', $pieces );
+
+				$pageTypes[] = new ObjectType( [
+						'name' => $this->prefix . $title . 'Page',
+						'ns' => $ns,
+						'fields' => $this->getFields(),
+						'interfaces' => [
+							$this,
+						]
+				] );
+			}
+
+			$this->pageTypes = $pageTypes;
+		}
+
+		return $this->pageTypes;
 	}
 
 }

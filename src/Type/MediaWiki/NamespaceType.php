@@ -2,13 +2,18 @@
 
 namespace MediaWiki\GraphQL\Type\MediaWiki;
 
+use GraphQL\Executor\Promise\Promise;
 use GraphQL\Executor\Promise\PromiseAdapter;
+use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use MediaWiki\GraphQL\Source\ApiSource;
-use MediaWiki\GraphQL\Type\InterfaceType;
 
-class NamespaceInterfaceType extends InterfaceType {
+class NamespaceType extends ObjectType {
+	/**
+	 * @var PromiseAdapter
+	 */
+	protected $promise;
 
 	/**
 	 * @var ApiSource;
@@ -16,24 +21,28 @@ class NamespaceInterfaceType extends InterfaceType {
 	protected $api;
 
 	/**
-	 * @var PromiseAdapter
+	 * @var \IContextSource
 	 */
-	protected $promise;
+	protected $context;
 
 	/**
 	 * {@inheritdoc}
 	 *
-	 * @param ApiSource $api
 	 * @param PromiseAdapter $promise
+	 * @param ApiSource $api
+	 * @param \IContextSource $context
+	 * @param string $prefix
 	 * @param array $config
 	 */
 	public function __construct(
-		ApiSource $api,
 		PromiseAdapter $promise,
+		ApiSource $api,
+		\IContextSource $context,
+		string $prefix = '',
 		array $config = []
 	) {
-		$this->api = $api;
 		$this->promise = $promise;
+		$this->api = $api;
 
 		$getProperty = function ( $namespace, $args, $context, ResolveInfo $info ) {
 			$fieldName = $info->fieldName;
@@ -49,8 +58,8 @@ class NamespaceInterfaceType extends InterfaceType {
 		};
 
 		$default = [
-			'name' => 'MediaWikiNamespace',
-			'description' => wfMessage( 'graphql-type-mediawiki-ns-desc' )->text(),
+			'name' => $prefix . 'Namespace',
+			'description' => $context->msg( 'graphql-type-mediawiki-ns-desc' )->text(),
 			'fields' => [
 				'id' => [
 					'type' => Type::int(),
@@ -80,10 +89,6 @@ class NamespaceInterfaceType extends InterfaceType {
 					'resolve' => $getProperty,
 				],
 			],
-			'resolveType' => function ( $value, $context ) {
-				$prefix = $context['prefix'] ?? '';
-				return $prefix . 'Namespace';
-			},
 		];
 
 		parent::__construct( array_merge( $default, $config ) );
@@ -93,9 +98,9 @@ class NamespaceInterfaceType extends InterfaceType {
 	 * Get Namespace.
 	 *
 	 * @param int $ns
-	 * @return GraphQL\Executor\Promise\Promise
+	 * @return Promise
 	 */
-	protected function getNamespace( $ns ) {
+	protected function getNamespace( int $ns ) : Promise {
 		if ( !isset( $ns['id'] ) ) {
 			return $this->promise->createFulfilled( null );
 		}

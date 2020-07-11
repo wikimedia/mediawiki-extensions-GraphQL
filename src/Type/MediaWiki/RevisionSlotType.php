@@ -2,13 +2,18 @@
 
 namespace MediaWiki\GraphQL\Type\MediaWiki;
 
+use GraphQL\Executor\Promise\Promise;
 use GraphQL\Executor\Promise\PromiseAdapter;
+use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use MediaWiki\GraphQL\Source\ApiSource;
-use MediaWiki\GraphQL\Type\InterfaceType;
 
-class RevisionSlotInterfaceType extends InterfaceType {
+class RevisionSlotType extends ObjectType {
+	/**
+	 * @var PromiseAdapter
+	 */
+	protected $promise;
 
 	/**
 	 * @var ApiSource;
@@ -16,24 +21,23 @@ class RevisionSlotInterfaceType extends InterfaceType {
 	protected $api;
 
 	/**
-	 * @var PromiseAdapter
-	 */
-	protected $promise;
-
-	/**
 	 * {@inheritdoc}
 	 *
-	 * @param ApiSource $api
 	 * @param PromiseAdapter $promise
+	 * @param ApiSource $api
+	 * @param \IContextSource $context
+	 * @param string $prefix
 	 * @param array $config
 	 */
 	public function __construct(
-		ApiSource $api,
 		PromiseAdapter $promise,
+		ApiSource $api,
+		\IContextSource $context,
+		string $prefix = '',
 		array $config = []
 	) {
-		$this->api = $api;
 		$this->promise = $promise;
+		$this->api = $api;
 
 		$getProperty = function ( $slot, $args, $context, ResolveInfo $info ) {
 			$fieldName = $info->fieldName;
@@ -60,8 +64,8 @@ class RevisionSlotInterfaceType extends InterfaceType {
 		};
 
 		$default = [
-			'name' => 'MediaWikiRevisionSlot',
-			'description' => wfMessage( 'graphql-type-mediawiki-revision-slot-desc' )->text(),
+			'name' => $prefix . 'RevisionSlot',
+			'description' => $context->msg( 'graphql-type-mediawiki-revision-slot-desc' )->text(),
 			'fields' => [
 				'size' => [
 					'type' => Type::int(),
@@ -84,10 +88,6 @@ class RevisionSlotInterfaceType extends InterfaceType {
 					'resolve' => $getProperty,
 				],
 			],
-			'resolveType' => function ( $value, $context ) {
-				$prefix = $context['prefix'] ?? '';
-				return $prefix . 'RevisionSlot';
-			},
 		];
 
 		parent::__construct( array_merge( $default, $config ) );
@@ -98,9 +98,9 @@ class RevisionSlotInterfaceType extends InterfaceType {
 	 *
 	 * @param array $slot
 	 * @param array $params
-	 * @return GraphQL\Executor\Promise\Promise
+	 * @return Promise
 	 */
-	protected function getSlotData( array $slot, array $params = [] ) {
+	protected function getSlotData( array $slot, array $params = [] ) : Promise {
 		$role = $slot['_role'] ?? null;
 
 		$params = array_merge( [

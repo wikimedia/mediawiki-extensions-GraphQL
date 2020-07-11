@@ -2,21 +2,28 @@
 
 namespace MediaWiki\GraphQL\Type\MediaWiki;
 
+use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
-use MediaWiki\GraphQL\Type\InterfaceType;
 
-class QueryInterfaceType extends InterfaceType {
+class QueryType extends ObjectType {
 
 	/**
 	 * {@inheritdoc}
 	 *
-	 * @param InterfaceType $pageInterface
+	 * @param PageInterfaceType $pageInterface
+	 * @param \IContextSource $context
+	 * @param string $prefix
 	 * @param array $config
 	 */
-	public function __construct( InterfaceType $pageInterface, array $config = [] ) {
+	public function __construct(
+		PageInterfaceType $pageInterface,
+		\IContextSource $context,
+		string $prefix = '',
+		array $config = []
+	) {
 		$default = [
-			'name' => 'MediaWikiQuery',
-			'description' => wfMessage( 'graphql-type-mediawiki-query-desc' )->text(),
+			'name' => $prefix . 'Query',
+			'description' => $context->msg( 'graphql-type-mediawiki-query-desc' )->text(),
 			'fields' => [
 				'page' => [
 					'type' => $pageInterface,
@@ -24,13 +31,16 @@ class QueryInterfaceType extends InterfaceType {
 						'id' => Type::int(),
 						'title' => Type::string(),
 					],
-					'resolve' => function ( $root, $args ) {
+					'resolve' => function ( $root, $args ) use ( $context ) {
 						if ( !isset( $args['id'] ) && !isset( $args['title'] ) ) {
-							throw new UserError( wfMessage( 'graphql-page-error-nosource' )->text(), 'nosource' );
+							throw new UserError( $context->msg( 'graphql-page-error-nosource' )->text(), 'nosource' );
 						}
 
 						if ( isset( $args['id'] ) && isset( $args['title'] ) ) {
-							throw new UserError( wfMessage( 'graphql-page-error-multisource' )->text(), 'multisource' );
+							throw new UserError(
+								$context->msg( 'graphql-page-error-multisource' )->text(),
+								'multisource'
+							);
 						}
 
 						if ( isset( $args['id'] ) ) {
@@ -47,10 +57,6 @@ class QueryInterfaceType extends InterfaceType {
 					}
 				],
 			],
-			'resolveType' => function ( $value, $context ) {
-				$prefix = $context['prefix'] ?? '';
-				return $prefix . 'Query';
-			},
 		];
 
 		parent::__construct( array_merge( $default, $config ) );

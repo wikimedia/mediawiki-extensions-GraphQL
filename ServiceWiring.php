@@ -3,14 +3,14 @@
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\GraphQL\Schema\FederatedSchemaFactory;
 use MediaWiki\GraphQL\Schema\SchemaFactory;
-use MediaWiki\GraphQL\Source\Api;
-use MediaWiki\GraphQL\Type\MediaWiki\NamespaceInterfaceType;
-use MediaWiki\GraphQL\Type\MediaWiki\PageInterfaceType;
-use MediaWiki\GraphQL\Type\MediaWiki\PageRevisionsInterfaceType;
-use MediaWiki\GraphQL\Type\MediaWiki\QueryInterfaceType;
-use MediaWiki\GraphQL\Type\MediaWiki\RevisionInterfaceType;
-use MediaWiki\GraphQL\Type\MediaWiki\RevisionSlotInterfaceType;
-use MediaWiki\GraphQL\Type\MediaWiki\UserInterfaceType;
+use MediaWiki\GraphQL\Source\ApiFactory;
+use MediaWiki\GraphQL\Type\MediaWiki\NamespaceTypeFactory;
+use MediaWiki\GraphQL\Type\MediaWiki\PageInterfaceTypeFactory;
+use MediaWiki\GraphQL\Type\MediaWiki\PageRevisionsTypeFactory;
+use MediaWiki\GraphQL\Type\MediaWiki\QueryTypeFactory;
+use MediaWiki\GraphQL\Type\MediaWiki\RevisionSlotTypeFactory;
+use MediaWiki\GraphQL\Type\MediaWiki\RevisionTypeFactory;
+use MediaWiki\GraphQL\Type\MediaWiki\UserTypeFactory;
 use MediaWiki\MediaWikiServices;
 use Overblog\DataLoader\Promise\Adapter\Webonyx\GraphQL\SyncPromiseAdapter;
 use Overblog\PromiseAdapter\Adapter\WebonyxGraphQLSyncPromiseAdapter;
@@ -25,85 +25,71 @@ return [
 			$services->getService( 'GraphQLPromiseAdapter' )
 		);
 	},
-	'GraphQLSourceApi' => function ( MediaWikiServices $services ) : Api  {
-		return new Api(
-			\RequestContext::getMain(),
+	'GraphQLSourceApiFactory' => function ( MediaWikiServices $services ) : ApiFactory  {
+		return new ApiFactory(
 			$services->getService( 'GraphQLSyncPromiseAdapter' )
 		);
 	},
-	'GraphQLMediaWikiQueryInterfaceType' =>
-	function ( MediaWikiServices $services ) : QueryInterfaceType {
-		return new QueryInterfaceType(
-			$services->getService( 'GraphQLMediaWikiPageInterfaceType' )
-		);
+	'GraphQLMediaWikiQueryTypeFactory' =>
+	function ( MediaWikiServices $services ) : QueryTypeFactory {
+		return new QueryTypeFactory();
 	},
-	'GraphQLMediaWikiPageInterfaceType' =>
-	function ( MediaWikiServices $services ) : PageInterfaceType {
-		return new PageInterfaceType(
-			$services->getService( 'GraphQLSourceApi' ),
+	'GraphQLMediaWikiPageInterfaceTypeFactory' =>
+	function ( MediaWikiServices $services ) : PageInterfaceTypeFactory {
+		return new PageInterfaceTypeFactory(
 			$services->getService( 'GraphQLPromiseAdapter' ),
-			$services->getService( 'GraphQLMediaWikiNamespaceInterfaceType' ),
-			$services->getService( 'GraphQLMediaWikiPageRevisionsInterfaceType' ),
-			$services->getService( 'GraphQLMediaWikiRevisionInterfaceType' )
+			$services->getService( 'NamespaceInfo' )
 		);
 	},
-	'GraphQLMediaWikiPageRevisionsInterfaceType' =>
-	function ( MediaWikiServices $services ) : PageRevisionsInterfaceType  {
-		return new PageRevisionsInterfaceType(
-			$services->getService( 'GraphQLSourceApi' ),
-			$services->getService( 'GraphQLPromiseAdapter' ),
-			$services->getService( 'GraphQLMediaWikiRevisionInterfaceType' )
-		);
-	},
-	'GraphQLMediaWikiRevisionSlotInterfaceType' =>
-	function ( MediaWikiServices $services ) : RevisionSlotInterfaceType  {
-		return new RevisionSlotInterfaceType(
-			$services->getService( 'GraphQLSourceApi' ),
+	'GraphQLMediaWikiPageRevisionsTypeFactory' =>
+	function ( MediaWikiServices $services ) : PageRevisionsTypeFactory  {
+		return new PageRevisionsTypeFactory(
 			$services->getService( 'GraphQLPromiseAdapter' )
 		);
 	},
-	'GraphQLMediaWikiRevisionInterfaceType' =>
-	function ( MediaWikiServices $services ) : RevisionInterfaceType  {
-		return new RevisionInterfaceType(
-			$services->getService( 'GraphQLSourceApi' ),
-			$services->getService( 'GraphQLPromiseAdapter' ),
-			$services->getService( 'SlotRoleRegistry' ),
-			$services->getService( 'GraphQLMediaWikiUserInterfaceType' ),
-			$services->getService( 'GraphQLMediaWikiRevisionSlotInterfaceType' )
-		);
-	},
-	'GraphQLMediaWikiNamespaceInterfaceType' =>
-	function ( MediaWikiServices $services ) : NamespaceInterfaceType  {
-		return new NamespaceInterfaceType(
-			$services->getService( 'GraphQLSourceApi' ),
+	'GraphQLMediaWikiRevisionSlotTypeFactory' =>
+	function ( MediaWikiServices $services ) : RevisionSlotTypeFactory  {
+		return new RevisionSlotTypeFactory(
 			$services->getService( 'GraphQLPromiseAdapter' )
 		);
 	},
-	'GraphQLMediaWikiUserInterfaceType' =>
-	function ( MediaWikiServices $services ) : UserInterfaceType  {
-		return new UserInterfaceType(
-			$services->getService( 'GraphQLSourceApi' ),
+	'GraphQLMediaWikiRevisionTypeFactory' =>
+	function ( MediaWikiServices $services ) : RevisionTypeFactory  {
+		return new RevisionTypeFactory(
+			$services->getService( 'GraphQLPromiseAdapter' ),
+			$services->getService( 'SlotRoleRegistry' )
+		);
+	},
+	'GraphQLMediaWikiNamespaceTypeFactory' =>
+	function ( MediaWikiServices $services ) : NamespaceTypeFactory  {
+		return new NamespaceTypeFactory(
+			$services->getService( 'GraphQLPromiseAdapter' )
+		);
+	},
+	'GraphQLMediaWikiUserTypeFactory' =>
+	function ( MediaWikiServices $services ) : UserTypeFactory  {
+		return new UserTypeFactory(
 			$services->getService( 'GraphQLPromiseAdapter' )
 		);
 	},
 	'GraphQLSchemaFactory' => function ( MediaWikiServices $services ) : SchemaFactory  {
 		return new SchemaFactory(
-			$services->getService( 'GraphQLMediaWikiQueryInterfaceType' ),
-			$services->getService( 'GraphQLMediaWikiPageInterfaceType' ),
-			$services->getService( 'GraphQLMediaWikiNamespaceInterfaceType' ),
-			$services->getService( 'GraphQLMediaWikiPageRevisionsInterfaceType' ),
-			$services->getService( 'GraphQLMediaWikiRevisionInterfaceType' ),
-			$services->getService( 'GraphQLMediaWikiRevisionSlotInterfaceType' ),
-			$services->getService( 'GraphQLMediaWikiUserInterfaceType' ),
-			$services->getService( 'NamespaceInfo' ),
+			$services->getService( 'GraphQLSourceApiFactory' ),
+			$services->getService( 'GraphQLMediaWikiQueryTypeFactory' ),
+			$services->getService( 'GraphQLMediaWikiPageInterfaceTypeFactory' ),
+			$services->getService( 'GraphQLMediaWikiNamespaceTypeFactory' ),
+			$services->getService( 'GraphQLMediaWikiPageRevisionsTypeFactory' ),
+			$services->getService( 'GraphQLMediaWikiRevisionTypeFactory' ),
+			$services->getService( 'GraphQLMediaWikiRevisionSlotTypeFactory' ),
+			$services->getService( 'GraphQLMediaWikiUserTypeFactory' ),
 			new ServiceOptions( SchemaFactory::CONSTRUCTOR_OPTIONS, $services->getMainConfig() )
 		);
 	},
 	'GraphQLFederatedSchemaFactory' =>
 	function ( MediaWikiServices $services ) : FederatedSchemaFactory  {
 		return new FederatedSchemaFactory(
-			WikiMap::getCurrentWikiDbDomain()->getId(),
-			$services->getService( 'GraphQLSchemaFactory' )
+			$services->getService( 'GraphQLSchemaFactory' ),
+			WikiMap::getCurrentWikiDbDomain()->getId()
 		);
 	},
 ];
