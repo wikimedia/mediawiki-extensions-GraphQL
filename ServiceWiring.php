@@ -1,6 +1,7 @@
 <?php
 
 use MediaWiki\Config\ServiceOptions;
+use MediaWiki\GraphQL\HookRunner;
 use MediaWiki\GraphQL\Schema\FederatedSchemaFactory;
 use MediaWiki\GraphQL\Schema\SchemaFactory;
 use MediaWiki\GraphQL\Source\ApiFactory;
@@ -82,6 +83,7 @@ return [
 			$services->getService( 'GraphQLMediaWikiRevisionTypeFactory' ),
 			$services->getService( 'GraphQLMediaWikiRevisionSlotTypeFactory' ),
 			$services->getService( 'GraphQLMediaWikiUserTypeFactory' ),
+			$services->get( 'GraphQLHookRunner' ),
 			new ServiceOptions( SchemaFactory::CONSTRUCTOR_OPTIONS, $services->getMainConfig() )
 		);
 	},
@@ -92,4 +94,9 @@ return [
 			WikiMap::getCurrentWikiDbDomain()->getId()
 		);
 	},
+	'GraphQLHookRunner' => function ( MediaWikiServices $services ) : HookRunner  {
+		return new HookRunner(
+			$services->getHookContainer()
+		);
+	}
 ];
