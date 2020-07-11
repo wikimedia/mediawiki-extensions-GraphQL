@@ -2,18 +2,20 @@
 
 namespace MediaWiki\GraphQL\Schema;
 
-use GraphQL\Error\InvariantViolation;
-use GraphQL\Type\Definition\InterfaceType;
 use GraphQL\Type\Schema;
 use GraphQL\Type\SchemaConfig;
-use GraphQL\Utils\TypeInfo;
 use MediaWiki\Config\ServiceOptions;
-use MediaWiki\GraphQL\Type\MediaWiki\PageInterfaceType;
-use MediaWiki\GraphQL\Type\ObjectType;
+use MediaWiki\GraphQL\Source\ApiFactory;
+use MediaWiki\GraphQL\Type\MediaWiki\NamespaceTypeFactory;
+use MediaWiki\GraphQL\Type\MediaWiki\PageInterfaceTypeFactory;
+use MediaWiki\GraphQL\Type\MediaWiki\PageRevisionsTypeFactory;
+use MediaWiki\GraphQL\Type\MediaWiki\QueryTypeFactory;
+use MediaWiki\GraphQL\Type\MediaWiki\RevisionSlotTypeFactory;
+use MediaWiki\GraphQL\Type\MediaWiki\RevisionTypeFactory;
+use MediaWiki\GraphQL\Type\MediaWiki\UserTypeFactory;
 
 // @TODO Write a test to build the schema and validate it.
-class SchemaFactory implements Factory {
-
+class SchemaFactory {
 	/**
 	 * @var array
 	 */
@@ -22,34 +24,44 @@ class SchemaFactory implements Factory {
 	];
 
 	/**
-	 * @var InterfaceType
+	 * @var ApiFactory
 	 */
-	private $query;
+	private $apiFactory;
 
 	/**
-	 * @var InterfaceType
+	 * @var QueryTypeFactory
 	 */
-	private $page;
+	private $queryFactory;
 
 	/**
-	 * @var InterfaceType
+	 * @var PageInterfaceTypeFactory
 	 */
-	private $namespace;
+	private $pageInterfaceFactory;
 
 	/**
-	 * @var InterfaceType
+	 * @var NamespaceTypeFactory
 	 */
-	private $pageRevisions;
+	private $namespaceFactory;
 
 	/**
-	 * @var InterfaceType
+	 * @var PageRevisionsTypeFactory
 	 */
-	private $revisions;
+	private $pageRevisionsFactory;
 
 	/**
-	 * @var NamespaceInfo
+	 * @var RevisionTypeFactory
 	 */
-	private $namespaceInfo;
+	private $revisionFactory;
+
+	/**
+	 * @var RevisionSlotTypeFactory
+	 */
+	private $revisionSlotFactory;
+
+	/**
+	 * @var UserTypeFactory
+	 */
+	private $userFactory;
 
 	/**
 	 * @var ServiceOptions
@@ -59,103 +71,82 @@ class SchemaFactory implements Factory {
 	/**
 	 * Schema Factory.
 	 *
-	 * @param InterfaceType $query
-	 * @param InterfaceType $page
-	 * @param InterfaceType $namespace
-	 * @param InterfaceType $pageRevisions
-	 * @param InterfaceType $revision
-	 * @param InterfaceType $revisionSlot
-	 * @param InterfaceType $user
-	 * @param \NamespaceInfo $namespaceInfo
+	 * @param ApiFactory $apiFactory
+	 * @param QueryTypeFactory $queryFactory
+	 * @param PageInterfaceTypeFactory $pageInterfaceFactory
+	 * @param NamespaceTypeFactory $namespaceFactory
+	 * @param PageRevisionsTypeFactory $pageRevisionsFactory
+	 * @param RevisionTypeFactory $revisionFactory
+	 * @param RevisionSlotTypeFactory $revisionSlotFactory
+	 * @param UserTypeFactory $userFactory
 	 * @param ServiceOptions $options
 	 */
 	public function __construct(
-		InterfaceType $query,
-		PageInterfaceType $page,
-		InterfaceType $namespace,
-		InterfaceType $pageRevisions,
-		InterfaceType $revision,
-		InterfaceType $revisionSlot,
-		InterfaceType $user,
-		\NamespaceInfo $namespaceInfo,
+		ApiFactory $apiFactory,
+		QueryTypeFactory $queryFactory,
+		PageInterfaceTypeFactory $pageInterfaceFactory,
+		NamespaceTypeFactory $namespaceFactory,
+		PageRevisionsTypeFactory $pageRevisionsFactory,
+		RevisionTypeFactory $revisionFactory,
+		RevisionSlotTypeFactory $revisionSlotFactory,
+		UserTypeFactory $userFactory,
 		ServiceOptions $options
 	) {
-		$this->query = $query;
-		$this->page = $page;
-		$this->namespace = $namespace;
-		$this->pageRevisions = $pageRevisions;
-		$this->revision = $revision;
-		$this->revisionSlot = $revisionSlot;
-		$this->user = $user;
-		$this->namespaceInfo = $namespaceInfo;
+		$this->apiFactory = $apiFactory;
+		$this->queryFactory = $queryFactory;
+		$this->pageInterfaceFactory = $pageInterfaceFactory;
+		$this->namespaceFactory = $namespaceFactory;
+		$this->pageRevisionsFactory = $pageRevisionsFactory;
+		$this->revisionFactory = $revisionFactory;
+		$this->revisionSlotFactory = $revisionSlotFactory;
+		$this->userFactory = $userFactory;
 		$this->options = $options;
 	}
 
 	/**
-	 * @inheritDoc
+	 * @param \IContextSource $context
+	 * @param string $prefix
+	 * @return Schema
 	 */
-	public function create() : Schema {
-		$query = new ObjectType( [
-			'name' => 'Query',
-			'fields' => $this->query->getFields(),
-			'interfaces' => [
-				$this->query,
-			],
-		] );
+	public function create( \IContextSource $context, string $prefix = '' ) : Schema {
+		$api = $this->apiFactory->create( $context );
+
+		$namespace = $this->namespaceFactory->create( $api, $context, $prefix );
+
+		$user = $this->userFactory->create( $api, $context, $prefix );
+
+		$revisionSlot = $this->revisionSlotFactory->create( $api, $context, $prefix );
+
+		$revision = $this->revisionFactory->create( $api, $user, $revisionSlot, $context, $prefix );
+
+		$pageRevisions = $this->pageRevisionsFactory->create( $revision, $context, $prefix );
+
+		$pageInterface = $this->pageInterfaceFactory->create(
+			$api,
+			$namespace,
+			$pageRevisions,
+			$revision,
+			$context,
+			$prefix
+		);
+
+		$query = $this->queryFactory->create( $pageInterface, $context, $prefix );
 
 		$config = SchemaConfig::create( [
 				'query' => $query,
-				'types' => array_merge( $this->getPageTypes(), [
-						// Objects.
-						new ObjectType( [
-							'name' => 'Namespace',
-							'fields' => $this->namespace->getFields(),
-							'interfaces' => [
-								$this->namespace,
-							],
-						] ),
-						new ObjectType( [
-							'name' => 'PageRevisions',
-							'fields' => $this->pageRevisions->getFields(),
-							'interfaces' => [
-								$this->pageRevisions,
-							],
-						] ),
-						new ObjectType( [
-							'name' => 'Revision',
-							'fields' => $this->revision->getFields(),
-							'interfaces' => [
-								$this->revision,
-							]
-						] ),
-						new ObjectType( [
-							'name' => 'RevisionSlot',
-							'fields' => $this->revisionSlot->getFields(),
-							'interfaces' => [
-								$this->revisionSlot,
-							]
-						] ),
-						new ObjectType( [
-							'name' => 'User',
-							'fields' => $this->user->getFields(),
-							'interfaces' => [
-								$this->user,
-							]
-						] ),
+				'types' => array_merge( $pageInterface->getTypes(), [
+						$pageInterface,
+						$namespace,
+						$pageRevisions,
+						$revision,
+						$revisionSlot,
+						$user,
 				] ),
 		] );
 
 		$interfaces = [];
 
-		// Validation should be disabled in production because it is expensive!
-		if ( $this->options->get( 'GraphQLValidateSchema' ) === true ) {
-			// Create a new schema object here, because it will have to be rebuilt
-			// after the hook.
-			$interfaces = array_filter( ( new Schema( $config ) )->getTypeMap(), function ( $type ) {
-				return $type instanceof InterfaceType;
-			} );
-		}
-
+		// @TODO Use a hook runner!
 		\Hooks::run( 'GraphQLSchemaConfig', [ $config ] );
 
 		$schema = new Schema( $config );
@@ -163,57 +154,8 @@ class SchemaFactory implements Factory {
 		// Validation should be disabled in production because it is expensive!
 		if ( $this->options->get( 'GraphQLValidateSchema' ) === true ) {
 			$schema->assertValid();
-
-			// Esnure that the interfaces still exist and have not been modified.
-			foreach ( $interfaces as $interface ) {
-				foreach ( $schema->getTypeMap() as $type ) {
-					if ( TypeInfo::isEqualType( $interface, $type ) ) {
-						// Same interface found, move to next interface.
-						continue 2;
-					}
-				}
-
-				// The interface is missing or has been modified.
-				throw new InvariantViolation(
-					wfMessage( 'graphql-schema-error-modified-interface', $interface->name )->text()
-				);
-			}
 		}
 
 		return $schema;
-	}
-
-	private function getPageTypes() {
-		$pageTypes = [];
-		foreach ( $this->namespaceInfo->getCanonicalNamespaces() as $ns => $title ) {
-			// Skip special namespaces.
-			if ( $ns < 0 ) {
-				continue;
-			}
-
-			if ( $ns === 0 ) {
-				$title = 'Main';
-			}
-
-			// Change namespaces like User_talk to UserTalk
-			$pieces = explode( '_', $title );
-			$pieces = array_map( function ( $word ) {
-				return ucfirst( $word );
-			}, $pieces );
-			$title = implode( '', $pieces );
-
-			$pageTypes[] = new ObjectType( [
-					'name' => $title . 'Page',
-					'ns' => $ns,
-					'fields' => $this->page->getFields(),
-					'interfaces' => [
-						$this->page,
-					]
-			] );
-		}
-
-		$this->page->setPageTypes( $pageTypes );
-
-		return $pageTypes;
 	}
 }

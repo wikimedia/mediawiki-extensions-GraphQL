@@ -24,17 +24,15 @@ class Api implements ApiSource {
 	protected $adapter;
 
 	/**
-	 * Api Constructor.
-	 *
-	 * @param \IContextSource $context
 	 * @param PromiseAdapterInterface $adapter
+	 * @param \IContextSource $context
 	 */
 	public function __construct(
-		\IContextSource $context,
-		PromiseAdapterInterface $adapter
+		PromiseAdapterInterface $adapter,
+		\IContextSource $context
 	) {
-		$this->context = $context;
 		$this->adapter = $adapter;
+		$this->context = $context;
 
 		$this->dataLoader = new DataLoader(
 			function ( $keys ) {
@@ -99,9 +97,8 @@ class Api implements ApiSource {
 			$params,
 			$request->wasPosted()
 		);
-		$main = new \ApiMain( $request, true );
 
-		return $main;
+		return new \ApiMain( $request, true );
 	}
 
 	/**

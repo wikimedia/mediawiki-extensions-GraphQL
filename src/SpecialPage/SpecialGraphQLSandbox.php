@@ -5,7 +5,7 @@ namespace MediaWiki\GraphQL\SpecialPage;
 use GraphQL\Executor\Promise\PromiseAdapter;
 use GraphQL\GraphQL;
 use GraphQL\Type\Introspection;
-use MediaWiki\GraphQL\Schema\Factory;
+use MediaWiki\GraphQL\Schema\SchemaFactory;
 use MediaWiki\Linker\LinkRenderer;
 
 class SpecialGraphQLSandbox extends \SpecialPage {
@@ -16,7 +16,7 @@ class SpecialGraphQLSandbox extends \SpecialPage {
 	protected $promise;
 
 	/**
-	 * @var Factory
+	 * @var SchemaFactory
 	 */
 	protected $schemaFactory;
 
@@ -26,7 +26,7 @@ class SpecialGraphQLSandbox extends \SpecialPage {
 	protected $result;
 
 	/**
-	 * @inheritDoc
+	 * {@inheritdoc}
 	 *
 	 * @param LinkRenderer $linkRenderer
 	 * @param PromiseAdapter $promise
@@ -35,7 +35,7 @@ class SpecialGraphQLSandbox extends \SpecialPage {
 	public function __construct(
 		LinkRenderer $linkRenderer,
 		PromiseAdapter $promise,
-		Factory $schemaFactory
+		SchemaFactory $schemaFactory
 	) {
 		parent::__construct( 'GraphQLSandbox' );
 
@@ -54,7 +54,7 @@ class SpecialGraphQLSandbox extends \SpecialPage {
 
 		$promise = GraphQL::promiseToExecute(
 			$this->promise,
-			$this->schemaFactory->create(),
+			$this->schemaFactory->create( $this->getContext() ),
 			Introspection::getIntrospectionQuery()
 		);
 

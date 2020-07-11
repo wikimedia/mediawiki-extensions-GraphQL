@@ -13,7 +13,11 @@ use GraphQL\Type\Schema;
 use GraphQL\Utils\SchemaPrinter;
 use MediaWiki\GraphQL\Type\ObjectType;
 
-class FederatedSchemaFactory implements Factory {
+class FederatedSchemaFactory {
+	/**
+	 * @var SchemaFactory
+	 */
+	private $schemaFactory;
 
 	/**
 	 * @var string
@@ -21,22 +25,17 @@ class FederatedSchemaFactory implements Factory {
 	private $wikiId;
 
 	/**
-	 * @var Factory
-	 */
-	private $schemaFactory;
-
-	/**
 	 * Federated Schema Factory.
 	 *
-	 * @param string $wikiId
 	 * @param SchemaFactory $schemaFactory
+	 * @param string $wikiId
 	 */
 	public function __construct(
-		string $wikiId,
-		SchemaFactory $schemaFactory
+		SchemaFactory $schemaFactory,
+		string $wikiId
 	) {
-		$this->wikiId = $wikiId;
 		$this->schemaFactory = $schemaFactory;
+		$this->wikiId = $wikiId;
 	}
 
 	/**
@@ -51,10 +50,11 @@ class FederatedSchemaFactory implements Factory {
 	}
 
 	/**
-	 * @inheritDoc
+	 * @param \IContextSource $context
+	 * @return Schema
 	 */
-	public function create() : Schema {
-		$schema = $this->schemaFactory->create();
+	public function create( \IContextSource $context ) : Schema {
+		$schema = $this->schemaFactory->create( $context, $this->getPrefix() );
 
 		$config = clone $schema->getConfig();
 
@@ -67,23 +67,10 @@ class FederatedSchemaFactory implements Factory {
 			'name' => '_FieldSet',
 		] );
 
-		$prefix = $this->getPrefix();
-
-		$fieldName = lcfirst( $prefix );
-
-		// Prefix all of the types.
-		$types = $config->getTypes();
-		foreach ( $types as $type ) {
-			if ( $type instanceof ObjectType ) {
-				$type->name = $prefix . $type->name;
-			}
-		}
-
 		// Rename the query and move it to the types.
 		$siteQuery = $config->getQuery();
 		$config->setQuery( null );
 
-		$siteQuery->name = $prefix . $siteQuery->name;
 		$types[] = $siteQuery;
 
 		$any = new StringType( [

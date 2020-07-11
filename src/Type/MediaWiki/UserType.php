@@ -2,13 +2,18 @@
 
 namespace MediaWiki\GraphQL\Type\MediaWiki;
 
+use GraphQL\Executor\Promise\Promise;
 use GraphQL\Executor\Promise\PromiseAdapter;
+use GraphQL\Type\Definition\ObjecTType;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use MediaWiki\GraphQL\Source\ApiSource;
-use MediaWiki\GraphQL\Type\InterfaceType;
 
-class UserInterfaceType extends InterfaceType {
+class UserType extends ObjectType {
+	/**
+	 * @var PromiseAdapter
+	 */
+	protected $promise;
 
 	/**
 	 * @var ApiSource;
@@ -16,24 +21,23 @@ class UserInterfaceType extends InterfaceType {
 	protected $api;
 
 	/**
-	 * @var PromiseAdapter
-	 */
-	protected $promise;
-
-	/**
 	 * {@inheritdoc}
 	 *
-	 * @param ApiSource $api
 	 * @param PromiseAdapter $promise
+	 * @param ApiSource $api
+	 * @param \IContextSource $context
+	 * @param string $prefix
 	 * @param array $config
 	 */
 	public function __construct(
-		ApiSource $api,
 		PromiseAdapter $promise,
+		ApiSource $api,
+		\IContextSource $context,
+		string $prefix = '',
 		array $config = []
 	) {
-		$this->api = $api;
 		$this->promise = $promise;
+		$this->api = $api;
 
 		$getProperty = function ( $user, $args, $context, ResolveInfo $info ) {
 			$fieldName = $info->fieldName;
@@ -49,8 +53,8 @@ class UserInterfaceType extends InterfaceType {
 		};
 
 		$default = [
-			'name' => 'MediaWikiUser',
-			'description' => wfMessage( 'graphql-type-mediawiki-user-desc' )->text(),
+			'name' => $prefix . 'User',
+			'description' => $context->msg( 'graphql-type-mediawiki-user-desc' )->text(),
 			'fields' => [
 				'userid' => [
 					'type' => Type::int(),
@@ -61,10 +65,6 @@ class UserInterfaceType extends InterfaceType {
 					'resolve' => $getProperty,
 				],
 			],
-			'resolveType' => function ( $value, $context ) {
-				$prefix = $context['prefix'] ?? '';
-				return $prefix . 'User';
-			},
 		];
 
 		parent::__construct( array_merge( $default, $config ) );
@@ -75,9 +75,9 @@ class UserInterfaceType extends InterfaceType {
 	 *
 	 * @param array $user
 	 * @param array $params
-	 * @return GraphQL\Executor\Promise\Promise
+	 * @return Promise
 	 */
-	protected function getUserData( array $user, array $params = [] ) {
+	protected function getUserData( array $user, array $params = [] ) : Promise {
 		$params = array_merge( [
 			'action' => 'query',
 			'list' => 'users',

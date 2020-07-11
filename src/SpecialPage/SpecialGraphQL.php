@@ -4,7 +4,8 @@ namespace MediaWiki\GraphQL\SpecialPage;
 
 use GraphQL\Executor\Promise\PromiseAdapter;
 use GraphQL\GraphQL;
-use MediaWiki\GraphQL\Schema\Factory;
+use MediaWiki\GraphQL\Schema\FederatedSchemaFactory;
+use MediaWiki\GraphQL\Schema\SchemaFactory;
 use MediaWiki\Linker\LinkRenderer;
 
 class SpecialGraphQL extends \UnlistedSpecialPage {
@@ -15,28 +16,28 @@ class SpecialGraphQL extends \UnlistedSpecialPage {
 	protected $promise;
 
 	/**
-	 * @var Factory
+	 * @var SchemaFactory
 	 */
 	protected $schemaFactory;
 
 	/**
-	 * @var Factory
+	 * @var FederatedSchemaFactory
 	 */
 	protected $federatedSchemaFactory;
 
 	/**
-	 * @inheritDoc
+	 * {@inheritdoc}
 	 *
 	 * @param LinkRenderer $linkRenderer
 	 * @param PromiseAdapter $promise
-	 * @param Schema $schema
+	 * @param SchemaFactory $schemaFactory
+	 * @param FederatedSchemaFactory $federatedSchemaFactory
 	 */
 	public function __construct(
 		LinkRenderer $linkRenderer,
 		PromiseAdapter $promise,
-		Factory $schemaFactory,
-		Factory $federatedSchemaFactory
-
+		SchemaFactory $schemaFactory,
+		FederatedSchemaFactory $federatedSchemaFactory
 	) {
 		parent::__construct( 'GraphQL' );
 
@@ -84,12 +85,8 @@ class SpecialGraphQL extends \UnlistedSpecialPage {
 		}
 
 		$schema = $subPage === 'Federation'
-			? $this->federatedSchemaFactory->create()
-			: $this->schemaFactory->create();
-
-		$prefix = $subPage === 'Federation'
-			? $this->federatedSchemaFactory->getPrefix()
-			: '';
+			? $this->federatedSchemaFactory->create( $this->getContext() )
+			: $this->schemaFactory->create( $this->getContext() );
 
 		$result = [];
 		try {
@@ -98,9 +95,7 @@ class SpecialGraphQL extends \UnlistedSpecialPage {
 				$schema,
 				$query,
 				null,
-				[
-					'prefix' => $prefix,
-				],
+				null,
 				$variables
 			);
 			$result = $this->promise->wait( $promise );
@@ -118,10 +113,7 @@ class SpecialGraphQL extends \UnlistedSpecialPage {
 		// Disable the Page output.
 		$this->getOutput()->disable();
 		$response = $this->getRequest()->response();
-		// If the user is not logged in, then cross origin requests are fine.
-		if ( !$this->getContext()->getUser()->isLoggedIn() && !$response->hasCookies() ) {
-			$response->header( 'Access-Control-Allow-Origin: *' );
-		}
+		$response->header( 'Access-Control-Allow-Origin: *' );
 		$response->header( 'Content-Type: application/json' );
 
 		print \FormatJson::encode( $result, false, \FormatJson::ALL_OK );
