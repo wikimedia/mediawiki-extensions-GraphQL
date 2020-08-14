@@ -6,7 +6,7 @@
 		]
 	},
 	"graphql": "{{name}}",
-	"graphqlsandbox": "{{name}} Sandbox",
+	"graphqlsandbox": "{{doc-special}}\nSandbox",
 	"graphql-desc": "{{desc|name=GraphQL|url=}}",
 	"graphql-special-query": "Label on Special:Graphql for the Query field",
 	"graphql-special-variables": "Label on Special:Graphql for the Variables field",
