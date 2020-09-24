@@ -2,12 +2,13 @@
 	"@metadata": {
 		"authors": [
 			"BaRaN6161 TURK",
-			"Hedda"
+			"Hedda",
+			"MuratTheTurkish"
 		]
 	},
 	"graphql": "GraphQL",
 	"graphqlsandbox": "GraphQL Deneme Tahtası",
-	"graphql-desc": "Action API'si için GraphQL proxy'si",
+	"graphql-desc": "Eylem API'si için GraphQL proxy'si",
 	"graphql-special-query": "Sorgu",
 	"graphql-special-variables": "Değişkenler",
 	"graphql-special-result": "Sonuç",
@@ -18,8 +19,8 @@
 	"graphql-type-mediawiki-query-desc": "MediaWiki ad alanı arayüzü",
 	"graphql-page-error-nosource": "Kimlik veya başlık belirtilmelidir.",
 	"graphql-page-error-multisource": "Kimlik ve başlık birlikte kullanılamaz.",
-	"graphql-sandbox-jsonly": "GraphQL sandbox'u kullanmak için JavaScript gereklidir.",
-	"graphql-schema-error-no-composite-fields": "$1, sadece arayüz veya sayısal alanları kullanabilir. $2  alanı $3 kullanır.",
+	"graphql-sandbox-jsonly": "GraphQL deneme tahtasını kullanmak için JavaScript gereklidir.",
+	"graphql-schema-error-no-composite-fields": "$1, yalnızca arayüz veya sayısal alanları kullanabilir. $2 alanı $3 kullanır.",
 	"graphql-schema-error-missing-field-interface": "$2, $1 üzerinde uygulanan arabirimlerin bir parçası değildir",
 	"graphql-schema-error-modified-interface": "$1 değiştirildi veya şemada eksik."
 }
