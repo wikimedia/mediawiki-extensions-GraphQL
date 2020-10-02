@@ -3,7 +3,8 @@
 	"extends": [
 		"plugin:react/recommended",
 		"wikimedia",
-		"wikimedia/language/es2017"
+		"wikimedia/language/es2017",
+		"wikimedia/mediawiki"
 	],
 	"parserOptions": {
 		"sourceType": "module",
