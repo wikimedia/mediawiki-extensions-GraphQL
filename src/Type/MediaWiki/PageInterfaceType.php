@@ -22,17 +22,17 @@ class PageInterfaceType extends InterfaceType {
 	protected $namespaceInfo;
 
 	/**
-	 * @var ApiSource;
+	 * @var ApiSource
 	 */
 	protected $api;
 
 	/**
-	 * @var string;
+	 * @var string
 	 */
 	protected $prefix;
 
 	/**
-	 * @var ObjectType[]|null;
+	 * @var ObjectType[]|null
 	 */
 	protected $pageTypes;
 

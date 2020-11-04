@@ -8,7 +8,7 @@ use MediaWiki\Revision\SlotRoleRegistry;
 
 class RevisionTypeFactory {
 	/**
-	 * @var PromiseAdapter;
+	 * @var PromiseAdapter
 	 */
 	protected $promise;
 

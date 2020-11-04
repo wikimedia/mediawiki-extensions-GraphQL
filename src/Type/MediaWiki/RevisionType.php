@@ -17,7 +17,7 @@ class RevisionType extends ObjectType {
 	protected $promise;
 
 	/**
-	 * @var ApiSource;
+	 * @var ApiSource
 	 */
 	protected $api;
 
