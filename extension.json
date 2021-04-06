@@ -28,7 +28,7 @@
 	},
 	"SpecialPages": {
 		"GraphQL": {
-			"class":  "MediaWiki\\GraphQL\\SpecialPage\\SpecialGraphQL",
+			"class": "MediaWiki\\GraphQL\\SpecialPage\\SpecialGraphQL",
 			"services": [
 				"LinkRenderer",
 				"GraphQLPromiseAdapter",
@@ -37,7 +37,7 @@
 			]
 		},
 		"GraphQLSandbox": {
-			"class":  "MediaWiki\\GraphQL\\SpecialPage\\SpecialGraphQLSandbox",
+			"class": "MediaWiki\\GraphQL\\SpecialPage\\SpecialGraphQLSandbox",
 			"services": [
 				"LinkRenderer",
 				"GraphQLPromiseAdapter",

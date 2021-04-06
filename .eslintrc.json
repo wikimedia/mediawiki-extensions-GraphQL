@@ -1,16 +1,7 @@
 {
 	"root": true,
 	"extends": [
-		"plugin:react/recommended",
-		"wikimedia",
-		"wikimedia/language/es2017",
+		"wikimedia/client-es5",
 		"wikimedia/mediawiki"
-	],
-	"parserOptions": {
-		"sourceType": "module",
-		"ecmaVersion": 9
-	},
-	"rules": {
-		"one-var": "off"
-	}
+	]
 }
