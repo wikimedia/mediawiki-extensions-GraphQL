@@ -94,7 +94,7 @@ class PageInterfaceType extends InterfaceType {
 					break;
 			}
 
-			return $this->getPageData( $page, $params )->then( function ( $p ) use ( $fieldName ) {
+			return $this->getPageData( $page, $params )->then( static function ( $p ) use ( $fieldName ) {
 				switch ( $fieldName ) {
 					case 'ns':
 						return [
@@ -206,7 +206,7 @@ class PageInterfaceType extends InterfaceType {
 							$p = $this->findPage( $data, $page );
 							return [
 								'continue' => $data['continue']['rvcontinue'] ?? null,
-								'edges' => array_map( function ( $revision ) {
+								'edges' => array_map( static function ( $revision ) {
 									return [
 										'revid' => $revision['revid'] ?? null,
 									];
@@ -317,7 +317,7 @@ class PageInterfaceType extends InterfaceType {
 
 				// Change namespaces like User_talk to UserTalk
 				$pieces = explode( '_', $title );
-				$pieces = array_map( function ( $word ) {
+				$pieces = array_map( static function ( $word ) {
 					return ucfirst( $word );
 				}, $pieces );
 				$title = implode( '', $pieces );

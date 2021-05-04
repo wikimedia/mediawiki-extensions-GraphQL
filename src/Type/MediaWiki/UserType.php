@@ -47,7 +47,7 @@ class UserType extends ObjectType {
 				return $this->promise->createFulfilled( $user[$fieldName] );
 			}
 
-			return $this->getUserData( $user, $params )->then( function ( $u ) use ( $fieldName ) {
+			return $this->getUserData( $user, $params )->then( static function ( $u ) use ( $fieldName ) {
 				return $u[$fieldName] ?? null;
 			} );
 		};
@@ -92,7 +92,7 @@ class UserType extends ObjectType {
 		}
 
 		return $this->api->request( $params )
-			->then( function ( $data ) use ( $user ) {
+			->then( static function ( $data ) use ( $user ) {
 				$users = $data['query']['users'] ?? [];
 
 				if ( isset( $user['userid'] ) ) {

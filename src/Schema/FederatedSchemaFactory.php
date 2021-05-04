@@ -44,7 +44,7 @@ class FederatedSchemaFactory {
 	 * @return string
 	 */
 	public function getPrefix() : string {
-		return implode( '', array_map( function ( $part ) {
+		return implode( '', array_map( static function ( $part ) {
 			return ucfirst( $part );
 		}, explode( '-', $this->wikiId ) ) );
 	}
@@ -119,13 +119,13 @@ class FederatedSchemaFactory {
 		$fields = [
 			$fieldName => [
 				'type' => Type::nonNull( $siteQuery ),
-				'resolve' => function () {
+				'resolve' => static function () {
 					return [];
 				},
 			],
 			'_service' => [
 				'type' => $service,
-				'resolve' => function ( $rootValue, $args, $context, ResolveInfo $info ) {
+				'resolve' => static function ( $rootValue, $args, $context, ResolveInfo $info ) {
 					$config = clone $info->schema->getConfig();
 
 					// Remove the federation directives.
@@ -139,7 +139,7 @@ class FederatedSchemaFactory {
 					];
 					$directives = array_filter(
 						$config->getDirectives(),
-						function ( $directives ) use ( $federationDirectives ) {
+						static function ( $directives ) use ( $federationDirectives ) {
 							return in_array( $directive->name, $federationDirectives );
 						}
 					);
@@ -149,7 +149,7 @@ class FederatedSchemaFactory {
 					// Why do you have to do this???
 					$query = $config->getQuery();
 					$queryConfig = $query->config;
-					$queryConfig['fields'] = array_filter( $queryConfig['fields'], function ( $name ) {
+					$queryConfig['fields'] = array_filter( $queryConfig['fields'], static function ( $name ) {
 						return $name !== '_service';
 					}, ARRAY_FILTER_USE_KEY );
 					$config->setQuery( new ObjectType( $queryConfig ) );
@@ -164,7 +164,7 @@ class FederatedSchemaFactory {
 		if ( count( $entities ) > 0 ) {
 			$entity = new UnionType( [
 				'name' => '_Entity',
-				'types' => array_map( function ( Type $type ) : string {
+				'types' => array_map( static function ( Type $type ) : string {
 						return $type->name;
 				}, $this->types ),
 			] );
@@ -176,9 +176,9 @@ class FederatedSchemaFactory {
 						'type' => Type::nonNull( Type::listOf( Type::nonNull( $any ) ) ),
 					],
 				],
-				'resolve' => function ( $rootValue, $args, $context, ResolveInfo $info ) {
+				'resolve' => static function ( $rootValue, $args, $context, ResolveInfo $info ) {
 					$representations = $args['representations'];
-					return array_map( function ( $representation ) use ( $info ) {
+					return array_map( static function ( $representation ) use ( $info ) {
 							$typeName = $representation['__typename'];
 							$type = $info->schema->getType( $typeName );
 							if ( !$type || $type instanceof GraphQLObjectType === false ) {
@@ -188,7 +188,7 @@ class FederatedSchemaFactory {
 									. '", but no object type of that name was found in the schema'
 								);
 							}
-							$resolver = $type->resolveFieldFn ?: function () use ( $representation ) {
+							$resolver = $type->resolveFieldFn ?: static function () use ( $representation ) {
 								return $representation;
 							};
 							return $resolver();

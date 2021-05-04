@@ -58,7 +58,7 @@ class RevisionSlotType extends ObjectType {
 					break;
 			}
 
-			return $this->getSlotData( $slot, $params )->then( function ( $slot ) use ( $fieldName ) {
+			return $this->getSlotData( $slot, $params )->then( static function ( $slot ) use ( $fieldName ) {
 				return $slot[$fieldName] ?? null;
 			} );
 		};
@@ -114,11 +114,11 @@ class RevisionSlotType extends ObjectType {
 		}
 
 		return $this->api->request( $params )
-			->then( function ( $data ) use ( $slot ) {
+			->then( static function ( $data ) use ( $slot ) {
 				$role = $slot['_role'] ?? null;
 				$pages = $data['query']['pages'] ?? [];
 
-				$revisions = array_reduce( $pages, function ( $carry, $page ) {
+				$revisions = array_reduce( $pages, static function ( $carry, $page ) {
 					return array_merge( $carry, $page['revisions'] ?? [] );
 				}, [] );
 

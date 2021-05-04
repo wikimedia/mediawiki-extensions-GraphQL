@@ -52,7 +52,7 @@ class NamespaceType extends ObjectType {
 				return $this->promise->createFulfilled( $namespace[$fieldName] );
 			}
 
-			return $this->getNamespace( $namespace, $params )->then( function ( $ns ) use ( $fieldName ) {
+			return $this->getNamespace( $namespace, $params )->then( static function ( $ns ) use ( $fieldName ) {
 				return $ns[$fieldName] ?? null;
 			} );
 		};
@@ -114,7 +114,7 @@ class NamespaceType extends ObjectType {
 		];
 
 		return $this->api->request( $params )
-			->then( function ( $data ) use ( $id ) {
+			->then( static function ( $data ) use ( $id ) {
 				$namespaces = $data['query']['namespaces'] ?? [];
 
 				return $namespaces[$id] ?? null;

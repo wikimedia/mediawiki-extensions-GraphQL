@@ -31,7 +31,7 @@ class QueryType extends ObjectType {
 						'id' => Type::int(),
 						'title' => Type::string(),
 					],
-					'resolve' => function ( $root, $args ) use ( $context ) {
+					'resolve' => static function ( $root, $args ) use ( $context ) {
 						if ( !isset( $args['id'] ) && !isset( $args['title'] ) ) {
 							throw new UserError( $context->msg( 'graphql-page-error-nosource' )->text(), 'nosource' );
 						}

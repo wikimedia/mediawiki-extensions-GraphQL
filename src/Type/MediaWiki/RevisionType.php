@@ -71,7 +71,7 @@ class RevisionType extends ObjectType {
 					break;
 			}
 
-			return $this->getRevisionData( $revision, $params )->then( function ( $r ) use ( $fieldName ) {
+			return $this->getRevisionData( $revision, $params )->then( static function ( $r ) use ( $fieldName ) {
 				switch ( $fieldName ) {
 					case 'parent':
 						return [
@@ -152,7 +152,7 @@ class RevisionType extends ObjectType {
 							'type' => Type::nonNull( Type::string() ),
 						],
 					],
-					'resolve' => function ( $revision, $args ) use ( $slotRoleRegistery ) {
+					'resolve' => static function ( $revision, $args ) use ( $slotRoleRegistery ) {
 						if (
 							isset( $args['role'] )
 							&& in_array( $args['role'], $slotRoleRegistery->getKnownRoles() )
@@ -173,7 +173,7 @@ class RevisionType extends ObjectType {
 							'type' => Type::listOf( Type::string() ),
 						],
 					],
-					'resolve' => function ( $revision, $args ) use ( $slotRoleRegistery ) {
+					'resolve' => static function ( $revision, $args ) use ( $slotRoleRegistery ) {
 						$roles = [];
 						if ( !isset( $args['role'] ) ) {
 							$roles = $slotRoleRegistery->getKnownRoles();
@@ -181,7 +181,7 @@ class RevisionType extends ObjectType {
 							$roles = array_intersect( $args['role'], $slotRoleRegistery->getKnownRoles() );
 						}
 
-						return array_map( function ( $role ) use ( $revision ) {
+						return array_map( static function ( $role ) use ( $revision ) {
 							return [
 								'_role' => $role,
 								'_revid' => $revision['revid'],
@@ -213,10 +213,10 @@ class RevisionType extends ObjectType {
 		}
 
 		return $this->api->request( $params )
-			->then( function ( $data ) use ( $revision, $params ) {
+			->then( static function ( $data ) use ( $revision, $params ) {
 				$pages = $data['query']['pages'] ?? [];
 
-				$revisions = array_reduce( $pages, function ( $carry, $page ) {
+				$revisions = array_reduce( $pages, static function ( $carry, $page ) {
 					return array_merge( $carry, $page['revisions'] ?? [] );
 				}, [] );
 
