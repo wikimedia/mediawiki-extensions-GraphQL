@@ -100,7 +100,7 @@ class NamespaceType extends ObjectType {
 	 * @param int $ns
 	 * @return Promise
 	 */
-	protected function getNamespace( int $ns ) : Promise {
+	protected function getNamespace( int $ns ): Promise {
 		if ( !isset( $ns['id'] ) ) {
 			return $this->promise->createFulfilled( null );
 		}

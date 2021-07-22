@@ -77,7 +77,7 @@ class UserType extends ObjectType {
 	 * @param array $params
 	 * @return Promise
 	 */
-	protected function getUserData( array $user, array $params = [] ) : Promise {
+	protected function getUserData( array $user, array $params = [] ): Promise {
 		$params = array_merge( [
 			'action' => 'query',
 			'list' => 'users',

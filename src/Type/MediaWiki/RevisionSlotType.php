@@ -100,7 +100,7 @@ class RevisionSlotType extends ObjectType {
 	 * @param array $params
 	 * @return Promise
 	 */
-	protected function getSlotData( array $slot, array $params = [] ) : Promise {
+	protected function getSlotData( array $slot, array $params = [] ): Promise {
 		$role = $slot['_role'] ?? null;
 
 		$params = array_merge( [

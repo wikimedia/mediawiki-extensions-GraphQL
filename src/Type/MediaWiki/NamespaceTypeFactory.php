@@ -31,7 +31,7 @@ class NamespaceTypeFactory {
 		ApiSource $api,
 		\IContextSource $context,
 		string $prefix = ''
-	) : NamespaceType {
+	): NamespaceType {
 		return new NamespaceType(
 			$this->promise,
 			$api,

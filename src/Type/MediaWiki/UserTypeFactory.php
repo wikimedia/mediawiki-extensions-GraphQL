@@ -30,7 +30,7 @@ class UserTypeFactory {
 		ApiSource $api,
 		\IContextSource $context,
 		string $prefix = ''
-	) : UserType {
+	): UserType {
 		return new UserType(
 			$this->promise,
 			$api,

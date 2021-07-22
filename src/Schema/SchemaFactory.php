@@ -117,7 +117,7 @@ class SchemaFactory {
 	 * @param string $prefix
 	 * @return Schema
 	 */
-	public function create( \IContextSource $context, string $prefix = '' ) : Schema {
+	public function create( \IContextSource $context, string $prefix = '' ): Schema {
 		$api = $this->apiFactory->create( $context );
 
 		$namespace = $this->namespaceFactory->create( $api, $context, $prefix );

@@ -43,7 +43,7 @@ class RevisionTypeFactory {
 		RevisionSlotType $slotType,
 		\IContextSource $context,
 		string $prefix = ''
-	) : RevisionType {
+	): RevisionType {
 		return new RevisionType(
 			$this->promise,
 			$this->slotRoleRegistery,

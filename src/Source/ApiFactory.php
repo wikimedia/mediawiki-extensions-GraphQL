@@ -24,7 +24,7 @@ class ApiFactory {
 	 * @param \IContextSource $context
 	 * @return Api
 	 */
-	public function create( \IContextSource $context ) : Api {
+	public function create( \IContextSource $context ): Api {
 		return new Api(
 			$this->adapter,
 			$context

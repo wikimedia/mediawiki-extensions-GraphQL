@@ -30,7 +30,7 @@ class RevisionSlotTypeFactory {
 		ApiSource $api,
 		\IContextSource $context,
 		string $prefix = ''
-	) : RevisionSlotType {
+	): RevisionSlotType {
 		return new RevisionSlotType(
 			$this->promise,
 			$api,

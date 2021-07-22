@@ -43,7 +43,7 @@ class FederatedSchemaFactory {
 	 *
 	 * @return string
 	 */
-	public function getPrefix() : string {
+	public function getPrefix(): string {
 		return implode( '', array_map( static function ( $part ) {
 			return ucfirst( $part );
 		}, explode( '-', $this->wikiId ) ) );
@@ -53,7 +53,7 @@ class FederatedSchemaFactory {
 	 * @param \IContextSource $context
 	 * @return Schema
 	 */
-	public function create( \IContextSource $context ) : Schema {
+	public function create( \IContextSource $context ): Schema {
 		$schema = $this->schemaFactory->create( $context, $this->getPrefix() );
 
 		$config = clone $schema->getConfig();
@@ -164,7 +164,7 @@ class FederatedSchemaFactory {
 		if ( count( $entities ) > 0 ) {
 			$entity = new UnionType( [
 				'name' => '_Entity',
-				'types' => array_map( static function ( Type $type ) : string {
+				'types' => array_map( static function ( Type $type ): string {
 						return $type->name;
 				}, $this->types ),
 			] );

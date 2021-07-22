@@ -245,7 +245,7 @@ class PageInterfaceType extends InterfaceType {
 	 * @param array $params
 	 * @return Promise
 	 */
-	protected function makePageRequest( array $page, array $params = [] ) : Promise {
+	protected function makePageRequest( array $page, array $params = [] ): Promise {
 		$params = array_merge( [
 			'action' => 'query',
 		], $params );
@@ -268,7 +268,7 @@ class PageInterfaceType extends InterfaceType {
 	 * @param array $page
 	 * @return array|null
 	 */
-	protected function findPage( array $data, array $page ) : ?array {
+	protected function findPage( array $data, array $page ): ?array {
 		$pages = $data['query']['pages'] ?? [];
 
 		if ( isset( $page['pageid'] ) ) {
@@ -292,7 +292,7 @@ class PageInterfaceType extends InterfaceType {
 	 * @param array $params
 	 * @return Promise
 	 */
-	protected function getPageData( array $page, array $params = [] ) : Promise {
+	protected function getPageData( array $page, array $params = [] ): Promise {
 		return $this->makePageRequest( $page, $params )
 			->then( function ( $data ) use ( $page ) {
 				return $this->findPage( $data, $page );
@@ -302,7 +302,7 @@ class PageInterfaceType extends InterfaceType {
 	/**
 	 * @inheritDoc
 	 */
-	public function getTypes() : array {
+	public function getTypes(): array {
 		if ( $this->pageTypes === null ) {
 			$pageTypes = [];
 			foreach ( $this->namespaceInfo->getCanonicalNamespaces() as $ns => $title ) {

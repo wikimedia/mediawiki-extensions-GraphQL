@@ -13,7 +13,7 @@ class PageRevisionsTypeFactory {
 		RevisionType $revisionType,
 		\IContextSource $context,
 		string $prefix = ''
-	) : PageRevisionsType {
+	): PageRevisionsType {
 		return new PageRevisionsType(
 			$revisionType,
 			$context,

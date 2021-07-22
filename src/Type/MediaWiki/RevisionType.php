@@ -202,7 +202,7 @@ class RevisionType extends ObjectType {
 	 * @param array $params
 	 * @return Promise
 	 */
-	protected function getRevisionData( array $revision, array $params = [] ) : Promise {
+	protected function getRevisionData( array $revision, array $params = [] ): Promise {
 		$params = array_merge( [
 			'action' => 'query',
 			'prop' => 'revisions',

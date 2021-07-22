@@ -13,7 +13,7 @@ class QueryTypeFactory {
 		PageInterfaceType $pageInterface,
 		\IContextSource $context,
 		string $prefix = ''
-	) : QueryType {
+	): QueryType {
 		return new QueryType(
 			$pageInterface,
 			$context,

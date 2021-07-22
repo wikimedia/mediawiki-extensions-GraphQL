@@ -44,7 +44,7 @@ class PageInterfaceTypeFactory {
 		RevisionType $revisionType,
 		\IContextSource $context,
 		string $prefix = ''
-	) : PageInterfaceType {
+	): PageInterfaceType {
 		return new PageInterfaceType(
 			$this->promise,
 			$this->namespaceInfo,
