@@ -77,7 +77,7 @@ class RevisionType extends ObjectType {
 						return [
 							'revid' => $r['parentid'] ?? null,
 						];
-					case 'user';
+					case 'user':
 						return [
 							'userid' => $r['userid'] ?? null,
 							'name' => $r['user'] ?? null,
