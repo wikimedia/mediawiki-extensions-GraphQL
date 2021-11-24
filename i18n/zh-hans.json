@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Dianliang233"
+			"Dianliang233",
+			"Xiplus"
 		]
 	},
 	"graphqlsandbox": "GraphQL沙盒",
@@ -10,10 +11,10 @@
 	"graphql-special-variables": "变量",
 	"graphql-special-result": "结果",
 	"graphql-type-mediawiki-page-desc": "MediaWiki页面接口",
-	"graphql-type-mediawiki-ns-desc": "MediaWiki名字空间接口",
+	"graphql-type-mediawiki-ns-desc": "MediaWiki命名空间接口",
 	"graphql-type-mediawiki-page-revisions-desc": "MediaWiki页面版本接口",
 	"graphql-type-mediawiki-revision-desc": "MediaWiki版本接口",
-	"graphql-type-mediawiki-query-desc": "MediaWiki名字空间接口",
+	"graphql-type-mediawiki-query-desc": "MediaWiki命名空间接口",
 	"graphql-page-error-nosource": "必须指定ID或标题。",
 	"graphql-page-error-multisource": "不能同时指定ID和标题。",
 	"graphql-sandbox-jsonly": "需要JavaScript以使用GraphQL沙盒。",
