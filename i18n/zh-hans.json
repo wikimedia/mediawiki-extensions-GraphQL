@@ -1,0 +1,24 @@
+{
+	"@metadata": {
+		"authors": [
+			"Dianliang233",
+			"Xiplus"
+		]
+	},
+	"graphqlsandbox": "GraphQL沙盒",
+	"graphql-desc": "Action API的GraphQL代理",
+	"graphql-special-query": "查询",
+	"graphql-special-variables": "变量",
+	"graphql-special-result": "结果",
+	"graphql-type-mediawiki-page-desc": "MediaWiki页面接口",
+	"graphql-type-mediawiki-ns-desc": "MediaWiki命名空间接口",
+	"graphql-type-mediawiki-page-revisions-desc": "MediaWiki页面版本接口",
+	"graphql-type-mediawiki-revision-desc": "MediaWiki版本接口",
+	"graphql-type-mediawiki-query-desc": "MediaWiki命名空间接口",
+	"graphql-page-error-nosource": "必须指定ID或标题。",
+	"graphql-page-error-multisource": "不能同时指定ID和标题。",
+	"graphql-sandbox-jsonly": "需要JavaScript以使用GraphQL沙盒。",
+	"graphql-schema-error-no-composite-fields": "$1仅可使用接口或标量作为字段。字段$2使用$3取而代之。",
+	"graphql-schema-error-missing-field-interface": "$2不是$1中实现的任何一种接口。",
+	"graphql-schema-error-modified-interface": "$1已被修改或不存在于架构（schema）中。"
+}
