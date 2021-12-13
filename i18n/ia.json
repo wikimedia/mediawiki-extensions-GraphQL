@@ -1,0 +1,23 @@
+{
+	"@metadata": {
+		"authors": [
+			"McDutchie"
+		]
+	},
+	"graphqlsandbox": "Cassa a sablo de GraphQL",
+	"graphql-desc": "Proxy GraphQL pro le API de action",
+	"graphql-special-query": "Consulta",
+	"graphql-special-variables": "Variabiles",
+	"graphql-special-result": "Resultato",
+	"graphql-type-mediawiki-page-desc": "Interfacie de pagina de MediaWiki",
+	"graphql-type-mediawiki-ns-desc": "Interfacie de spatios de nomines de MediaWiki",
+	"graphql-type-mediawiki-page-revisions-desc": "Interfacie de versiones de pagina de MediaWiki",
+	"graphql-type-mediawiki-revision-desc": "Interfacie de versiones de MediaWiki",
+	"graphql-type-mediawiki-query-desc": "Interfacie de spatios de nomines de MediaWiki",
+	"graphql-page-error-nosource": "Es necessari specificar ID o titulo.",
+	"graphql-page-error-multisource": "Impossibile usar ID e titulo insimul.",
+	"graphql-sandbox-jsonly": "JavaScript es necessari pro usar le cassa a sablo de GraphQL.",
+	"graphql-schema-error-no-composite-fields": "$1 pote usar solmente campos scalar o de interfacie. Le campo $2 usa $3 in su loco.",
+	"graphql-schema-error-missing-field-interface": "$2 non face parte de alcun interfacie implementate sur $1.",
+	"graphql-schema-error-modified-interface": "$1 ha essite modificate o es absente del schema."
+}

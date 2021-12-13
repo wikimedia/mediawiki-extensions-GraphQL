@@ -2,12 +2,14 @@
 	"@metadata": {
 		"authors": [
 			"Ameisenigel",
-			"Metalhead64"
+			"Metalhead64",
+			"Zabe"
 		]
 	},
 	"graphql": "GraphQL",
 	"graphqlsandbox": "GraphQL-Spielwiese",
 	"graphql-desc": "GraphQL-Proxy für die Action-API",
+	"graphql-special-query": "Abfrage",
 	"graphql-special-variables": "Variablen",
 	"graphql-special-result": "Ergebnis",
 	"graphql-type-mediawiki-page-desc": "MediaWiki-Seitenschnittstelle",
