@@ -4,7 +4,6 @@
 		<exclude name="PSR2.ControlStructures.SwitchDeclaration.WrongOpenercase" />
 	</rule>
 	<file>.</file>
-	<exclude-pattern>vendor/</exclude-pattern>
 	<arg name="extensions" value="php" />
 	<arg name="encoding" value="UTF-8" />
 </ruleset>
