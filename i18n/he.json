@@ -1,0 +1,23 @@
+{
+	"@metadata": {
+		"authors": [
+			"Amire80"
+		]
+	},
+	"graphqlsandbox": "ארגז חול של GraphQL",
+	"graphql-desc": "שרת מתווך של GraphQL עבור API פעולות",
+	"graphql-special-query": "שאילתה",
+	"graphql-special-variables": "משתנים",
+	"graphql-special-result": "תוצאה",
+	"graphql-type-mediawiki-page-desc": "ממשק דף מדיה־ויקי",
+	"graphql-type-mediawiki-ns-desc": "ממשק מרחב שם של מדיה־ויקי",
+	"graphql-type-mediawiki-page-revisions-desc": "ממשק גרסאות דפים של מדיה־ויקי",
+	"graphql-type-mediawiki-revision-desc": "ממשק גרסאות מדיה־ויקי",
+	"graphql-type-mediawiki-query-desc": "ממשק מרחב שם של מדיה־ויקי",
+	"graphql-page-error-nosource": "חובה לציין מזהה או כותרת.",
+	"graphql-page-error-multisource": "לא ניתן להשתמש במזהה ובכותרת יחד.",
+	"graphql-sandbox-jsonly": "חובה להפעיל את JavaScript כדי להשתמש בארגז חול של GraphQL.",
+	"graphql-schema-error-no-composite-fields": "הסוג $1 יכול להשתמש בשדות ממשק או סקלריים. השדה $2 משתמש בסוג $3 במקום זה.",
+	"graphql-schema-error-missing-field-interface": "$2 אינו חלק משום ממשק שממומש בסוג $1",
+	"graphql-schema-error-modified-interface": "$1 שוּנה או חסר מהסכֵמה."
+}
