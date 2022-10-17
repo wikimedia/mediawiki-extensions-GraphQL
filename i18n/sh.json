@@ -8,5 +8,6 @@
 	"graphql-desc": "GraphQL proxy za akcijski priložnik",
 	"graphql-special-query": "Upit",
 	"graphql-special-variables": "Promjenjive",
-	"graphql-special-result": "Ishod"
+	"graphql-special-result": "Ishod",
+	"graphql-sandbox-jsonly": "Pješčanik zahtijeva JavaScript."
 }
