@@ -4,6 +4,20 @@
 			"Eleassar"
 		]
 	},
+	"graphqlsandbox": "Peskovnik GraphQL",
+	"graphql-desc": "Posrednik GraphQL za API dejanj",
 	"graphql-special-query": "Poizvedba",
-	"graphql-type-mediawiki-page-revisions-desc": "Vmesnik MediaWikija za redakcije strani"
+	"graphql-special-variables": "Spremenljivke",
+	"graphql-special-result": "Rezultat",
+	"graphql-type-mediawiki-page-desc": "Vmesnik za strani Mediawiki",
+	"graphql-type-mediawiki-ns-desc": "Vmesnik imenskega prostora MediaWiki",
+	"graphql-type-mediawiki-page-revisions-desc": "Vmesnik MediaWikija za redakcije strani",
+	"graphql-type-mediawiki-revision-desc": "Vmesnik za redakcije Mediawiki",
+	"graphql-type-mediawiki-query-desc": "Vmesnik za imenski prostor MediaWiki",
+	"graphql-page-error-nosource": "Določiti morate ID ali naslov.",
+	"graphql-page-error-multisource": "ID-ja in naslova ni mogoče uporabiti skupaj.",
+	"graphql-sandbox-jsonly": "Za uporabo peskovnika GraphQL je potreben JavaScript.",
+	"graphql-schema-error-no-composite-fields": "$1 lahko uporablja samo vmesnik ali skalarna polja. Polje $2 namesto tega uporablja $3.",
+	"graphql-schema-error-missing-field-interface": "$2 ni del nobenega vmesnika, implementiranega v $1.",
+	"graphql-schema-error-modified-interface": "$1 je bil spremenjen ali manjka v shemi."
 }
