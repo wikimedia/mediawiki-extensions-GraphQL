@@ -5,5 +5,14 @@
 			"Nokeoo"
 		]
 	},
-	"graphqlsandbox": "GraphQL Smėlio dėžė"
+	"graphqlsandbox": "GraphQL Smėlio dėžė",
+	"graphql-special-query": "Užklausa",
+	"graphql-special-variables": "Kintamieji",
+	"graphql-special-result": "Rezultatas",
+	"graphql-type-mediawiki-page-desc": "MediaWiki puslapio sąsaja",
+	"graphql-type-mediawiki-ns-desc": "MediaWiki vardų srities sąsaja",
+	"graphql-type-mediawiki-query-desc": "MediaWiki vardų srities sąsaja",
+	"graphql-page-error-nosource": "Turite nurodyti ID arba pavadinimą.",
+	"graphql-page-error-multisource": "Negalima kartu naudoti ID ir pavadinimo.",
+	"graphql-sandbox-jsonly": "Norint naudoti „GraphQL“ smėlio dėžę, reikalingas „JavaScript“."
 }
