@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Amire80"
+			"Amire80",
+			"Neriah"
 		]
 	},
 	"graphqlsandbox": "ארגז חול של GraphQL",
@@ -19,5 +20,5 @@
 	"graphql-sandbox-jsonly": "חובה להפעיל את JavaScript כדי להשתמש בארגז חול של GraphQL.",
 	"graphql-schema-error-no-composite-fields": "הסוג $1 יכול להשתמש בשדות ממשק או סקלריים. השדה $2 משתמש בסוג $3 במקום זה.",
 	"graphql-schema-error-missing-field-interface": "$2 אינו חלק משום ממשק שממומש בסוג $1",
-	"graphql-schema-error-modified-interface": "$1 שוּנה או חסר מהסכֵמה."
+	"graphql-schema-error-modified-interface": "$1 שונה או חסר מהסכֵמה."
 }
