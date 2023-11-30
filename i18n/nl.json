@@ -5,7 +5,7 @@
 			"Romaine"
 		]
 	},
-	"graphqlsandbox": "GraphQL-zandbak",
+	"graphqlsandbox": "GraphQL-kladblok",
 	"graphql-desc": "GraphQL-proxy voor de actie-API",
 	"graphql-special-query": "Query",
 	"graphql-special-variables": "Variabelen",
@@ -17,7 +17,7 @@
 	"graphql-type-mediawiki-query-desc": "MediaWiki-naamruimte-interface",
 	"graphql-page-error-nosource": "Er moet een ID of titel worden opgegeven.",
 	"graphql-page-error-multisource": "Kan ID en titel niet samen gebruiken.",
-	"graphql-sandbox-jsonly": "JavaScript is vereist om de GraphQL-zandbak te gebruiken.",
+	"graphql-sandbox-jsonly": "JavaScript is vereist om het GraphQL-kladblok te gebruiken.",
 	"graphql-schema-error-no-composite-fields": "$1 mag alleen interface- of scalaire velden gebruiken. Veld $2 gebruikt echter $3.",
 	"graphql-schema-error-missing-field-interface": "$2 maakt geen deel uit van interfaces die op $1 zijn geïmplementeerd",
 	"graphql-schema-error-modified-interface": "$1 is gewijzigd of ontbreekt aan het schema."
