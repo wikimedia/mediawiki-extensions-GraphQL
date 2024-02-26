@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Eleassar"
+			"Eleassar",
+			"Reedy"
 		]
 	},
 	"graphqlsandbox": "Peskovnik GraphQL",
@@ -9,10 +10,10 @@
 	"graphql-special-query": "Poizvedba",
 	"graphql-special-variables": "Spremenljivke",
 	"graphql-special-result": "Rezultat",
-	"graphql-type-mediawiki-page-desc": "Vmesnik za strani Mediawiki",
+	"graphql-type-mediawiki-page-desc": "Vmesnik za strani MediaWiki",
 	"graphql-type-mediawiki-ns-desc": "Vmesnik imenskega prostora MediaWiki",
 	"graphql-type-mediawiki-page-revisions-desc": "Vmesnik MediaWikija za redakcije strani",
-	"graphql-type-mediawiki-revision-desc": "Vmesnik za redakcije Mediawiki",
+	"graphql-type-mediawiki-revision-desc": "Vmesnik za redakcije MediaWiki",
 	"graphql-type-mediawiki-query-desc": "Vmesnik za imenski prostor MediaWiki",
 	"graphql-page-error-nosource": "Določiti morate ID ali naslov.",
 	"graphql-page-error-multisource": "ID-ja in naslova ni mogoče uporabiti skupaj.",
