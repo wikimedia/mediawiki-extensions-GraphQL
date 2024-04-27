@@ -179,19 +179,19 @@ class FederatedSchemaFactory {
 				'resolve' => static function ( $rootValue, $args, $context, ResolveInfo $info ) {
 					$representations = $args['representations'];
 					return array_map( static function ( $representation ) use ( $info ) {
-							$typeName = $representation['__typename'];
-							$type = $info->schema->getType( $typeName );
-							if ( !$type || $type instanceof GraphQLObjectType === false ) {
-								throw new \Exception(
-									'The _entities resolver tried to load an entity for type"'
-									. $typeName
-									. '", but no object type of that name was found in the schema'
-								);
-							}
-							$resolver = $type->resolveFieldFn ?: static function () use ( $representation ) {
-								return $representation;
-							};
-							return $resolver();
+						$typeName = $representation['__typename'];
+						$type = $info->schema->getType( $typeName );
+						if ( !$type || $type instanceof GraphQLObjectType === false ) {
+							throw new \Exception(
+								'The _entities resolver tried to load an entity for type"'
+								. $typeName
+								. '", but no object type of that name was found in the schema'
+							);
+						}
+						$resolver = $type->resolveFieldFn ?: static function () use ( $representation ) {
+							return $representation;
+						};
+						return $resolver();
 					}, $representations );
 				},
 			];

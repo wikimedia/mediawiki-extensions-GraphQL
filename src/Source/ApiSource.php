@@ -2,8 +2,6 @@
 
 namespace MediaWiki\GraphQL\Source;
 
-use MediaWiki\GraphQL\Source\Api\Request;
-
 interface ApiSource {
 
 	/**
