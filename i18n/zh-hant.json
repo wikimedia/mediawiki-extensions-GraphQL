@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Cookai1205",
 			"Kly"
 		]
 	},
@@ -17,7 +18,7 @@
 	"graphql-type-mediawiki-query-desc": "MediaWiki 命名空間介面",
 	"graphql-page-error-nosource": "必須指定 ID 或是標題。",
 	"graphql-page-error-multisource": "不能同時使用 ID 和標題。",
-	"graphql-sandbox-jsonly": "需要 JavaScript 才能使用 Graph QL 沙盒。",
+	"graphql-sandbox-jsonly": "需要JavaScript才能使用GraphQL沙盒。",
 	"graphql-schema-error-no-composite-fields": "$1僅能使用介面或是純量欄位。欄位$2改使用$3替代。",
 	"graphql-schema-error-missing-field-interface": "$2不是實行在$1上的任何介面部份",
 	"graphql-schema-error-modified-interface": "$1已被變動，或是缺少在架構裡。"
