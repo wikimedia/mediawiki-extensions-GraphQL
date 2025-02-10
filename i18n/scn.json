@@ -1,10 +1,11 @@
 {
 	"@metadata": {
 		"authors": [
-			"Ajeje Brazorf"
+			"Ajeje Brazorf",
+			"GianAntonucci"
 		]
 	},
-	"graphql-type-mediawiki-page-desc": "Ntirfaccia di pàggina di MediaWiki",
-	"graphql-type-mediawiki-ns-desc": "Ntirfaccia dû namespace MediaWiki",
-	"graphql-type-mediawiki-query-desc": "Ntirfaccia dû namespace MediaWiki"
+	"graphql-type-mediawiki-page-desc": "Ntirfacci dâ pàggina di MediaWiki",
+	"graphql-type-mediawiki-ns-desc": "Ntirfacci dû namespace MediaWiki",
+	"graphql-type-mediawiki-query-desc": "Ntirfacci dû namespace MediaWiki"
 }
