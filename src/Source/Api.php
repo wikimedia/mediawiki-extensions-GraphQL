@@ -3,6 +3,7 @@
 namespace MediaWiki\GraphQL\Source;
 
 use MediaWiki\GraphQL\Source\Api\Request;
+use MediaWiki\Request\DerivativeRequest;
 use Overblog\DataLoader\DataLoader;
 use Overblog\PromiseAdapter\PromiseAdapterInterface;
 
@@ -92,7 +93,7 @@ class Api implements ApiSource {
 	protected function getMain( $params = [] ) {
 		$request = $this->context->getRequest();
 
-		$request = new \DerivativeRequest(
+		$request = new DerivativeRequest(
 			$request,
 			$params,
 			$request->wasPosted()

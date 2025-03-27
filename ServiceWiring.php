@@ -13,6 +13,7 @@ use MediaWiki\GraphQL\Type\MediaWiki\RevisionSlotTypeFactory;
 use MediaWiki\GraphQL\Type\MediaWiki\RevisionTypeFactory;
 use MediaWiki\GraphQL\Type\MediaWiki\UserTypeFactory;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\WikiMap\WikiMap;
 use Overblog\DataLoader\Promise\Adapter\Webonyx\GraphQL\SyncPromiseAdapter;
 use Overblog\PromiseAdapter\Adapter\WebonyxGraphQLSyncPromiseAdapter;
 
