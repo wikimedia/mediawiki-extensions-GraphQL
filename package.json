@@ -13,10 +13,10 @@
 		"babel-loader": "^8.0.5",
 		"clean-webpack-plugin": "^2.0.1",
 		"css-loader": "^2.1.1",
-		"eslint-config-wikimedia": "0.25.0",
+		"eslint-config-wikimedia": "0.29.1",
 		"grunt": "1.6.1",
 		"grunt-banana-checker": "0.13.0",
-		"grunt-eslint": "24.0.1",
+		"grunt-eslint": "24.3.0",
 		"style-loader": "^0.23.1",
 		"webpack": "^4.30.0",
 		"webpack-cli": "^3.3.11"
