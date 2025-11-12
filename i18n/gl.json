@@ -1,0 +1,23 @@
+{
+	"@metadata": {
+		"authors": [
+			"Toliño"
+		]
+	},
+	"graphqlsandbox": "Zona de probas de GraphQL",
+	"graphql-desc": "Proxy de GraphQL para a API de accións",
+	"graphql-special-query": "Consulta",
+	"graphql-special-variables": "Variables",
+	"graphql-special-result": "Resultado",
+	"graphql-type-mediawiki-page-desc": "Interface das páxinas de MediaWiki",
+	"graphql-type-mediawiki-ns-desc": "Interface do espazo de nomes MediaWiki",
+	"graphql-type-mediawiki-page-revisions-desc": "Interface das revisións das páxinas de MediaWiki",
+	"graphql-type-mediawiki-revision-desc": "Interface das revisións de MediaWiki",
+	"graphql-type-mediawiki-query-desc": "Interface do espazo de nomes MediaWiki",
+	"graphql-page-error-nosource": "Cómpre especificar o identificador ou o título.",
+	"graphql-page-error-multisource": "Non se poden usar o identificador e mais o título á vez.",
+	"graphql-sandbox-jsonly": "Cómpre JavaScript para usar a zona de probas de GraphQL.",
+	"graphql-schema-error-no-composite-fields": "«$1» só pode usar campos de interface ou escalares. O campo «$2» utiliza «$3».",
+	"graphql-schema-error-missing-field-interface": "«$2» non forma parte de ningunha das interfaces implementadas en «$1»",
+	"graphql-schema-error-modified-interface": "«$1» modificouse ou falta no esquema."
+}
