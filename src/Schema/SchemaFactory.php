@@ -15,7 +15,9 @@ use MediaWiki\GraphQL\Type\MediaWiki\RevisionSlotTypeFactory;
 use MediaWiki\GraphQL\Type\MediaWiki\RevisionTypeFactory;
 use MediaWiki\GraphQL\Type\MediaWiki\UserTypeFactory;
 
-// @TODO Write a test to build the schema and validate it.
+/**
+ * @todo Write a test to build the schema and validate it.
+ */
 class SchemaFactory {
 	/**
 	 * @var array
